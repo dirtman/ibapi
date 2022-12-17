@@ -79,7 +79,7 @@ type UserInput struct {
 // neither, as long as one or more "field" option/value pairs are provided.
 // Except for get requests, "duo" determines whether both a name and a data
 // value are required.
-// In additional to handling user arguments, some commonly used options are
+// In addition to handling user arguments, some commonly used options are
 // also handled here.
 
 func getUserInput(objectType, operation string, duo bool, args []string) (*UserInput, error) {
@@ -404,7 +404,7 @@ func getND(input *UserInput, args []string) (string, string, error) {
 	return name, data, nil
 }
 
-// For old-times sake allow either "name IP" or "IP name".
+// For old-times sake (i.e., pdns_utils), allow either "name IP" or "IP name".
 
 func getNameIP(args []string) (string, string, error) {
 

@@ -46,7 +46,7 @@ func (err *IBAPIError) Error() string {
 	}
 }
 
-// Infoblox-specific wrapprt for API calls.  Since Infoblox always returns a well
+// Infoblox-specific wrapper for API calls.  Since Infoblox always returns a well
 // defined error result in the body, we can provide the caller with more detail.
 
 func IBAPIGet(url_request string) (body []byte, err *IBAPIError) {
@@ -81,7 +81,7 @@ func IBAPIRequest(method string, url string, data interface{}) ([]byte, *IBAPIEr
 	} else if len(body) < 1 { // Hmmm, not sure what's going on here.
 		ibapiErr.ibError = "almost empty body returned for failed request"
 		return body, ibapiErr
-	} else if body[0] != 91 { // check if it looks like json;  91 == `[`
+	} else if body[0] != 123 { // check if it looks like json;  123 == `{`
 		ibapiErr.ibError = string(body)
 		ibapiErr.text = fmt.Sprintf("%s", apiErr)
 		return body, ibapiErr

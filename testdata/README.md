@@ -1,8 +1,5 @@
-***********************************************************************************
-General Notes
-***********************************************************************************
+## Command line testing
 
------------------------------------------------------------------------------------
 The Go package "testscript" is used for testing.  The tests are invoked via
 test_test.go, and the test scripts are in testdata/script/*.  The tests rely on
 access to the Infoblox WAPI and permissions to configure records in
@@ -31,14 +28,14 @@ the ibapi command get 3 args:
 
 Use single quotes instead.
 
------------------------------------------------------------------------------------
+
 ## Check if any of our "test" records already exist (should get all NOTFOUNDs).
 
-## a1-a5;  201-209
+### a1-a5;  201-209
 ibapi a get a1.seci.rice.edu 
 ibapi a get a2.seci.rice.edu 
 
-## host1-host5;  211-219
+### host1-host5;  211-219
 ibapi host get host1.seci.rice.edu 
 ibapi host get host2.seci.rice.edu 
 ibapi host get host3.seci.rice.edu 
@@ -54,30 +51,29 @@ ibapi alias get alias1.seci.rice.edu -TTXT
 ibapi alias get alias2.seci.rice.edu -TTXT
 ibapi alias get cname1.seci.rice.edu
 
-## 221-129
+### 221-129
 ibapi ptr get ptr1.seci.rice.edu
 ibapi ptr get ptr2.seci.rice.edu
 ibapi ptr get ptr3.seci.rice.edu
 
-## any 231-239
+### any 231-239
 ibapi host get host-a.seci.rice.edu
 ibapi host get host-b.seci.rice.edu
-ibapi a get host-a.seci.rice.edu 10.10.10.221
-ibapi a get host-a.seci.rice.edu 10.10.10.201
-ibapi a get a-a.seci.rice.edu 10.10.10.201
-ibapi ptr get host1.seci.rice.edu 10.10.10.201
-ibapi ptr get a-a.seci.rice.edu 10.10.10.201
-ibapi ptr get ptr-a.seci.rice.edu 10.10.10.201
+ibapi a get host-a.seci.rice.edu 10.10.10.231
+ibapi a get host-a.seci.rice.edu 10.10.10.231
+ibapi a get a-a.seci.rice.edu 10.10.10.231
+ibapi ptr get host1.seci.rice.edu 10.10.10.231
+ibapi ptr get a-a.seci.rice.edu 10.10.10.231
+ibapi ptr get ptr-a.seci.rice.edu 10.10.10.231
 ibapi cname get host-a.seci.rice.edu -V external
 ibapi cname get cname-a.seci.rice.edu
 ibapi alias get alias-a.seci.rice.edu
 ibapi alias get alias-txt.seci.rice.edu -T TXT
 
-## url 241-249
+### url 241-249
 ibapi a get url1.seci.rice.edu 
 ibapi a get url2.seci.rice.edu 
 
------------------------------------------------------------------------------------
 ## To delete the test records:
 
 ibapi a delete a1.seci.rice.edu 10.10.10.101 
@@ -113,11 +109,11 @@ ibapi ptr delete a3.seci.rice.edu 10.10.10.102
 ibapi host delete host-a.seci.rice.edu
 ibapi host delete host-b.seci.rice.edu
 ibapi a delete host-a.seci.rice.edu 10.10.10.221
-ibapi a delete host-a.seci.rice.edu 10.10.10.201
-ibapi a delete a-a.seci.rice.edu 10.10.10.201
-ibapi ptr delete host1.seci.rice.edu 10.10.10.201
-ibapi ptr delete a-a.seci.rice.edu 10.10.10.201
-ibapi ptr delete ptr-a.seci.rice.edu 10.10.10.201
+ibapi a delete host-a.seci.rice.edu 10.10.10.231
+ibapi a delete a-a.seci.rice.edu 10.10.10.231
+ibapi ptr delete host1.seci.rice.edu 10.10.10.231
+ibapi ptr delete a-a.seci.rice.edu 10.10.10.231
+ibapi ptr delete ptr-a.seci.rice.edu 10.10.10.231
 ibapi cname delete host-a.seci.rice.edu -V external
 ibapi cname delete cname-a.seci.rice.edu
 ibapi alias delete alias-a.seci.rice.edu

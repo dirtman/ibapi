@@ -13,7 +13,7 @@ import (
 
   Using these funcs/objects is not so useful for user Get requests themselves,
   but rather for user Add requests.  They can be used to check for the
-  existance of possibly conflicting records before making any new Add requests.
+  existence of possibly conflicting records before making any new Add requests.
   While adding an A record with the same name as an existing Host record is
   certainly allowed by Infoblox and may certainly be what is desired, I find it
   beneficial to alert the user just in case.  Furthermore, it may be desirable
