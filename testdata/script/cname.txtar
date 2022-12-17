@@ -1,0 +1,101 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+
+# Add 01: Add a CNAME
+exec ibapi cname add cname1.seci.rice.edu ctarget1.seci.rice.edu
+! stderr .
+stdout ': Added'
+
+# Add 01a: Get CNAME record cname1.
+exec ibapi cname get cname1.seci.rice.edu
+! stderr .
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view\)'
+
+# Add 01b: Get CNAME record cname1 by target
+exec ibapi cname get -Fcanonical=ctarget1.seci.rice.edu -v --debug
+stderr '"canonical": "ctarget1.seci.rice.edu",'
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu'
+
+# Add 01c: Should fail due to conflict.
+! exec ibapi cname add cname1.seci.rice.edu ctarget2.seci.rice.edu
+stderr conflict
+stdout 'NOT added.*CNAME record with same name'
+
+
+# Add 02: Add a CNAME record in the external view.
+exec ibapi cname add cname1.seci.rice.edu ctarget1.seci.rice.edu -V external
+! stderr .
+stdout ': Added'
+
+# Add 02a: Get CNAME record cname1, external view.
+exec ibapi cname get cname1.seci.rice.edu -V external
+! stderr .
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu'
+
+# Add 02b: Get CNAME record cname1 type any.
+exec ibapi cname get cname1.seci.rice.edu
+! stderr .
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view\)'
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view\)'
+
+# Add 02c: Should fail due to conflict.
+! exec ibapi cname add cname1.seci.rice.edu ctarget2.seci.rice.edu -V external
+stderr conflict
+stdout 'NOT added'
+
+# Add 02d: Add cname record pointing to existing ctarget.
+exec ibapi cname add cname2.seci.rice.edu ctarget1.seci.rice.edu -V external
+! stderr .
+stdout ': Added'
+
+
+# Update 01: Should fail: Update CNAME cname2 name: cname2 -> cname1.
+! exec ibapi cname update cname2.seci.rice.edu -ncname1.seci.rice.edu -V external
+stderr 'NOT updated: CNAME record with same name or value already exist'
+
+# Update 01a: Update CNAME cname2 name: cname2 -> cname3.
+exec ibapi cname update cname2.seci.rice.edu -ncname3.seci.rice.edu -V external
+! stderr .
+stdout 'Updated \(fields: name=cname3.seci.rice.edu\)'
+
+# Update 02b: Update CNAME cname3 name: cname3 -> cname2, target ctarget1 -> ctarget2.
+exec ibapi cname update cname3.seci.rice.edu -ncname2.seci.rice.edu -t ctarget2.seci.rice.edu -V external
+! stderr .
+stdout 'Updated \(fields: name=cname2.seci.rice.edu,canonical=ctarget2.seci.rice.edu\)'
+
+# Update 02c: Update CNAME cname2: comment, ttl
+exec ibapi cname update cname2.seci.rice.edu -V external --ttl 777 --comment Lori
+! stderr .
+stdout 'CNAME\(cname2.seci.rice.edu\) Updated \(fields: comment=Lori,ttl=777\)'
+
+# Update 02c: Get CNAME cname2.
+exec ibapi cname get cname2.seci.rice.edu -v -Rttl,comment
+stderr '"comment": "Lori",'
+stderr '"ttl": 777,'
+stdout 'cname2.seci.rice.edu ctarget2.seci.rice.edu'
+
+
+# Delete 01: Should fail: not found.
+! exec ibapi cname delete cname2.seci.rice.edu ctarget2.seci.rice.edu
+stderr 'not found'
+stdout 'NOTFOUND'
+
+# Delete 01a: Delete cname2
+exec ibapi cname delete cname2.seci.rice.edu ctarget2.seci.rice.edu -V external
+! stderr .
+stdout 'Deleted'
+
+# Delete 02: Delete TXT cnames from file:
+exec ibapi cname delete -f input.txt
+! stderr .
+stdout 'Deleted'
+
+# Delete 03: Delete TXT cnames from file, external view:
+exec ibapi cname delete -f input.txt -V external
+! stderr .
+stdout 'Deleted'
+
+-- input.txt --
+cname1.seci.rice.edu

@@ -1,0 +1,278 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+
+# Host 01: Add Host record.
+exec ibapi host add host-a.seci.rice.edu 10.10.10.231
+! stderr .
+stdout ': Added'
+
+# Host 02: Fail: Add Host record.
+! exec ibapi host add host-a.seci.rice.edu 10.10.10.232 -C
+stderr 'Record not added due to conflict'
+stdout 'Host record with same name'
+
+# Host 03: Fail: Add Host record.
+! exec ibapi host add host-b.seci.rice.edu 10.10.10.231 -C
+stderr 'Record not added due to conflict'
+stdout 'Host record with same IP'
+
+# Host 04: Fail: Add Host record.
+! exec ibapi host add host-a.seci.rice.edu 10.10.10.232
+stderr 'Record not added due to conflict'
+stdout 'Host record with same name'
+
+# Host 05: Add Host record.
+exec ibapi host add host-b.seci.rice.edu 10.10.10.231
+! stderr .
+stdout 'Added'
+
+# Host 06: Fail: Update Host record.
+! exec ibapi host update host-b.seci.rice.edu 10.10.10.231 -n host-a.seci.rice.edu
+stderr 'NOT updated'
+
+# Host 07: Get Host record.
+exec ibapi host get 10.10.10.231 
+! stderr .
+stdout 'host-a.seci.rice.edu 10.10.10.231'
+stdout 'host-b.seci.rice.edu 10.10.10.231'
+
+
+# Address 01: Fail: Add A record with same name as existing host (-C).
+! exec ibapi a add host-a.seci.rice.edu 10.10.10.232 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found: related Host record'
+
+# Address 02: Fail: Add A record with same IP as existing host (-C)
+! exec ibapi a add host-a.seci.rice.edu 10.10.10.231 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found: related Host record'
+
+# Address 03: Add A record with same name as existing host.
+exec ibapi a add host-a.seci.rice.edu 10.10.10.232
+! stderr .
+stdout 'Added'
+
+# Address 04: Add A record with same IP as existing host.
+exec ibapi a add host-a.seci.rice.edu 10.10.10.231
+! stderr .
+stdout 'Added'
+
+# Address 05: Fail: Add A record with same IP as existing A and Host (-C)
+! exec ibapi a add host-a.seci.rice.edu 10.10.10.231 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found'
+
+# Address 06: Fail: Add A record with same IP as existing A and Host
+! exec ibapi a add host-a.seci.rice.edu 10.10.10.231
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found'
+
+# Address 07: Fail: update A record.
+! exec ibapi a update host-a.seci.rice.edu 10.10.10.232 -n host-b.seci.rice.edu -C
+stderr 'Host with same name or value already exists'
+
+# Address 08: Update A record name:
+exec ibapi a update host-a.seci.rice.edu 10.10.10.231 -n a-a.seci.rice.edu
+! stderr .
+stdout 'Updated \(fields: name=a-a.seci.rice.edu\)'
+
+# Address 09: Delete A record:
+exec ibapi a delete host-a.seci.rice.edu 10.10.10.232
+! stderr .
+stdout 'Deleted'
+
+
+# PTR 01: Fail: Add PTR record.
+! exec ibapi ptr add host-a.seci.rice.edu 10.10.10.231 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found: related Host record'
+
+# PTR 02: Fail: Add PTR record.
+! exec ibapi ptr add a-a.seci.rice.edu 10.10.10.232 -C
+stderr 'Record not added due to conflict'
+stdout 'related A record with different IP'
+
+# PTR 03: Add PTR record.
+exec ibapi ptr add host-a.seci.rice.edu 10.10.10.231
+! stderr .
+stdout 'Added'
+
+# PTR 04: Add PTR record.
+exec ibapi ptr add a-a.seci.rice.edu 10.10.10.231
+! stderr .
+stdout 'Added'
+
+# PTR 05: Fail: Add PTR record.
+! exec ibapi ptr add a-a.seci.rice.edu 10.10.10.231
+stderr 'Record not added due to conflict'
+stdout 'PTR record with same name'
+
+# PTR 06: Fail: Delete PTR:
+! exec ibapi ptr delete host-a.seci.rice.edu
+stderr 'both a name and a data value must be specified'
+
+# PTR 07: Delete PTR:
+exec ibapi ptr delete host-a.seci.rice.edu 10.10.10.231
+! stderr .
+stdout 'Deleted'
+
+# PTR 08: Update PTR:
+exec ibapi ptr update a-a.seci.rice.edu 10.10.10.231 -n ptr-a.seci.rice.edu
+
+
+# CNAME 01: Fail: Add CNAME record.
+! exec ibapi cname add host-a.seci.rice.edu nowhere.com
+stderr 'Record not added due to conflict'
+stdout 'Host record with same name'
+
+# CNAME 02: Fail: Add CNAME record.
+! exec ibapi cname add host-a.seci.rice.edu nowhere.com
+stderr 'Record not added due to conflict'
+stdout 'Host record with same name'
+
+# CNAME 03: Add CNAME record in external view..
+exec ibapi cname add host-a.seci.rice.edu nowhere.com  -V external
+! stderr .
+stdout ': Added'
+
+# CNAME 04: Fail: Add CNAME record.
+! exec ibapi cname add a-a.seci.rice.edu nowhere.com
+stderr 'Record not added due to conflict'
+stdout 'A record with same name'
+
+# CNAME 05: Fail: Add CNAME record.
+! exec ibapi cname add a-a.seci.rice.edu nowhere.com
+stderr 'Record not added due to conflict'
+stdout 'A record with same name'
+
+# CNAME 06: Add CNAME record.
+exec ibapi cname add cname-a.seci.rice.edu nowhere.com
+! stderr .
+stdout 'Added'
+
+# CNAME 07: Fail: Update CNAME record:
+! exec ibapi cname update cname-a.seci.rice.edu -n host-a.seci.rice.edu
+stderr 'One or more updates failed'
+stdout 'FAILED to update:.*already exists'
+
+# CNAME 08: Delete CNAME record.
+exec ibapi cname delete host-a.seci.rice.edu -V external
+! stderr .
+stdout 'Deleted'
+
+
+# Alias 01: Fail: Add A Alias.
+! exec ibapi alias add host-a.seci.rice.edu somewhere.com -C 
+stderr 'Record not added due to conflict'
+stdout 'Host record with same name'
+
+# Alias 02: Fail: Add A Alias.
+! exec ibapi alias add host-a.seci.rice.edu somewhere.com 
+stderr 'failure adding A Alias'
+
+# Alias 03: Add A Alias.
+exec ibapi alias add alias-a.seci.rice.edu somewhere.com
+! stderr .
+stdout 'Added'
+
+# Alias 04: Add TXT Alias.
+exec ibapi alias add alias-txt.seci.rice.edu -T TXT rice.edu
+! stderr .
+stdout 'Added'
+
+# Alias 05: Fail: Update A Alias.
+! exec ibapi alias update alias-a.seci.rice.edu -n host-a.seci.rice.edu -C
+stderr 'NOT updated: Host with same name or value already exists'
+
+# Alias 06: Update A Alias.
+exec ibapi alias update alias-a.seci.rice.edu -t amazon.com
+! stderr .
+stdout 'Update.*target_name=amazon.com'
+
+
+# Mix 01: Fail: Add Host
+! exec ibapi host add alias-a.seci.rice.edu 10.10.10.222
+stderr 'Record not added due to conflict'
+stdout 'Alias with same name'
+
+# Mix 02: Fail: Add Host
+! exec ibapi host add cname-a.seci.rice.edu 10.10.10.222
+stderr 'Record not added due to conflict'
+stdout 'CNAME with same name'
+
+# Mix 03: Fail: Add A record
+! exec ibapi a add alias-a.seci.rice.edu 10.10.10.222
+stderr 'Record not added due to conflict'
+stdout 'Alias with same name'
+
+# Mix 04: Fail: Add A record
+! exec ibapi a add cname-a.seci.rice.edu 10.10.10.222
+stderr 'Record not added due to conflict'
+stdout 'CNAME with same name'
+
+# Mix 05: Fail: Add CNAME
+! exec ibapi cname add host-a.seci.rice.edu 10.10.10.222
+stderr 'Record not added due to conflict'
+stdout 'Host record with same name'
+
+# Mix 06: Fail: Add CNAME
+! exec ibapi cname add a-a.seci.rice.edu 10.10.10.222
+stderr 'Record not added due to conflict'
+stdout 'A record with same name'
+
+# Mix 07: Fail: Add A Alias
+! exec ibapi alias add host-a.seci.rice.edu 10.10.10.222
+stderr 'failure adding A Alias'
+
+# Mix 08: Fail: Add A Alias
+! exec ibapi alias add a-a.seci.rice.edu 10.10.10.222
+stderr 'Record not added due to conflict'
+stdout 'A record with same name'
+
+# Mix 09: Fail: Add TXT Alias
+! exec ibapi alias add alias-txt.seci.rice.edu there.com -T TXT
+stderr 'Record not added due to conflict'
+stdout 'Alias record with same name'
+
+# Mix 10: Fail: Add A Alias
+! exec ibapi alias add cname-a.seci.rice.edu there.com -T TXT
+stderr 'Record not added due to conflict'
+stdout 'CNAME with same name'
+
+
+# Delete 01: Delete 
+exec ibapi host delete host-a.seci.rice.edu
+! stderr .
+stdout 'Deleted'
+
+# Delete 02: Delete 
+exec ibapi host delete host-b.seci.rice.edu
+! stderr .
+stdout 'Deleted'
+
+# Delete 03: Delete 
+exec ibapi a delete a-a.seci.rice.edu 10.10.10.231
+! stderr .
+stdout 'Deleted'
+
+# Delete 04: Delete 
+exec ibapi ptr delete ptr-a.seci.rice.edu 10.10.10.231
+! stderr .
+stdout 'Deleted'
+
+# Delete 05: Delete 
+exec ibapi cname delete cname-a.seci.rice.edu
+! stderr .
+stdout 'Deleted'
+
+# Delete 06: Delete 
+exec ibapi alias delete alias-a.seci.rice.edu
+! stderr .
+stdout 'Deleted'
+
+# Delete 07: Delete 
+exec ibapi alias delete alias-txt.seci.rice.edu -T TXT
+! stderr .
+stdout 'Deleted'

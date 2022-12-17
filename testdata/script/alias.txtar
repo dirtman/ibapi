@@ -1,0 +1,135 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+
+# Add 01: Add an A Alias
+exec ibapi alias add alias1.seci.rice.edu target1.seci.rice.edu
+! stderr .
+stdout ': Added'
+
+# Add 01a: Get Alias record alias1.
+exec ibapi alias get alias1.seci.rice.edu
+! stderr .
+stdout 'alias1.seci.rice.edu target1.seci.rice.edu \(A, default view\)'
+
+# Add 01b: Get Alias record alias1 and show target_type.
+exec ibapi alias get alias1.seci.rice.edu -v
+stderr '"target_type": "A",'
+stdout 'alias1.seci.rice.edu target1.seci.rice.edu'
+
+# Add 01c: Should fail due to conflict.
+! exec ibapi alias add alias1.seci.rice.edu target2.seci.rice.edu
+stderr conflict
+stdout 'NOT added'
+
+
+# Add 02: Add a TXT Alias.
+exec ibapi alias add alias1.seci.rice.edu target1.seci.rice.edu -T TXT
+! stderr .
+stdout ': Added'
+
+# Add 02a: Get TXT Alias record alias1/
+exec ibapi alias get alias1.seci.rice.edu -T TXT
+! stderr .
+stdout 'alias1.seci.rice.edu target1.seci.rice.edu \(default view\)'
+
+# Add 02b: Get Alias record alias1 type any.
+exec ibapi alias get alias1.seci.rice.edu
+! stderr .
+stdout 'A, default view'
+stdout 'TXT, default view'
+
+# Add 02c: Should fail due to conflict.
+! exec ibapi alias add alias1.seci.rice.edu target2.seci.rice.edu -T TXT
+stderr conflict
+stdout 'NOT added'
+
+
+# Add 03: Add an Alias for a TXT record in the external view.
+exec ibapi alias add alias1.seci.rice.edu target1.seci.rice.edu -T TXT -V external
+! stderr .
+stdout ': Added'
+
+# Add 03a: Get TXT Alias record alias1, external view.
+exec ibapi alias get alias1.seci.rice.edu -T TXT -V external
+! stderr .
+stdout 'Alias\(alias1.seci.rice.edu\):  alias1.seci.rice.edu target1.seci.rice.edu'
+
+# Add 03b: Get Alias record alias1 type any.
+exec ibapi alias get alias1.seci.rice.edu
+! stderr .
+stdout 'A, default view'
+stdout 'TXT, default view'
+stdout 'TXT, external view'
+
+# Add 03c: Should fail due to conflict.
+! exec ibapi alias add alias1.seci.rice.edu target2.seci.rice.edu -T TXT -V external
+stderr conflict
+stdout 'NOT added'
+
+
+# Add 03e: Add a TXT alias pointing to existing target.
+exec ibapi alias add alias2.seci.rice.edu target1.seci.rice.edu -T TXT -V external
+! stderr .
+stdout ': Added'
+
+
+# Update 01: Update Alias alias2 targetType: TXT -> MX.
+exec ibapi alias update alias2.seci.rice.edu -TTXT -Ftarget_type=MX -V external
+! stderr .
+stdout 'fields: target_type=MX'
+
+# Update 01a: Get MX alias record alias2.
+exec ibapi alias get alias2.seci.rice.edu -TMX
+! stderr .
+stdout 'alias2.seci.rice.edu target1.seci.rice.edu'
+
+# Update 02: Should fail: update MX Alias alias2 (default view) to type TXT.
+! exec ibapi alias update alias2.seci.rice.edu -TMX -Ftarget_type=TXT
+stderr 'not found'
+stdout 'NOTFOUND'
+
+# Update 03: update MX Alias alias2 (external view) to type TXT.
+exec ibapi alias update alias2.seci.rice.edu -TMX -Ftarget_type=TXT -V external
+! stderr .
+stdout 'Updated \(fields: target_type=TXT\)'
+
+# Update 04: Should fail: 
+! exec ibapi alias update alias1.seci.rice.edu -T TXT -Ftarget_type=A -C 
+stderr 'updates failed'
+stdout 'FAILED to update.*already exists'
+
+
+# Delete 01: Should fail: not found.
+! exec ibapi alias delete -T TXT alias2.seci.rice.edu target2.seci.rice.edu -V external
+stderr 'not found'
+stdout 'NOTFOUND'
+
+# Delete 01a: Should fail: not found.
+exec ibapi alias delete -T TXT alias2.seci.rice.edu target1.seci.rice.edu -V external
+! stderr .
+stdout 'Deleted'
+
+# Delete 02: Delete TXT aliases from file:
+exec ibapi alias delete -f input.txt -T TXT
+! stderr .
+stdout 'Deleted'
+
+# Delete 03: Delete TXT aliases from file:
+exec ibapi alias delete -f input.txt -T TXT -V external
+! stderr .
+stdout 'Deleted'
+
+# Delete 04: Delete TXT aliases from file:
+exec ibapi alias delete -f input.txt 
+! stderr .
+stdout 'Deleted'
+
+# Delete 04a: Should fail.
+! exec ibapi alias delete -f input.txt 
+stderr 'not found'
+stdout 'NOTFOUND'
+
+-- input.txt --
+alias1.seci.rice.edu

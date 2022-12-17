@@ -1,0 +1,109 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+
+# Add 01: Add PTR record ptr1.seci.rice.edu/10.10.10.221 in default view.
+exec ibapi ptr add ptr1.seci.rice.edu 10.10.10.221 -c 'Default View' --ttl 111
+! stderr .
+stdout ': Added'
+
+# Add 01a: Get above PTR record.
+exec ibapi ptr get ptr1.seci.rice.edu
+! stderr .
+stdout 'ptr1.seci.rice.edu 10.10.10.221'
+
+# Add 01b: Get above PTR record.
+exec ibapi ptr get 10.10.10.221
+! stderr .
+stdout 'ptr1.seci.rice.edu 10.10.10.221'
+
+# Add 01c: Get above PTR record.
+exec ibapi ptr get 10.10.10.221 ptr1.seci.rice.edu -v -Rttl,comment
+stderr '"zone": "10.in-addr.arpa"'
+stderr '"ptrdname": "ptr1.seci.rice.edu",'
+stderr '"comment": "Default View",'
+stderr '"ttl": 111,'
+stdout 'ptr1.seci.rice.edu 10.10.10.221'
+
+# Add 02: Should fail due to conflict.
+! exec ibapi ptr add ptr1.seci.rice.edu 10.10.10.222 --ttl 222 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found: PTR record with same name'
+
+# Add 02a: Should fail due to conflict.
+! exec ibapi ptr add ptr2.seci.rice.edu 10.10.10.221 --ttl 222 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found: PTR record with same IP'
+
+# Add 03: Add ptr ptr1 -> 10.10.10.222.
+exec ibapi ptr add ptr1.seci.rice.edu 10.10.10.222 --ttl 222 
+! stderr .
+stdout 'PTR\(ptr1.seci.rice.edu/10.10.10.222\): Added'
+
+# Add 03a: Add ptr ptr2 -> 10.10.10.221.
+exec ibapi ptr add ptr2.seci.rice.edu 10.10.10.222 --ttl 222 
+! stderr .
+stdout 'PTR\(ptr2.seci.rice.edu/10.10.10.222\): Added'
+
+# Add 03b: Should fail.
+! exec ibapi ptr add ptr2.seci.rice.edu 10.10.10.222 --ttl 223 
+stderr 'Warning: Record not added due to conflict'
+stdout 'NOT added: Conflicts found: PTR record with same name'
+
+# Get 04: Get PTR record with extra return fields.
+exec ibapi ptr get 10.10.10.222 -V any -Rcomment,ttl,zone,disable -v
+stderr '"disable": false,'
+stderr '"comment": "ibapi:ptr:add",'
+stdout 'ptr1.seci.rice.edu 10.10.10.222'
+stdout 'ptr2.seci.rice.edu 10.10.10.222'
+
+
+# Update 01: Update PTR: ptr2:10.10.10.222 -> ptr2:10.10.10.221
+exec ibapi ptr update ptr2.seci.rice.edu 10.10.10.222 -i 10.10.10.221 
+! stderr .
+stdout 'Updated \(fields: ipv4addr=10.10.10.221\)'
+
+# Update 02: Update PTR: ptr1:10.10.10.222 -> ptr3:10.10.10.222
+exec ibapi ptr update ptr1.seci.rice.edu 10.10.10.222 -n ptr3.seci.rice.edu
+! stderr .
+stdout 'PTR\(ptr1.seci.rice.edu/10.10.10.222\) Updated \(fields: ptrdname=ptr3.seci.rice.edu\)'
+
+
+######## HERE
+
+# Delete 01: Delete PTR record ptr1.seci.rice.edu  10.10.10.221
+exec ibapi ptr delete ptr1.seci.rice.edu  10.10.10.221 -V default
+! stderr .
+stdout 'ptr1.seci.rice.edu.* Deleted'
+
+# Delete 02: Delete PTR record ptr2.seci.rice.edu 10.10.10.221
+exec ibapi ptr delete ptr2.seci.rice.edu 10.10.10.221
+! stderr .
+stdout 'ptr2.seci.rice.edu.* Deleted'
+
+# Delete 03: Should fail: not found.
+! exec ibapi ptr delete ptr2.seci.rice.edu 10.10.10.222
+stderr 'One or more records not found'
+stdout 'NOTFOUND'
+
+# Delete 03: Delete PTR record ptr3.seci.rice.edu 10.10.10.222
+exec ibapi ptr delete ptr3.seci.rice.edu 10.10.10.222 
+! stderr .
+stdout 'ptr3.seci.rice.edu.* Deleted'
+
+# Add 2 records, input from file
+exec ibapi ptr add -f input.txt
+! stderr .
+stdout 'ptr1.seci.rice.edu.*Added'
+stdout 'ptr2.seci.rice.edu.*Added'
+
+# Delete 2 records, input from file
+exec ibapi ptr delete -f input.txt
+! stderr .
+stdout 'ptr1.seci.rice.edu.*Deleted'
+stdout 'ptr2.seci.rice.edu.*Deleted'
+
+-- input.txt --
+ptr1.seci.rice.edu  10.10.10.221
+ptr2.seci.rice.edu  10.10.10.222

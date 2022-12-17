@@ -1,0 +1,49 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+# 01: Add a record.
+exec ibapi url add 'record:a?name=url1.seci.rice.edu&ipv4addr=10.10.10.241'
+! stderr .
+stdout 'Success'
+
+# 02: Get a record.
+exec ibapi url get 'record:a?name=url1.seci.rice.edu&ipv4addr=10.10.10.241'
+! stderr .
+stdout 'Success'
+stdout '"name": "url1.seci.rice.edu",'
+
+# 03: Get a record.
+exec ibapi url get 'record:a?ipv4addr~=10.10.10.2'
+! stderr .
+stdout 'Success'
+stdout '"name": "url1.seci.rice.edu",'
+
+# 04: Should fail: Add a record.
+! exec ibapi url get 'record:a?ipv4addr~=10.10.10.2&view=nosuchviewasthis'
+stderr 'View nosuchviewasthis not found'
+stdout 'Failed'
+
+# 05: Add a record to external view.
+exec ibapi url add 'record:a?name=url2.seci.rice.edu&ipv4addr=10.10.10.242&view=external'
+! stderr .
+stdout 'Success'
+
+# 06: Get a record.
+exec ibapi url get 'record:a?ipv4addr~=10.10.10.2&view=external'
+! stderr .
+stdout 'Success'
+stdout '"name": "url2.seci.rice.edu",'
+
+# 07: Clean up.
+exec ibapi a delete url1.seci.rice.edu 10.10.10.241
+! stderr .
+stdout 'Deleted'
+
+# 08: Clean up.
+exec ibapi a delete url2.seci.rice.edu 10.10.10.242 -V external
+! stderr .
+stdout 'Deleted'
+
+
+

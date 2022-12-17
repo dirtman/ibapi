@@ -1,0 +1,291 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+
+# Add 01: Add Host record host1.seci.rice.edu/10.10.10.211 in default view.
+exec ibapi host add host1.seci.rice.edu 10.10.10.211 -c 'Default View' --ttl 111
+! stderr .
+stdout ': Added'
+
+# Add 02: Should fail due to conflict.
+! exec ibapi host add host1.seci.rice.edu 10.10.10.219 -c 'Default View' --ttl 111
+stderr conflict
+stdout 'NOT added'
+
+# Add 03: Add Host record host1.seci.rice.edu/10.10.10.211 in external view.
+exec ibapi host add host1.seci.rice.edu 10.10.10.211 -V external -c 'External View' --ttl 222
+! stderr .
+stdout ': Added'
+
+# Add 03a: Get Host record host1.seci.rice.edu/10.10.10.211 in external view.
+exec ibapi host get host1.seci.rice.edu 10.10.10.211 -V external -Rttl
+! stderr .
+stdout 'host1.seci.rice.edu 10.10.10.211'
+
+# Add 03b: Get Host record host1.seci.rice.edu in external view and show ttl
+exec ibapi host get host1.seci.rice.edu -V external -Rttl -v
+stderr '"ttl": 222,'
+stderr '"view": "external"'
+! stderr '"view": "default"'
+stdout 'host1.seci.rice.edu 10.10.10.211'
+
+# Add 03c: Get Host record host1.seci.rice.edu/10.10.10.211 in any view
+exec ibapi host get host1.seci.rice.edu 10.10.10.211 -Rttl -v
+stderr '"ttl": 111,'
+stderr '"ttl": 222,'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(external view\)'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(default view\)'
+
+# Add 04: Should fail due to conflict (C option).
+! exec ibapi host add host2.seci.rice.edu 10.10.10.211 -V external -C 
+stderr conflict
+stdout 'NOT added'
+
+# Add 05: Add Host record host2.seci.rice.edu/10.10.10.213 in external view.
+exec ibapi host add host2.seci.rice.edu 10.10.10.213 -V external -c 'External View'
+! stderr .
+stdout ': Added'
+
+# Add 06: Add host record host3.seci.rice.edu with PXE config.
+exec ibapi host add host3.seci.rice.edu 10.10.10.214 -d -m 64:00:6a:8f:cc:4d -N10.128.81.10 -b/grub2/grubx64.efi
+! stderr .
+stdout ': Added'
+
+# Add 06a: Get Host record host3 and show DHCP fields
+exec ibapi host get host3.seci.rice.edu 10.10.10.214 -v -Imac,bootfile,nextserver,configure_for_dhcp
+stderr '"mac": "64:00:6a:8f:cc:4d"'
+stderr '"bootfile": "/grub2/grubx64.efi"'
+stderr '"nextserver": "10.128.81.10"'
+stdout 'host3.seci.rice.edu 10.10.10.214'
+
+# Add 07: Add host record host4.seci.rice.edu with PXE config via ipFields
+exec ibapi host add host4.seci.rice.edu 10.10.10.215 -d -Imac=64:00:6a:8f:cc:4d -N10.128.81.10 -b/grub2/grubx64.efi
+! stderr .
+stdout ': Added'
+
+# Add 07a Get Host record host4 and show DHCP fields
+exec ibapi host get host4.seci.rice.edu -v -Imac,bootfile,nextserver,configure_for_dhcp
+stderr '"mac": "64:00:6a:8f:cc:4d"'
+stderr '"bootfile": "/grub2/grubx64.efi"'
+stderr '"nextserver": "10.128.81.10"'
+stdout 'host4.seci.rice.edu 10.10.10.215'
+
+
+# Update 01: Update should fail: need name and data value.
+! exec ibapi host update host1.seci.rice.edu -i 10.10.10.219 -C
+stderr 'need both a name and a data value'
+stderr 'Aborting process; no records updated'
+
+# Update 02: Disable existing Host record.
+exec ibapi host update host1.seci.rice.edu 10.10.10.211 -V external -D true
+! stderr .
+stdout 'Updated \(fields: disable=true\)'
+
+# Update 02a: Get above Host record and verify disabled.
+exec ibapi host get host1.seci.rice.edu 10.10.10.211 -V external -R disable -v
+stderr '"disable": true,'
+stdout 'host1.seci.rice.edu 10.10.10.211'
+
+# Update 03: Update various fields (comment,ttl,configure_for_dns).
+exec ibapi host update host1.seci.rice.edu 10.10.10.211 -Fcomment=Sandman,ttl=7,configure_for_dns=true
+! stderr .
+stdout 'Updated'
+stdout 'fields: comment=Sandman,ttl=7,configure_for_dns=true'
+
+# Update 03a: Get above Host record and verify updated fields.
+exec ibapi host get host1.seci.rice.edu -V default -Rcomment,ttl,configure_for_dns -v
+stderr '"comment": "Sandman",'
+stderr '"ttl": 7,'
+stderr '"view": "default"'
+! stderr '"view": "external"'
+stdout 'host1.seci.rice.edu 10.10.10.211'
+
+# Update 04: Update fields of multiple hosts
+exec ibapi host update -Fcomment=Lori,ttl=333 -f input1.txt
+! stderr .
+stdout 'host1.seci.rice.edu.*fields: comment=Lori,ttl=333'
+stdout 'host3.seci.rice.edu.*fields: comment=Lori,ttl=333'
+
+# Update 04a: Get host1 and host3 and verify fields
+exec ibapi host get -Rcomment,ttl -f input1.txt -v
+stderr '"ttl": 333,'
+stderr '"comment": "Lori",'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(external view\)'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(default view\)'
+stdout 'host3.seci.rice.edu 10.10.10.214 \(default view\)'
+
+# Update 05: Update Host name host3.seci.rice.edu to host5.seci.rice.edu.
+exec ibapi host update host3.seci.rice.edu -n host5.seci.rice.edu 
+! stderr .
+stdout 'Updated \(fields: name=host5.seci.rice.edu\)'
+
+# Update 06: Should fail: try to update host1 to host5.
+! exec ibapi host update host1.seci.rice.edu -n host5.seci.rice.edu 
+stderr 'NOT updated.*already exists'
+
+# Update 07: Rename Host host5.seci.rice.edu back to host3.seci.rice.edu.
+exec ibapi host update host5.seci.rice.edu -n host3.seci.rice.edu 
+! stderr .
+stdout 'Updated \(fields: name=host3.seci.rice.edu\)'
+
+# Update 08: Should fail: update Host name and IP at same time.
+! exec ibapi host update host3.seci.rice.edu 10.10.10.214 -n host5.seci.rice.edu -i 10.10.10.213
+stderr 'cannot update Host fields and an IP address at the same time'
+
+# Update 09: Should fail: update multiple Host's names at same time
+! exec ibapi host update -n host5.seci.rice.edu -f input1.txt
+stderr 'only one name/data pair can be specified for your update'
+
+# Update 10: Update should fail due to conflict.
+! exec ibapi host update host1.seci.rice.edu 10.10.10.211 -i 10.10.10.213 -V external -C
+stderr 'NOT updated: Host with same name or value already exists'
+
+# Update 11: Update should fail.
+! exec ibapi host update host1.seci.rice.edu 10.10.10.211 -V external -D what
+stderr 'invalid value "what" for disable option'
+
+# Update 12: Change Host host1 IP address: 10.10.10.211 -> 10.10.10.219
+exec ibapi host update host1.seci.rice.edu 10.10.10.211 -i 10.10.10.219
+! stderr .
+stdout '\(host1.seci.rice.edu/10.10.10.211\) Updated \(IP: 10.10.10.219\)'
+
+# Update 13: Should fail: conflict.
+! exec ibapi host update host1.seci.rice.edu 10.10.10.219 -i 10.10.10.214 -C
+stderr 'NOT updated: Host with same name or value already exists'
+! stdout .
+
+# Update 14: Should fail: conflict.
+! exec ibapi host update host1.seci.rice.edu 10.10.10.219 -i +10.10.10.214 -C
+stderr 'NOT updated: Host with same name or value already exists'
+! stdout .
+
+# Update 15: Add an IP to a Host.
+exec ibapi host update host1.seci.rice.edu 10.10.10.219 -i +10.10.10.211 -C
+! stderr .
+stdout 'HOST\(host1.seci.rice.edu/10.10.10.219\) Updated \(IP: \+10.10.10.211\)'
+
+# Update 16: Update the fields of a Host IP address.
+exec ibapi host update host1.seci.rice.edu 10.10.10.219 -I mac=64:00:6a:8f:cc:4d -N10.128.81.10 -b/grub2/grubx64.efi
+! stderr .
+stdout 'Updated \(fields: mac=64:00:6a:8f:cc:4d,bootfile=/grub2/grubx64.efi,nextserver=10.128.81.10\)'
+
+# Update 16a: Get above added fields
+exec ibapi host get host1.seci.rice.edu -V default -v -Imac,nextserver
+stderr '"mac": "64:00:6a:8f:cc:4d"'
+! stderr '"nextserver":'
+stdout 'host1.seci.rice.edu 10.10.10.2'
+stdout '10.10.10.211'
+stdout '10.10.10.219'
+
+# Update 17: Update the fields of a Host IP address.
+exec ibapi host update host1.seci.rice.edu 10.10.10.219 -dtrue -I mac=64:00:6a:8f:cc:4f -N10.128.81.11 -b/todfile
+! stderr .
+stdout 'fields: mac=64:00:6a:8f:cc:4f,configure_for_dhcp=true,bootfile=/todfile,nextserver=10.128.81.11'
+
+# Update 17a: Get above added fields
+exec ibapi host get host1.seci.rice.edu -V default -v -Imac,nextserver,bootfile
+stderr '"mac": "64:00:6a:8f:cc:4f"'
+stderr '"nextserver": "10.128.81.11"'
+stderr '"configure_for_dhcp": true,'
+stderr '"bootfile": "/todfile",'
+stdout 'host1.seci.rice.edu 10.10.10.2'
+stdout '10.10.10.211'
+stdout '10.10.10.219'
+
+# Update 18: Remove an IP from a Host.
+exec ibapi host update host1.seci.rice.edu 10.10.10.219 -i -10.10.10.211 -C
+! stderr .
+stdout 'HOST\(host1.seci.rice.edu/10.10.10.219\) Updated \(IP: \-10.10.10.211\)'
+
+# Update 18a: Get above added fields
+exec ibapi host get host1.seci.rice.edu -V default -v -Imac,nextserver,bootfile
+stderr '"mac": "64:00:6a:8f:cc:4f"'
+stderr '"nextserver": "10.128.81.11"'
+stderr '"configure_for_dhcp": true,'
+stderr '"bootfile": "/todfile",'
+stdout 'host1.seci.rice.edu 10.10.10.219'
+
+# Update 19: Update Host host1 IP address: 10.10.10.219 -> 10.10.10.211
+exec ibapi host update host1.seci.rice.edu 10.10.10.219 -i 10.10.10.211
+! stderr .
+stdout 'HOST\(host1.seci.rice.edu/10.10.10.219\) Updated \(IP: 10.10.10.211\)'
+
+# Update 19a: Get above added fields
+exec ibapi host get host1.seci.rice.edu -V default -v -Imac,nextserver,bootfile
+stderr '"mac": "64:00:6a:8f:cc:4f"'
+stderr '"nextserver": "10.128.81.11"'
+stderr '"configure_for_dhcp": true,'
+stderr '"bootfile": "/todfile",'
+stdout 'host1.seci.rice.edu 10.10.10.211'
+
+# Update 20: Add a Host alias.
+exec ibapi host update host1.seci.rice.edu -a nowhere.com
+! stderr .
+stdout 'HOST\(host1.seci.rice.edu\) Updated \(Alias: nowhere.com\)'
+
+
+# Get 01: Should fail: record not found.
+! exec ibapi host get host2.seci.rice.edu 10.10.10.213 -V default
+stderr 'not found'
+stdout 'NOTFOUND'
+
+# Get 02: Get Host record host2.seci.rice.edu/10.10.10.213 (external).
+exec ibapi host get host2.seci.rice.edu 10.10.10.213 -V external
+! stderr .
+stdout 'host2.seci.rice.edu 10.10.10.213'
+
+# Get 03: Get Host record host1.seci.rice.edu.
+exec ibapi host get host1.seci.rice.edu -V external
+! stderr .
+stdout ':\s*host1.seci.rice.edu 10.10.10.211'
+
+# Get 04: Get Host record (-Fipv4addr~=10.10.10.21,name~=host -V any).
+exec ibapi host get -Fipv4addr~=10.10.10.21,name~=host -V any
+! stderr .
+stdout 'host1.seci.rice.edu 10.10.10.211'
+stdout 'host1.seci.rice.edu 10.10.10.211'
+stdout 'host2.seci.rice.edu 10.10.10.213'
+
+
+# Delete 01: Delete Host record host1.seci.rice.edu 10.10.10.211
+exec ibapi host delete host1.seci.rice.edu 10.10.10.211 -V default
+! stderr .
+stdout 'host1.seci.rice.edu.* Deleted'
+
+# Delete 02: Delete Host record host1.seci.rice.edu (external)
+exec ibapi host delete host1.seci.rice.edu -V external
+! stderr .
+stdout 'host1.seci.rice.edu.* Deleted'
+
+# Delete 03: Delete Host record host2.seci.rice.edu 10.10.10.213 (external)
+exec ibapi host delete host2.seci.rice.edu 10.10.10.213 -V external
+! stderr .
+stdout 'host2.seci.rice.edu.* Deleted'
+
+# Delete 04: Should fail: no host host4.seci.rice.edu/10.10.10.213
+! exec ibapi host delete host4.seci.rice.edu 10.10.10.213
+stderr 'Warning: One or more records not found'
+stdout 'NOTFOUND'
+
+# Delete 05: Fail (partial): Delete Hosts specified in file.
+! exec ibapi host delete -f input1.txt
+stderr 'Warning: One or more records not found'
+stdout 'Host\(host1.seci.rice.edu/10.10.10.211\)\s+NOTFOUND'
+stdout 'Host\(host3.seci.rice.edu\)\s+Deleted'
+
+# Delete 05a: Fail: try to add the Hosts back.
+! exec ibapi host add -f input1.txt -V external
+stderr 'wrong field count'
+! stdout .
+
+
+# Delete 06: Delete bapi host delete host4.seci.rice.edu
+exec ibapi host delete host4.seci.rice.edu
+! stderr .
+stdout 'Host\(host4.seci.rice.edu\) Deleted'
+
+
+-- input1.txt --
+host1.seci.rice.edu 10.10.10.211
+host3.seci.rice.edu
