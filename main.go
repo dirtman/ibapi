@@ -17,6 +17,10 @@ type Commands map[string]func([]string) error
 
 func main() {
 
+	// Let's point DefaultShow and DefaultDebug to Stderr.
+	DefaultShow = os.Stderr
+	DefaultDebug = os.Stderr
+
 	// Define our command/func mapping:
 	commands := Commands{
 		"a":     commandA,

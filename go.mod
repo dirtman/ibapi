@@ -3,7 +3,7 @@ module github.com/dirtman/ibapi
 go 1.18
 
 require (
-	github.com/dirtman/sitepkg v0.0.0-20221217003522-66ba8fd9116a
+	github.com/dirtman/sitepkg v0.0.0-20230109121217-41a744312e2f
 	github.com/rogpeppe/go-internal v1.9.0
 )
 

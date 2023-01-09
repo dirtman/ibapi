@@ -1,4 +1,6 @@
 .bak/*
+.gitignore/*
+.vscode
 alias/*
 bin/*
 cname/*
