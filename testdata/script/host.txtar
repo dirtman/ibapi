@@ -34,8 +34,8 @@ stdout 'host1.seci.rice.edu 10.10.10.211'
 exec ibapi host get host1.seci.rice.edu 10.10.10.211 -Rttl -v
 stderr '"ttl": 111,'
 stderr '"ttl": 222,'
-stdout 'host1.seci.rice.edu 10.10.10.211 \(external view\)'
-stdout 'host1.seci.rice.edu 10.10.10.211 \(default view\)'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(external view'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(default view'
 
 # Add 04: Should fail due to conflict (C option).
 ! exec ibapi host add host2.seci.rice.edu 10.10.10.211 -V external -C 
@@ -111,9 +111,9 @@ stdout 'host3.seci.rice.edu.*fields: comment=Lori,ttl=333'
 exec ibapi host get -Rcomment,ttl -f input1.txt -v
 stderr '"ttl": 333,'
 stderr '"comment": "Lori",'
-stdout 'host1.seci.rice.edu 10.10.10.211 \(external view\)'
-stdout 'host1.seci.rice.edu 10.10.10.211 \(default view\)'
-stdout 'host3.seci.rice.edu 10.10.10.214 \(default view\)'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(external view'
+stdout 'host1.seci.rice.edu 10.10.10.211 \(default view'
+stdout 'host3.seci.rice.edu 10.10.10.214 \(default view'
 
 # Update 05: Update Host name host3.seci.rice.edu to host5.seci.rice.edu.
 exec ibapi host update host3.seci.rice.edu -n host5.seci.rice.edu 

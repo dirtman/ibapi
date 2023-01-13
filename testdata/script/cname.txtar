@@ -11,7 +11,7 @@ stdout ': Added'
 # Add 01a: Get CNAME record cname1.
 exec ibapi cname get cname1.seci.rice.edu
 ! stderr .
-stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view\)'
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view'
 
 # Add 01b: Get CNAME record cname1 by target
 exec ibapi cname get -Fcanonical=ctarget1.seci.rice.edu -v --debug
@@ -37,8 +37,8 @@ stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu'
 # Add 02b: Get CNAME record cname1 type any.
 exec ibapi cname get cname1.seci.rice.edu
 ! stderr .
-stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view\)'
-stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view\)'
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view'
+stdout 'cname1.seci.rice.edu ctarget1.seci.rice.edu \(default view'
 
 # Add 02c: Should fail due to conflict.
 ! exec ibapi cname add cname1.seci.rice.edu ctarget2.seci.rice.edu -V external

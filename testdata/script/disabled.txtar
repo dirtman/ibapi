@@ -1,0 +1,112 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+
+# Disabled 01: Add disabled A record a3.seci.rice.edu/10.10.10.203.
+exec ibapi a add a3.seci.rice.edu 10.10.10.203 -D -c 'Default View' --ttl 111
+! stderr .
+stdout ': Added'
+
+# Disabled 02: Get disabled A record 10.10.10.203.
+exec ibapi a get 10.10.10.203 -v -Rcomment,ttl,zone,disable
+stderr 'view.* "default"'
+stderr '"disable": true,'
+stderr '"zone": "seci.rice.edu"'
+stderr '"comment": "Default View",'
+stdout 'a3.seci.rice.edu 10.10.10.203.*DISABLED'
+
+# Disable 03: Enable existing A record a1.seci.rice.edu.
+exec ibapi a update a3.seci.rice.edu 10.10.10.203 -D false
+! stderr .
+stdout 'Updated \(fields: disable=false\)'
+
+# Disable 04: Delete A record.
+exec ibapi a delete a3.seci.rice.edu 10.10.10.203
+! stderr .
+stdout Deleted
+
+
+# Disable 05: Add a disabled Alias record.
+exec ibapi alias add alias3.seci.rice.edu target3.seci.rice.edu -D
+! stderr .
+stdout 'Added'
+
+# Disable 06: Get a disabled Alias record.
+exec ibapi alias get alias3.seci.rice.edu -v
+stderr '"disable": true,'
+stdout 'alias3.seci.rice.edu.*DISABLED'
+
+# Disable 06: Enable a disabled Alias record.
+exec ibapi alias update alias3.seci.rice.edu -D false
+! stderr .
+stdout 'Updated \(fields: disable=false\)'
+
+# Disable 08: Delete Alias record.
+exec ibapi alias delete alias3.seci.rice.edu
+! stderr .
+stdout 'Deleted'
+
+
+# Disable 09: Add a disabled CNAME record.
+exec ibapi cname add cname4.seci.rice.edu target4.seci.rice.edu -D
+! stderr .
+stdout 'Added'
+
+# Disable 10: Get a disabled CNAME record.
+exec ibapi cname get cname4.seci.rice.edu -v
+stderr '"disable": true,'
+stdout 'cname4.seci.rice.edu.*DISABLED'
+
+# Disable 11: Enable a disabled CNAME record.
+exec ibapi cname update cname4.seci.rice.edu -D false
+! stderr .
+stdout 'Updated \(fields: disable=false\)'
+
+# Disable 12: Delete CNAME record.
+exec ibapi cname delete cname4.seci.rice.edu
+! stderr .
+stdout 'Deleted'
+
+
+# Disable 13: Add a disabled PTR record.
+exec ibapi ptr add ptr4.seci.rice.edu 10.10.10.224 -D
+! stderr .
+stdout 'Added'
+
+# Disable 14: Get a disabled PTR record.
+exec ibapi ptr get ptr4.seci.rice.edu -v
+stderr '"disable": true,'
+stdout 'ptr4.seci.rice.edu.*DISABLED'
+
+# Disable 15: Enable a disabled PTR record.
+exec ibapi ptr update ptr4.seci.rice.edu 10.10.10.224 -D false
+! stderr .
+stdout 'Updated \(fields: disable=false\)'
+
+# Disable 16: Delete PTR record.
+exec ibapi ptr delete ptr4.seci.rice.edu 10.10.10.224
+! stderr .
+stdout 'Deleted'
+
+
+# Disable 17: Add a disabled Host record.
+exec ibapi host add host6.seci.rice.edu 10.10.10.216 -D
+! stderr .
+stdout 'Added'
+
+# Disable 18: Get a disabled Host record.
+exec ibapi host get host6.seci.rice.edu -v
+stderr '"disable": true,'
+stdout 'host6.seci.rice.edu.*DISABLED'
+
+# Disable 19: Enable a disabled Host record.
+exec ibapi host update host6.seci.rice.edu 10.10.10.216 -D false
+! stderr .
+stdout 'Updated \(fields: disable=false\)'
+
+# Disable 20: Delete Host record.
+exec ibapi host delete host6.seci.rice.edu 10.10.10.216
+! stderr .
+stdout 'Deleted'
+

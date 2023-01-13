@@ -180,6 +180,11 @@ func GetFieldOptions(input *UserInput) error {
 		if rFields, _ := GetStringOpt("rFields"); rFields != "" {
 			input.rFields = strings.Split(rFields, ",")
 		}
+		// Let's force the "disable" fields, since we may want to let
+		// the user know if the fetched record is disabled or not.
+		if inList, _ := InList(input.rFields, "disable"); !inList {
+			input.rFields = append(input.rFields, "disable")
+		}
 	}
 
 	// Handle the comment option.

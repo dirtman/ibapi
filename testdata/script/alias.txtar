@@ -11,7 +11,7 @@ stdout ': Added'
 # Add 01a: Get Alias record alias1.
 exec ibapi alias get alias1.seci.rice.edu
 ! stderr .
-stdout 'alias1.seci.rice.edu target1.seci.rice.edu \(A, default view\)'
+stdout 'alias1.seci.rice.edu target1.seci.rice.edu \(A, default view'
 
 # Add 01b: Get Alias record alias1 and show target_type.
 exec ibapi alias get alias1.seci.rice.edu -v
@@ -32,7 +32,7 @@ stdout ': Added'
 # Add 02a: Get TXT Alias record alias1/
 exec ibapi alias get alias1.seci.rice.edu -T TXT
 ! stderr .
-stdout 'alias1.seci.rice.edu target1.seci.rice.edu \(default view\)'
+stdout 'alias1.seci.rice.edu target1.seci.rice.edu \(default view'
 
 # Add 02b: Get Alias record alias1 type any.
 exec ibapi alias get alias1.seci.rice.edu
