@@ -61,6 +61,7 @@ func main() {
 	if len(os.Args) < 2 {
 		commandHelp(invokedAs, commands, "need one or more arguments", 1)
 	}
+
 	if strings.HasPrefix(os.Args[1], "-") || strings.EqualFold(os.Args[1], "help") {
 		commandHelp(invokedAs, commands, "", 0)
 	}
@@ -92,7 +93,8 @@ func commandHelp(invokedAs []string, commands Commands, message string, exitCode
 
 	// POD is more useful info; if the invoker is asking for help, show the POD doc.
 	for _, option := range os.Args[1:] {
-		if option = strings.ToLower(option); option == "-h" || option == "help" {
+		opt := strings.ToLower(option)
+		if opt == "-h" || opt == "help" || opt == "--help" {
 			if err := ShowPod(); err == nil {
 				Exit(exitCode)
 			}
