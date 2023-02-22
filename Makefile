@@ -2,10 +2,10 @@ GOBUILD=go build
 BINDIR=/bin
 CFGDIR=/etc/opt/ibapi
 
-all: bin/ibapi bin/ibapi_cgo $(BINDIR)/ibapi
+all: bin/ibapi bin/ibapi_cgo
 
-install: $(BINDIR)/ibapi $(BINDIR)/ibapi_cgo \
-	$(CFGDIR)/ibapi.conf ibapi.conf
+install: bin/ibapi bin/ibapi_cgo \
+	$(BINDIR)/ibapi $(CFGDIR)/ibapi.conf ibapi.conf
 
 bin/ibapi: *.go go.mod go.sum
 	$(GOBUILD) -o bin/ibapi *.go
