@@ -97,7 +97,7 @@ password for WAPI user "sandman":
 
 - ibapi host get rb4.rice.edu 168.7.56.224
 
-    Fetch and print the Host record with IPv4 name "rb4.rice.edu" and IPv4 address "168.7.56.224".
+    Fetch and print the Host record with name "rb4.rice.edu" and IPv4 address "168.7.56.224".
 
 - ibapi host get rb3.rice.edu -v -I bootfile,nextserver,mac
 
