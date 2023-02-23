@@ -18,7 +18,7 @@ no host will be deleted.  If no IP address is specified, the Host record is dele
 regardless of its IP address(es).
 
 Note that deleting a Host record deletes the whole record, along with any and all of its
-IP addresses etc.  To delete an IP address from a Host record with deleting the Host 
+IP addresses etc.  To delete an IP address from a Host record with deleting the Host
 record itself, use the "host update" command.
 
 # OPTIONS

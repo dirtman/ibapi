@@ -32,7 +32,7 @@ including:
 - ~/.ibapi/ibapi.conf
 
 Any combination of these may be used. Each file found is read in turn, with
-settings in later files overriding those in previous files. Settings specified 
+settings in later files overriding those in previous files. Settings specified
 via the command line override all configuration file settings.
 
 Configuration file format is very basic and is best shown with an example file:
@@ -48,7 +48,7 @@ Configuration file format is very basic and is best shown with an example file:
     [a:add]
     comment = this is my new A record
 
-Spaces before and after the equal sign are discarded.  
+Spaces before and after the equal sign are discarded.
 Inline comments are allowed; the "#" must be preceeded with one or
 more spaces, and these spaces are discarded (along with the comment).
 

@@ -13,7 +13,7 @@ The update command is used to update Infoblox Host records.
 To update a specific IP address of a Host record (such as with the --IP or --MAC
 option), both the hostname and the specfic IP address to be updated must be
 specified, either via the command line or the --filename option.  Otherwise, only
-the hostname is required.  
+the hostname is required.
 
 # OPTIONS
 
