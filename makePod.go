@@ -1,6 +1,6 @@
 package main
 
-import (
+import(
 	. "github.com/dirtman/sitepkg"
 )
 
@@ -11,7 +11,7 @@ NAME
     ibapi a - create, read, update and delete Infoblox A records
 
 USAGE
-    ibapi a add|get|update|delete <options/args>
+    ibapi a <add|get|update|delete> <options/args>
 
 DESCRIPTION
     "ibapi a" can be used to add, get, update and delete Infoblox A records.
@@ -475,7 +475,7 @@ NAME
     ibapi alias - create, read, update and delete Infoblox Alias records
 
 USAGE
-    ibapi alias add|get|update|delete <options/args>
+    ibapi alias <add|get|update|delete> <options/args>
 
 DESCRIPTION
     "ibapi alias" can be used to add, get, update and delete Infoblox Alias
@@ -1237,7 +1237,7 @@ NAME
     ibapi cname - create, read, update and delete Infoblox CNAME records
 
 USAGE
-    ibapi cname add|get|update|delete <options/args>
+    ibapi cname <add|get|update|delete> <options/args>
 
 DESCRIPTION
     "ibapi cname" can be used to add, get, update and delete Infoblox CNAME
@@ -1834,7 +1834,7 @@ NAME
     ibapi host - create, read, update and delete Infoblox Host records
 
 USAGE
-    ibapi host add|get|update|delete <options/args>
+    ibapi host <add|get|update|delete> <options/args>
 
 DESCRIPTION
     "ibapi host" can be used to add, get, update and delete Infoblox Host
@@ -2415,9 +2415,9 @@ OPTIONS
         specified value.
 
     -m <newMAC>, --MAC=<newMAC>:
-        Update the MAC address of the specified IP address of the specified
-        Host record to "newMAC" Note that with this option, both a hostname
-        and an IP address must be specified.
+        Update the MAC address of the specified IP address to "newMAC" Note
+        that with this option, both a hostname and an IP address must be
+        specified.
 
     -b <bootfile>, --bootfile=<bootfile>:
         Update the bootfile of the specified IP address.
@@ -2530,7 +2530,10 @@ NAME
     ibapi - create, read, update and delete basic Infoblox records
 
 USAGE
-    ibapi host|a|ptr|cname|alias|url add|get|update|delete <options/args>
+    ibapi <-h|--help>
+    ibapi <host|a|ptr|cname|alias|url> <-h|--help>
+    ibapi <host|a|ptr|cname|alias|url> <add|get|update|delete>
+    <options/args>
 
 DESCRIPTION
     ibapi can be used to add, get, update and delete a few of the most basic
@@ -2602,6 +2605,34 @@ Authentication
     *   chmod 600 $HOME/.ibapi/private/sandman
 
 EXAMPLES
+    ibapi host add rb3.rice.edu 168.7.56.225 -d -m f4:8e:38:84:89:e6 -N
+    10.128.81.10 -b /grub2/shim.efi
+        Create the specified Host record with IPv4 address 168.7.56.225,
+        configure that address for DHCP and set DHCP-related options as
+        specified.
+
+    ibapi host update rb3.rice.edu -i +168.7.56.226
+        Update the Host record named "rb3.rice.edu", adding the IPv4 address
+        "168.7.56.226".
+
+    ibapi host update rb4.rice.edu 168.7.56.224 -i 168.7.56.225
+        Update the "rb4.rice.edu" Host record, changing the IP address
+        "168.7.56.224" to "168.7.56.225".
+
+    ibapi host get rb4.rice.edu
+        Fetch and print the Host record named "rb4.rice.edu".
+
+    ibapi host get 168.7.56.224
+        Fetch and print all Host records with IPv4 address "168.7.56.224".
+
+    ibapi host get rb4.rice.edu 168.7.56.224
+        Fetch and print the Host record with IPv4 name "rb4.rice.edu" and
+        IPv4 address "168.7.56.224".
+
+    ibapi host get rb3.rice.edu -v -I bootfile,nextserver,mac
+        Fetch and print the Host record named "rb3.rice.edu", including in
+        the output the specified IPv4 fields.
+
     ibapi a get -Fipv4addr~=10.10.10.20,name~=a -V external
         Fetch all A records in the external view whose IPs match the pattern
         "10.10.10.20" and names matches the pattern "a".
@@ -2648,14 +2679,6 @@ EXAMPLES
     ibapi cname update rb4.rice.edu -t nowhere.com
         Update the "rb4.rice.edu" CNAME record, changing the target to
         "nowhere.com".
-
-    ibapi host update rb4.rice.edu 168.7.56.224 -i 168.7.56.225
-        Update the "rb4.rice.edu" Host record, changing the IP address
-        "168.7.56.224" to "168.7.56.225".
-
-    ibapi host update rb4.rice.edu -i +168.7.56.225
-        Update the "rb4.rice.edu" Host record, adding the IP address
-        "168.7.56.225"
 
     ibapi ptr add rb4.rice.edu 168.7.56.224
         Create a new PTR record with hostname "rb4.rice.edu" and IP address
@@ -2710,11 +2733,6 @@ EXAMPLES
         Change the target, or canonical name, of the referenced CNAME
         record.
 
-    ibapi host add rb4.rice.edu 10.10.10.214 -d -m 64:00:6a:8f:cc:4d
-    -N10.128.81.10 -b/grub2/grubx64.efi
-        Create the specified Host with IP address 10.10.10.214, configure
-        that IP for DHCP and set DHCP-related options as specified.
-
 FILES
     /usr/site/ibapi-0.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
@@ -2743,7 +2761,7 @@ NAME
     ibapi ptr - create, read, update and delete Infoblox PTR records
 
 USAGE
-    ibapi ptr add|get|update|delete <options/args>
+    ibapi ptr <add|get|update|delete> <options/args>
 
 DESCRIPTION
     "ibapi ptr" can be used to add, get, update and delete Infoblox PTR
@@ -3894,5 +3912,5 @@ SEE ALSO
 
 
 `
-	return nil
+return nil
 }

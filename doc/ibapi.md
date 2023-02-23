@@ -1,33 +1,27 @@
-# ibapi - Infoblox WAPI command line tool
+# NAME
 
-ibapi is a command-line client, written in Go, for adding, retrieving, updating
-and deleting a few of the most basic Infoblox records via the Infoblox WAPI.
-Currently supported record types are A, PTR, CNAME, Alias and Host.  Basic
-usage is as follows:
+ibapi - create, read, update and delete basic Infoblox records
 
+# USAGE
+
+- ibapi <-h|--help>
+- ibapi &lt;host|a|ptr|cname|alias|url> <-h|--help>
 - ibapi &lt;host|a|ptr|cname|alias|url> &lt;add|get|update|delete> &lt;options/args>
 
-Use the -h/--help option for more details of each command.  For instance:
+# DESCRIPTION
 
-- ibapi -h
+ibapi can be used to add, get, update and delete a few of the most basic Infoblox
+records.  The basic format is
+
+- ibapi &lt;record\_type|url> &lt;operation> &lt;options/args>
+
+For more details, invoke the specific record\_type/operation
+with the --help|-h option. For example:
+
 - ibapi a -h
 - ibapi a add -h
 
-## Building/Installing Example for Fedora/RHEL
-
-- sudo dnf install golang
-- export GOPATH=$HOME/go
-- mkdir -p $GOPATH/src
-- cd $GOPATH/src
-- git clone https://github.com/dirtman/ibapi
-- cd ibapi
-- go mod tidy
-- make
-- ./bin/ibapi -h
-- make install
-- /bin/ibapi -h
-
-## Configuration Files
+# Configuration Files
 
 ibapi configuration files can be used to set defaults for most of the available
 options. The ibapi command searches for configuration files in several places,
@@ -64,7 +58,7 @@ current options and values:
 
 - ibapi url add --showconfig
 
-## Authentication
+# Authentication
 
 ibapi supports only basic authentication.  A username and password
 can be specified via command line options or via a "username:password"
@@ -77,7 +71,7 @@ password for WAPI user "sandman":
 - echo "sandman:WAPI\_PASSWORD" > $HOME/.ibapi/private/sandman
 - chmod 600 $HOME/.ibapi/private/sandman
 
-## EXAMPLES
+# EXAMPLES
 
 - ibapi host add rb3.rice.edu 168.7.56.225 -d -m f4:8e:38:84:89:e6 -N 10.128.81.10 -b /grub2/shim.efi
 
@@ -219,3 +213,51 @@ password for WAPI user "sandman":
 
     Change the target, or canonical name, of the referenced CNAME record.
 
+# FILES
+
+- /usr/site/ibapi-0.0/etc/ibapi.conf
+- /etc/opt/ibapi/ibapi.conf
+- /etc/opt/ibapi-0.0//ibapi.conf
+- ~/.ibapi/ibapi.conf
+- ~/.ibapi-0.0/ibapi.conf
+
+    The IBAPI configuration files which can be used to
+    set defaults for nearly all of the options described above.
+    Any combination of these may be used.
+    Each file found is read in turn, with settings in later files
+    overriding those in previous files.  Note that command line
+    options override all config file settings.
+
+# SEE ALSO
+
+host(1),
+host:add(1),
+ptr(1),
+cname(1),
+alias(1),
+host:get(1),
+host:delete(1),
+host:update(1),
+ptr:add(1),
+ptr:delete(1),
+ptr:get(1),
+ptr:update(1),
+cname:add(1),
+cname:delete(1),
+cname:get(1),
+cname:update(1),
+alias:add(1),
+alias:delete(1),
+alias:get(1),
+alias:update(1),
+url(1),
+url:add(1),
+url:delete(1),
+url:get(1),
+url:update(1),
+a(1),
+a:delete(1),
+a:get(1),
+a:update(1),
+a:add(1),
+ibapi.conf(5)
