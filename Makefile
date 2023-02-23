@@ -1,11 +1,12 @@
 GOBUILD=go build
-BINDIR=/bin
+BINDIR=/usr/bin
 CFGDIR=/etc/opt/ibapi
 
-all: bin/ibapi bin/ibapi_cgo
+default: bin/ibapi bin/ibapi_cgo
 
-install: bin/ibapi bin/ibapi_cgo \
-	$(BINDIR)/ibapi $(CFGDIR)/ibapi.conf ibapi.conf
+all: install bin/ibapi_cgo
+
+install: $(BINDIR)/ibapi $(CFGDIR)/ibapi.conf
 
 bin/ibapi: *.go go.mod go.sum
 	$(GOBUILD) -o bin/ibapi *.go
@@ -16,9 +17,10 @@ bin/ibapi_cgo: *.go go.mod go.sum
 	strip bin/ibapi_cgo
 
 $(BINDIR)/ibapi: bin/ibapi
-	sudo cp -p bin/ibapi /bin
+	sudo cp -p bin/ibapi /usr/bin
 
 $(CFGDIR)/ibapi.conf: ibapi.conf
 	sudo mkdir -p $(CFGDIR)
 	sudo cp -p ibapi.conf $(CFGDIR)
+
 
