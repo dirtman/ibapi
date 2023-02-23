@@ -9,11 +9,11 @@ all: install bin/ibapi_cgo
 install: $(BINDIR)/ibapi $(CFGDIR)/ibapi.conf
 
 bin/ibapi: *.go go.mod go.sum
-	$(GOBUILD) -o bin/ibapi *.go
+	CGO_ENABLED=0 $(GOBUILD) -o bin/ibapi *.go
 	strip bin/ibapi
 
 bin/ibapi_cgo: *.go go.mod go.sum
-	CGO_ENABLED=0 $(GOBUILD) -o bin/ibapi_cgo *.go
+	CGO_ENABLED=1 $(GOBUILD) -o bin/ibapi_cgo *.go
 	strip bin/ibapi_cgo
 
 $(BINDIR)/ibapi: bin/ibapi
