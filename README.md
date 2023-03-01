@@ -15,17 +15,17 @@ Use the -h/--help option for more details of each command.  For instance:
 
 ## Building/Installing Example for Fedora/RHEL
 
-- sudo dnf install golang
-export GOPATH=$HOME/go
-mkdir -p $GOPATH/src
-cd $GOPATH/src
-git clone https://github.com/dirtman/ibapi
-cd ibapi
-go mod tidy
-make
-./bin/ibapi -h
-make install
-/usr/bin/ibapi -h
+    sudo dnf install golang
+    export GOPATH=$HOME/go
+    mkdir -p $GOPATH/src
+    cd $GOPATH/src
+    git clone https://github.com/dirtman/ibapi
+    cd ibapi
+    go mod tidy
+    make
+    ./bin/ibapi -h
+    make install
+    /usr/bin/ibapi -h
 
 ## Configuration Files
 
