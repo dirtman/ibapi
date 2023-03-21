@@ -21,6 +21,6 @@ $(BINDIR)/ibapi: bin/ibapi
 
 $(CFGDIR)/ibapi.conf: ibapi.conf
 	sudo mkdir -p $(CFGDIR)
-	sudo cp -p ibapi.conf $(CFGDIR)
+	sudo cp -pi ibapi.conf $(CFGDIR)
 
 
