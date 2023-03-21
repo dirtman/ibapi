@@ -17,8 +17,8 @@ import (
 )
 
 // Supported API authentication methods:
-const AuthMethodBasic = "Basic"
-const AuthMethodBearer = "Bearer"
+const AuthMethodBasic = "basic"
+const AuthMethodBearer = "bearer"
 
 // For convenience, hold the basic API parameter:
 type APIConfig struct {
@@ -239,7 +239,7 @@ func InitAPI(args ...string) error {
 	} else if authType, err = GetStringOpt("APIAuthMethod"); err != nil {
 		return Error("failure getting APIAuthMethod option: %v", err)
 	}
-	if authType == "" {
+	if authType = strings.ToLower(authType); authType == "" {
 		return Error("empty APIAuthMethod specified")
 	} else if authType != AuthMethodBearer && authType != AuthMethodBasic {
 		return Error("Unsupported API authentication method \"%s\".", authType)

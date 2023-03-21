@@ -105,10 +105,9 @@ func subCommandInit(objectType, operator string, duo bool) (*UserInput, error) {
 	var input *UserInput
 	var args []string
 	var err error
-	authMethod := AuthMethodBasic
 
 	// Set API-related options:
-	if err = SetAPIOptions(authMethod); err != nil {
+	if err = SetAPIOptions(); err != nil {
 		Warn("Failure setting API options: %v", err)
 		os.Exit(1)
 	}
@@ -119,7 +118,7 @@ func subCommandInit(objectType, operator string, duo bool) (*UserInput, error) {
 	// the API, and process user input..
 	if args, err = ConfigureOptions(); err != nil {
 		return nil, Error("Failure initializing program: %s\n", err)
-	} else if err = InitAPI(authMethod); err != nil {
+	} else if err = InitAPI(); err != nil {
 		return nil, Error("Failure initializing API: %s", err)
 	} else if input, err = getUserInput(objectType, operator, duo, args); err != nil {
 		return nil, Error("failure getting user input: %v", err)

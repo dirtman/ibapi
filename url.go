@@ -22,7 +22,6 @@ func commandURL(invokedAs []string) error {
 	}
 	var args []string
 	var err error
-	authMethod := AuthMethodBasic
 
 	if len(os.Args) < 2 {
 		commandHelp(invokedAs, commands, "need a subcommand", 1)
@@ -41,7 +40,7 @@ func commandURL(invokedAs []string) error {
 	}
 
 	// Set API-related options:
-	if err = SetAPIOptions(authMethod); err != nil {
+	if err = SetAPIOptions(); err != nil {
 		Warn("Failure setting API options: %v", err)
 		os.Exit(1)
 	}
@@ -52,7 +51,7 @@ func commandURL(invokedAs []string) error {
 	// the API, and process user input..
 	if args, err = ConfigureOptions(); err != nil {
 		return Error("Failure initializing program: %s\n", err)
-	} else if err = InitAPI(AuthMethodBasic); err != nil {
+	} else if err = InitAPI(); err != nil {
 		return Error("Failure initializing API: %s", err)
 	} else if len(args) == 0 {
 		return Error("no URL specified")
