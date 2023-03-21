@@ -22,7 +22,7 @@ type RecordAlias struct {
 	UseTtl     bool   `json:"use_ttl"`
 	Ttl        uint32 `json:"ttl"`
 	Zone       string `json:"zone,omitempty"`
-	Disable	bool	`json:"disable"`
+	Disable    bool   `json:"disable"`
 }
 
 type EA map[string]interface{}
@@ -72,7 +72,7 @@ type RecordA struct {
 	Ttl      uint32 `json:"ttl"`
 	Comment  string `json:"comment"`
 	Ea       EA     `json:"extattrs"`
-	Disable	bool	`json:"disable"`
+	Disable  bool   `json:"disable"`
 }
 
 type RecordPTR struct {
@@ -88,7 +88,7 @@ type RecordPTR struct {
 	UseTtl   bool   `json:"use_ttl"`
 	Ttl      uint32 `json:"ttl"`
 	Comment  string `json:"comment"`
-	Disable	bool	`json:"disable"`
+	Disable  bool   `json:"disable"`
 }
 
 type RecordCNAME struct {
@@ -102,7 +102,7 @@ type RecordCNAME struct {
 	Comment   string `json:"comment"`
 	UseTtl    bool   `json:"use_ttl"`
 	Ttl       uint32 `json:"ttl"`
-	Disable	bool	`json:"disable"`
+	Disable   bool   `json:"disable"`
 }
 
 type HostRecordIpv4Addr struct {
@@ -144,7 +144,7 @@ type RecordHost struct {
 	UseTtl      bool                 `json:"use_ttl"`
 	Ttl         uint32               `json:"ttl"`
 	Aliases     []string             `json:"aliases,omitempty"`
-	Disable	bool	`json:"disable"`
+	Disable     bool                 `json:"disable"`
 }
 
 type RecordTXT struct {
@@ -158,5 +158,5 @@ type RecordTXT struct {
 	UseTtl  bool   `json:"use_ttl"`
 	Comment string `json:"comment"`
 	Ea      EA     `json:"extattrs"`
-	Disable	bool	`json:"disable"`
+	Disable bool   `json:"disable"`
 }

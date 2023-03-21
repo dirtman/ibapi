@@ -3,11 +3,14 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
+	"golang.org/x/term"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os/user"
 	"strings"
+	"syscall"
 	"time"
 
 	. "github.com/dirtman/sitepkg"
@@ -28,24 +31,34 @@ type APIConfig struct {
 
 var API APIConfig
 
+// Fetch exit status; distinguish "not found" from other errors.
+type FetchStatus int
+
+const FetchStatusOK FetchStatus = 0
+const FetchStatusError FetchStatus = 1
+const FetchStatusNotFound FetchStatus = 2
+
 /*****************************************************************************\
   API GET, POST, PUT and DELETE Requests
 \*****************************************************************************/
 
-func APIGet(url_request string) (body []byte, err error) {
-	return APIRequest("GET", url_request, nil)
+func APIGet(url_request string, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("GET", url_request, nil, headers...)
 }
-func APIPost(url_request string, data interface{}) (body []byte, err error) {
-	return APIRequest("POST", url_request, data)
+func APIPost(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("POST", url_request, data, headers...)
 }
-func APIPut(url_request string, data interface{}) (body []byte, err error) {
-	return APIRequest("PUT", url_request, data)
+func APIPut(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("PUT", url_request, data, headers...)
 }
-func APIDelete(url_request string, data interface{}) (body []byte, err error) {
-	return APIRequest("DELETE", url_request, data)
+func APIDelete(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("DELETE", url_request, data, headers...)
+}
+func APIPatch(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("PATCH", url_request, data, headers...)
 }
 
-func APIRequest(update_type string, url_request string, data interface{}) ([]byte, error) {
+func APIRequest(update_type string, url_request string, data interface{}, headers ...http.Header) ([]byte, error) {
 
 	var body, data_json []byte
 	var payload io.Reader
@@ -74,7 +87,7 @@ func APIRequest(update_type string, url_request string, data interface{}) ([]byt
 		case string:
 			payload = bytes.NewBuffer([]byte(data.(string)))
 			if Debug {
-				Show("Data: \"%v\".", data)
+				Show("Data (string): \"%v\".", data)
 				Show("Payload: \"%s\".", data.(string))
 			}
 		case interface{}:
@@ -85,24 +98,37 @@ func APIRequest(update_type string, url_request string, data interface{}) ([]byt
 				payload = bytes.NewBuffer(data_json)
 			}
 			if Debug {
-				Show("Data: \"%v\".", data)
+				Show("Data (any): \"%v\".", data)
 				Show("Payload: \"%s\".", data_json)
 			}
 		}
 	}
 
-	// Create a new http.Request
+	// Create a new http.Request.
 	req, err := http.NewRequest(update_type, url, payload)
 	if err != nil {
 		return body, Error("error getting url \"%s\": %v", url, err)
 	}
 
-	// Create a new http.Request
+	// Configure auth for the new request.
 	err = SetHTTPAuth(req)
 	if err != nil {
 		return body, Error("failure setting up API %s authentication: %s", API.AuthMethod, err)
 	}
-	req.Header.Set("Content-Type", "application/json")
+
+	// Set the headers for the request.  If no headers are provided, we'll assume a
+	// JSON Content-Type is desired.
+	if len(headers) == 0 {
+		req.Header.Set("Content-Type", "application/json")
+	} else {
+		for _, httpHeader := range headers {
+			for header, values := range httpHeader {
+				for _, value := range values {
+					req.Header.Set(header, value)
+				}
+			}
+		}
+	}
 
 	// Make the specified request
 	client := &http.Client{Timeout: timeout}
@@ -119,7 +145,9 @@ func APIRequest(update_type string, url_request string, data interface{}) ([]byt
 	if Debug {
 		Show("HTTP Response Status: %d %s", resp.StatusCode, http.StatusText(resp.StatusCode))
 		if body != nil {
-			Show("%s:\n%s", "Response body", body)
+			// Show("%s:\n%s", "Response body", body)
+			Show("Response body:")
+			PrintBody(body)
 		}
 	}
 
@@ -148,22 +176,42 @@ func SetHTTPAuth(req *http.Request) (err error) {
 		Show("AuthMethod: \"%v\".", API.AuthMethod)
 	}
 
-	// Basic Auth requires a user and a password (curl -u option)
+	// Basic Auth requires a username and a password (curl -u option).  At this
+	// point, API.AuthToken should contain the username and password, separated
+	// by a ":".
 	if API.AuthMethod == AuthMethodBasic {
-		req.SetBasicAuth(API.AuthUser, API.AuthPassword)
+		if API.AuthToken == "" {
+			return Error("basic auth requires a username and password")
+		}
+		auth_slice := strings.Split(API.AuthToken, ":")
+		username := auth_slice[0]
+		password := auth_slice[1]
+
+		if username == "" {
+			return Error("failure getting user from APIAuthToken \"%s\"", API.AuthToken)
+		} else if password == "" {
+			return Error("failure getting password from APIAuthToken \"%s\"", API.AuthToken)
+		}
+		req.SetBasicAuth(username, password)
 		if Debug {
-			Show("APIAuthUser: \"%v\".", API.AuthUser)
+			Show("APIAuthUser: \"%v\".", username)
 		}
 		if Debug {
-			//	Show("APIAuthPassword: \"%v\".", API.AuthPassword)
+			//	Show("APIAuthPassword: \"%v\".", password)
 			Show("APIAuthPassword: \"%v\".", "**************")
 		}
 
-		// Bearer auth requires a "Bearer: AuthToken" header.
+		// Bearer auth requires a "Bearer: AuthToken" header.  At this point,
+		// API.AuthToken should contain the bearer token.
 	} else if API.AuthMethod == AuthMethodBearer {
 		req.Header.Set("Authorization", "Bearer "+API.AuthToken)
 		if Debug {
-			Show("Setting Auth Header: \"%s\".", "Bearer "+API.AuthToken)
+			// Don't show the whole token, but showing a bit may be helpful.
+			show := len(API.AuthToken)
+			if show > 20 {
+				show = 20
+			}
+			Show("Setting Auth Header: \"%s\".", "Bearer "+API.AuthToken[0:show]+"...")
 		}
 
 		// Unsupported AuthMethod
@@ -177,83 +225,203 @@ func SetHTTPAuth(req *http.Request) (err error) {
   Setup the basic API paramters.
 \*****************************************************************************/
 
-func InitAPI() error {
+func InitAPI(args ...string) error {
 
-	var url, token, id, password, auth_type string
+	var url, authType, token, tokenID string
 	var err error
 
-	// Get up the base URL.
+	// The caller can set an authType directly; otherwise, the caller must set
+	// the "APIAuthMethod" option, and we will look up the authType ourselves.
+	if len(args) > 1 {
+		return Error("InitAPI: bad call (too many args)")
+	} else if len(args) == 1 {
+		authType = args[0]
+	} else if authType, err = GetStringOpt("APIAuthMethod"); err != nil {
+		return Error("failure getting APIAuthMethod option: %v", err)
+	}
+	if authType == "" {
+		return Error("empty APIAuthMethod specified")
+	} else if authType != AuthMethodBearer && authType != AuthMethodBasic {
+		return Error("Unsupported API authentication method \"%s\".", authType)
+	}
+
 	if url, err = GetStringOpt("APIBaseURL"); err != nil {
 		return Error("failure getting APIBaseURL: %v", err)
 	} else if url == "" {
 		return Error("APIBaseURL in not configured")
+	} else if token, err = GetStringOpt("APIAuthToken"); err != nil {
+		return Error("failure getting APIAuthToken option: %v", err)
+	} else if tokenID, err = GetStringOpt("APIAuthTokenID"); err != nil {
+		return Error("failure getting APIAuthTokenID option: %v", err)
 	}
 	API.BaseURL = url
+	API.AuthMethod = authType
 
-	// Get the API authentication method.
-	if auth_type, err = GetStringOpt("APIAuthMethod"); err != nil {
-		return Error("failure getting APIAuthMethod: %v", err)
-	} else if auth_type == "" {
-		return Error("APIAuthMethod in not configured")
-	} else if auth_type != AuthMethodBearer && auth_type != AuthMethodBasic {
-		return Error("Unsupported API authentication method \"%s\".", auth_type)
+	// Specifying a Username/Password takes precedence over both APIAuthToken
+	// and APIAuthTokenID.  Note this is only applicable with Basic auth method.
+	if authType == AuthMethodBasic {
+		var username, password string
+		var tokenSpecified = (token != "" || tokenID != "")
+		if username, password, err = GetBasicAuthCreds(tokenSpecified); err != nil {
+			return Error("failure getting username and password: %v", err)
+		} else if username != "" && password != "" {
+			// We have a username and password, so we are done.  Store the
+			// username and password in API.AuthToken, separated by ":".
+			API.AuthToken = strings.Join([]string{username, password}, ":")
+			return nil
+		}
 	}
-	API.AuthMethod = auth_type
 
-	// Check if an APIAuthToken has been specified; if so were are done here.
-	// Note that a token is allowed for both Bearer and Basic authentication. For
-	// for Basic auth, APIAuthToken should have the form "APIAuthUser:APIAuthPassword"
-	if token, err = GetStringOpt("APIAuthToken"); token != "" && err == nil {
+	// Check if an APIAuthToken has been specified; if so we are done here.
+	// Note that a token is allowed for both Bearer and Basic authentication.
+	// For Basic auth, APIAuthToken should have the form "username:password".
+	// Also note that APIAuthToken takes precedence over APIAuthTokenID.
+	if token != "" {
 		API.AuthToken = token
 		return nil
 	}
-	if password, err = GetStringOpt("Password"); err != nil {
-		return Error("failure getting Password: %v", err)
-	}
-	if id, err = GetStringOpt("APIAuthTokenID"); err != nil {
-		return Error("failure getting APIAuthTokenID: %v", err)
-	}
 
-	// For Basic auth mode, if a password is specified, assume APIAuthTokenID,
-	// if specified, is the username.  If not specified, assume the current user.
-	if auth_type == AuthMethodBasic && password != "" {
-		if id == "" {
-			currentUser, err := user.Current()
-			if err != nil {
-				return Error("failure getting current user: %v", err)
-			}
-			id = currentUser.Username
-		}
-		API.AuthUser = id
-		API.AuthPassword = password
-		return nil
-	}
-
-	// We haven't found our credentials yet, so assume APIAuthTokenID is a file
-	// containing our credentials.
-
-	if id == "" {
+	// We haven't found our credentials yet, so try APIAuthTokenID.
+	if tokenID == "" {
 		return Error("ran out of authentication methods to try.")
-	} else if token, err = GetSecret(id); err != nil {
+	} else if token, err = GetSecret(tokenID); err != nil {
 		return Error("failure getting APIAuthToken from secrets file: %v", err)
 	} else if token == "" {
 		return Error("empty APIAuthToken retrieved from secrets file")
 	}
 	API.AuthToken = token
+	return nil
+}
 
-	// For Basic auth, API.AuthToken should have the form "APIAuthUser:APIAuthPassword"
-	if auth_type == AuthMethodBasic {
-		auth_slice := strings.Split(API.AuthToken, ":")
-		API.AuthUser = auth_slice[0]
-		API.AuthPassword = auth_slice[1]
+// GetBasicAuthCreds processes the optional Username, Password and
+// PromptForPassword options.
 
-		if API.AuthUser == "" {
-			return Error("failure getting user from APIAuthToken \"%s\"", API.AuthToken)
-		}
-		if API.AuthPassword == "" {
-			return Error("failure getting password from APIAuthToken \"%s\"", API.AuthToken)
-		}
+func GetBasicAuthCreds(altMethodsAvailable bool) (string, string, error) {
+
+	var username, password string
+	var prompt bool
+	var err error
+
+	if username, err = GetStringOpt("Username"); err != nil {
+		return "", "", Error("failure getting username option: %v", err)
+	} else if password, err = GetStringOpt("Password"); err != nil {
+		return "", "", Error("failure getting Password option: %v", err)
+	} else if prompt, err = GetBoolOpt("PromptForPassword"); err != nil {
+		return "", "", Error("failure getting PromptForPassword option: %v", err)
 	}
 
+	// If a --Username option was not provided, and either: 1) no other
+	// auth methods have been specified, or 2) a password has been specified,
+	// or 3) the PromptForPassword option has been specified, then set
+	// username to the current user.:
+	if username == "" && (!altMethodsAvailable || password != "" || prompt) {
+		if currentUser, err := user.Current(); err != nil {
+			return "", "", Error("failure getting current user: %v", err)
+		} else if username = currentUser.Username; username == "" {
+			return "", "", Error("failure getting current user: got empty string")
+		}
+	}
+	if username != "" && password == "" {
+		if password, err = PromptForPassword(username); err != nil {
+			return "", "", Error("%v", err)
+		}
+	}
+	return username, password, nil
+}
+
+// PromptForPassword prompts the user for the password.
+
+func PromptForPassword(username string) (string, error) {
+
+	var bytepw []byte
+	var err error
+
+	fmt.Printf("Password for %s: ", username)
+	if bytepw, err = term.ReadPassword(int(syscall.Stdin)); err != nil {
+		return "", Error("failure prompting for password: %v", err)
+	}
+	fmt.Printf("\n")
+	if len(bytepw) == 0 {
+		return "", Error("failure prompting for password: zero length password not supported")
+	}
+	return string(bytepw), nil
+}
+
+// SetAPIOptions sets the required API related options, and if used, it must be
+// called before ConfigureOptions (else setting these options will have no
+// effect).  The caller can optionally set the required options himself instead of
+// calling SetAPIOptions.  Note if the caller does not provide an authMethod, the
+// "APIAuthMethod" option will be set, allowing the user to choose the authMethod.
+
+func SetAPIOptions(args ...string) error {
+
+	var authType string
+	authTypes := strings.Join([]string{AuthMethodBasic, AuthMethodBearer}, ", ")
+	authMethodHelp := fmt.Sprintf("API authentication type (%s)", authTypes)
+	authTokenHelp := "API bearer access token"
+	authIDHelp := "Name of a file that contains the API access token"
+
+	// The caller can set an authType directly; otherwise, we will set
+	// the "APIAuthMethod" option and allow the user to choose..
+	if len(args) > 1 {
+		return Error("SetAPIOptions: bad call (too many args)")
+	} else if len(args) == 1 {
+		authType = args[0]
+	} else {
+		SetStringOpt("APIAuthMethod", "", true, AuthMethodBasic, authMethodHelp)
+	}
+	if authType == "" || authType == AuthMethodBasic {
+		authTokenHelp = "API access token (username:password)"
+		SetStringOpt("Username", "u", true, "", "Username for API access")
+		SetStringOpt("Password", "p", true, "", "Password for API access")
+		SetBoolOpt("PromptForPassword", "P", false, false, "Prompt for password for API access")
+	}
+
+	// Set common API options:
+	SetStringOpt("APIBaseURL", "", true, "", "API base URL")
+	SetStringOpt("APIAuthToken", "", true, "", authTokenHelp)
+	SetStringOpt("APIAuthTokenID", "", true, "", authIDHelp)
+	SetStringOpt("SecretsDir", "", true, "", "Location of \"APIAuthTokenID\"")
+	SetIntOpt("HTTPTimeout", "", true, 60, "Timeout in seconds of the HTTP connection")
+
+	return nil
+}
+
+// PrintBody attempts to "pretty print" the returned body of an API request.
+// It is generally used for debugging purposes.
+// The old Mulesoft-based API returned a body as indented JSON,
+// but the new java-based API returns normal (non-indented) JSON.
+// The mailhome API endpoint returns a string.
+
+func PrintBody(body []byte, indentOpts ...string) error {
+
+	prefix := ""
+	indent := "  "
+
+	if len(body) == 0 {
+		return Error("body has no bytes")
+	} else if len(indentOpts) > 2 {
+		return Error("bug: bad call to PrintBody()")
+	}
+
+	if len(indentOpts) > 0 {
+		prefix = indentOpts[0]
+	}
+	if len(indentOpts) > 1 {
+		indent = indentOpts[1]
+	}
+
+	// If the body starts with a '[' or '{', assume it's a JSON sequence.
+	if body[0] == 91 || body[0] == 123 {
+		var prettyJSON bytes.Buffer
+		err := json.Indent(&prettyJSON, body, prefix, indent)
+		if err != nil {
+			Warn("Failure indenting body for printing: %v", err)
+			Print("%s\n", body)
+		}
+		Print("%s\n", prettyJSON.Bytes())
+		return err
+	}
+	Print("%s\n", body)
 	return nil
 }

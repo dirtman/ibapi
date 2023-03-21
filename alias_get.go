@@ -77,10 +77,10 @@ func getAlias(invokedAs []string) error {
 					data += fmt.Sprintf("%s%s view", sep, record.View)
 					end = ")"
 				}
-                if record.Disable {
-                    data += fmt.Sprintf("%s%s", sep, "DISABLED")
-                    end = ")"
-                }
+				if record.Disable {
+					data += fmt.Sprintf("%s%s", sep, "DISABLED")
+					end = ")"
+				}
 				data += fmt.Sprintf("%s", end)
 				Print("%-*s %s %s\n", space, "Alias("+request+"): ", record.Name, data)
 			}

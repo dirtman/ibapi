@@ -40,42 +40,60 @@ option to verify the real value.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
-## OPTIONS - IBAPI Infoblox API Options
+## OPTIONS - API Options
 
 - --APIBaseURL=&lt;url>:
 
     API base URL.
     Default: "https://infoblox.rice.edu/wapi/v2.11"
 
+- --HTTPTimeout=&lt;seconds>:
+
+    Timeout in seconds for the HTTP connection.
+    Default: 10.
+
 - --APIAuthMethod=&lt;method>:
 
     WAPI authentication method for accessing the Infoblox API.  Currently,
     only "Basic" authentication (username and password) is supported.
 
-- -u=&lt;tokenID>, --APIAuthTokenID=&lt;tokenID>:
+- -u &lt;username>, --username=&lt;username>:
 
-    Name of an authentication token ID.  Unless the --password option is also
-    specified, the token ID is taken as the name of a file stored in the "secrets"
-    directory and containing a "username:password" entry to be used for Basic
-    authentication.
-    If the --password option is also specified, the tokenID is taken as the 
-    username for basic authentication.
-    See also --SecretsDir.
+    Specify the username used for basic auth.
+
+- -p &lt;password>, --password=&lt;password>:
+
+    Specify the password used for basic auth.  If this option is specified
+    and is non-empty, either the --username option can be used to specify
+    the corresponding username, or the current user will be assumed for username.
+
+- -P, --PromptForPassword:
+
+    Prompt the user for the password used for basic authentication.  This is done
+    automatically unless one of these options is specified: --password,
+    \--APIAuthToken, --APIAuthTokenID.
+
+- --APIAuthToken=&lt;token>:
+
+    As an alternative to specifing a username and password separately, an "authentication token" 
+    containing both the username and password, separated by a ':', can be specified.
+
+- --APIAuthTokenID=&lt;tokenID>:
+
+    As an alternative to specifying a username/password or an APIAuthToken
+    directly, the name of an authentication token ID which maps to an
+    authentication token can be specified.  See also --SecretsDir.
+    Default: "owlapi\_basic".
 
 - --SecretsDir=&lt;pathname>:
 
-    Specify a directory where optional "token files" are kept.
-    These files can be used as a slightly safer alternative to
-    storing authentication credentials in the standard configuration files.
-    The name of a secret file corresponds to a "tokenID" configured via --APIAuthTokenID,
-    and the file should contain a single "username:password" entry.
-    If the specified pathname does not begin with a "/", the directory is searched
-    for in the same directories as the configuration file.
-    Obviously, these files should be safely guarded.
-
-- --HTTPTimeout=&lt;seconds>:
-
-    Timeout in seconds for the HTTPS WAPI connection.  Default: 10.
+    Specify a directory where optional "secret files" are kept.  These files can be
+    used as a slightly safer alternative to storing authentication credentials in
+    the standard configuration files.  The name of a secret file corresponds to a
+    "tokenID" configured via --APIAuthTokenID, and the file contains an
+    authentication token.  Obviously, these files should be safely guarded or
+    avoided altogether.
+    Default: "/etc/opt/ibapi/private".
 
 ## OPTIONS - Common To All IBAPI Commands
 

@@ -65,18 +65,18 @@ func getA(invokedAs []string) error {
 				Print("%-*s %s\n", space, "A("+request+"): ", record.Ref)
 			} else {
 				data := record.Ipv4Addr
-                sep := " ("
-                end := ""
+				sep := " ("
+				end := ""
 				if input.view == "any" {
 					data += fmt.Sprintf("%s%s view", sep, record.View)
-                    sep = ", "
-                    end = ")"
+					sep = ", "
+					end = ")"
 				}
 				if record.Disable {
 					data += fmt.Sprintf("%s%s", sep, "DISABLED")
-                    end = ")"
+					end = ")"
 				}
-                data += fmt.Sprintf("%s", end)
+				data += fmt.Sprintf("%s", end)
 				Print("%-*s %s %s\n", space, "A("+request+"): ", record.Name, data)
 			}
 		}

@@ -78,18 +78,18 @@ func getHost(invokedAs []string) error {
 					return Error("Failure getting IPs from Host record for %s", request)
 				}
 				data := strings.Join(ips, ", ")
-                sep := " ("
-                end := ""
-                if input.view == "any" {
-                    data += fmt.Sprintf("%s%s view", sep, record.View)
-                    sep = ", "
-                    end = ")"
-                }
-                if record.Disable {
-                    data += fmt.Sprintf("%s%s", sep, "DISABLED")
-                    end = ")"
-                }
-                data += fmt.Sprintf("%s", end)
+				sep := " ("
+				end := ""
+				if input.view == "any" {
+					data += fmt.Sprintf("%s%s view", sep, record.View)
+					sep = ", "
+					end = ")"
+				}
+				if record.Disable {
+					data += fmt.Sprintf("%s%s", sep, "DISABLED")
+					end = ")"
+				}
+				data += fmt.Sprintf("%s", end)
 				Print("%-*s %s %s\n", space, "Host("+request+"): ", record.Name, data)
 			}
 		}

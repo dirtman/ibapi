@@ -22,6 +22,7 @@ func commandURL(invokedAs []string) error {
 	}
 	var args []string
 	var err error
+	authMethod := AuthMethodBasic
 
 	if len(os.Args) < 2 {
 		commandHelp(invokedAs, commands, "need a subcommand", 1)
@@ -39,9 +40,19 @@ func commandURL(invokedAs []string) error {
 		commandHelp(invokedAs, commands, fmt.Sprintf("unrecognized command \"%s\"", command), 1)
 	}
 
+	// Set API-related options:
+	if err = SetAPIOptions(authMethod); err != nil {
+		Warn("Failure setting API options: %v", err)
+		os.Exit(1)
+	}
+	// Set any other options:
+	SetBoolOpt("Debug", "", false, false, "Debug mode.")
+
+	// Now that all our options have been specified, configure them, initialize
+	// the API, and process user input..
 	if args, err = ConfigureOptions(); err != nil {
 		return Error("Failure initializing program: %s\n", err)
-	} else if err = InitAPI(); err != nil {
+	} else if err = InitAPI(AuthMethodBasic); err != nil {
 		return Error("Failure initializing API: %s", err)
 	} else if len(args) == 0 {
 		return Error("no URL specified")

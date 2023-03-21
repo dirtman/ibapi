@@ -31,30 +31,17 @@ func main() {
 		"url":   commandURL,
 	}
 
+	// Initialize as a SitePkg.
 	err := PackageInit("ibapi", "0.0")
 	if err != nil {
 		Warn("Failure initializing program: %v", err)
 		os.Exit(1)
 	}
 
+	// Create the in-memory documentation.
 	if err = makePodMap(); err != nil {
 		Warn("Failure making PodMap; may be OK")
 	}
-
-	// Set options common to all commands.
-	auth_types := strings.Join([]string{AuthMethodBasic, AuthMethodBearer}, ", ")
-	auth_help := fmt.Sprintf("API authentication type (%s)", auth_types)
-	//	SetStringOpt("APIServer", "", true, "infoblox.rice.edu", "API base URL")
-	//	SetStringOpt("APIVersion", "", true, "2.11", "API Version")
-	//	SetStringOpt("APIPort", "", true, "443", "API Port")
-	SetStringOpt("APIBaseURL", "", true, "", "API base URL")
-	SetStringOpt("APIAuthMethod", "", true, AuthMethodBasic, auth_help)
-	//	SetStringOpt("APIAuthToken", "", true, "", "API auth token")
-	SetStringOpt("APIAuthTokenID", "u", true, "", "username or auth token ID")
-	SetStringOpt("Password", "p", true, "", "password for Basic authentication")
-	SetStringOpt("SecretsDir", "", true, "", "Location of \"secrets files\"")
-	SetIntOpt("HTTPTimeout", "", true, 60, "Timeout in seconds of the HTTP connection")
-	SetBoolOpt("Debug", "", false, false, "Debug mode.")
 
 	// Verify that at least one command has been specified:
 	invokedAs := []string{ProgramName}
@@ -100,7 +87,6 @@ func commandHelp(invokedAs []string, commands Commands, message string, exitCode
 			}
 		}
 	}
-
 	if message != "" {
 		Warn(message)
 	}
@@ -119,10 +105,21 @@ func subCommandInit(objectType, operator string, duo bool) (*UserInput, error) {
 	var input *UserInput
 	var args []string
 	var err error
+	authMethod := AuthMethodBasic
 
+	// Set API-related options:
+	if err = SetAPIOptions(authMethod); err != nil {
+		Warn("Failure setting API options: %v", err)
+		os.Exit(1)
+	}
+	// Set options common to all commands.
+	SetBoolOpt("Debug", "", false, false, "Debug mode.")
+
+	// Now that all our options have been specified, configure them, initialize
+	// the API, and process user input..
 	if args, err = ConfigureOptions(); err != nil {
 		return nil, Error("Failure initializing program: %s\n", err)
-	} else if err = InitAPI(); err != nil {
+	} else if err = InitAPI(authMethod); err != nil {
 		return nil, Error("Failure initializing API: %s", err)
 	} else if input, err = getUserInput(objectType, operator, duo, args); err != nil {
 		return nil, Error("failure getting user input: %v", err)
