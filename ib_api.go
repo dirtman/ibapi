@@ -17,7 +17,7 @@ type ibError struct {
 	Text  string `json:"text,omitempty"`
 }
 
-// IBAPIError impliments the Error interface.  It includes additional fields
+// IBAPIError implements the Error interface.  It includes additional fields
 // to ibError, and the "Error" field has been renamed to accommodate an
 // "Error" method.
 
@@ -49,17 +49,17 @@ func (err *IBAPIError) Error() string {
 // Infoblox-specific wrapper for API calls.  Since Infoblox always returns a well
 // defined error result in the body, we can provide the caller with more detail.
 
-func IBAPIGet(url_request string) (body []byte, err *IBAPIError) {
-	return IBAPIRequest("GET", url_request, nil)
+func IBAPIGet(url string) (body []byte, err *IBAPIError) {
+	return IBAPIRequest("GET", url, nil)
 }
-func IBAPIPost(url_request string, data interface{}) (body []byte, err *IBAPIError) {
-	return IBAPIRequest("POST", url_request, data)
+func IBAPIPost(url string, data interface{}) (body []byte, err *IBAPIError) {
+	return IBAPIRequest("POST", url, data)
 }
-func IBAPIPut(url_request string, data interface{}) (body []byte, err *IBAPIError) {
-	return IBAPIRequest("PUT", url_request, data)
+func IBAPIPut(url string, data interface{}) (body []byte, err *IBAPIError) {
+	return IBAPIRequest("PUT", url, data)
 }
-func IBAPIDelete(url_request string, data interface{}) (body []byte, err *IBAPIError) {
-	return IBAPIRequest("DELETE", url_request, data)
+func IBAPIDelete(url string, data interface{}) (body []byte, err *IBAPIError) {
+	return IBAPIRequest("DELETE", url, data)
 }
 
 func IBAPIRequest(method string, url string, data interface{}) ([]byte, *IBAPIError) {

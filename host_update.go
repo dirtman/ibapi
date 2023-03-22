@@ -269,7 +269,7 @@ func updateHostFields(input *UserInput, states StatesHost, space int) error {
 
 func updateHostIP(record *RecordHost, currentIP, ip string) error {
 
-	var ip_update_type string
+	var ipUpdateType string
 	var hostRef = record.Ref
 	var recordIpv4Addr HostRecordIpv4Addr
 	var newHRIP HostRecordIpv4Addr
@@ -280,7 +280,7 @@ func updateHostIP(record *RecordHost, currentIP, ip string) error {
 
 	if strings.HasPrefix(ip, "-") { // Delete the IP
 		var found bool
-		ip_update_type = "deletion"
+		ipUpdateType = "deletion"
 		ip = strings.TrimPrefix(ip, "-")
 		for _, recordIpv4Addr = range record.Ipv4Addrs {
 			if recordIpv4Addr.Ipv4Addr == ip {
@@ -294,7 +294,7 @@ func updateHostIP(record *RecordHost, currentIP, ip string) error {
 		}
 	} else if strings.HasPrefix(ip, "+") { // Add the IP
 		ip = strings.TrimPrefix(ip, "+")
-		ip_update_type = "addition"
+		ipUpdateType = "addition"
 		for _, recordIpv4Addr = range record.Ipv4Addrs {
 			if recordIpv4Addr.Ipv4Addr == ip {
 				return Error("Host already has IP %s", ip)
@@ -307,7 +307,7 @@ func updateHostIP(record *RecordHost, currentIP, ip string) error {
 		return updateHostIPFields(record, currentIP, ipFields)
 	}
 
-	_ = ip_update_type // We may want this later...
+	_ = ipUpdateType // We may want this later...
 	url := "/" + hostRef
 	body, ibapiErr := IBAPIPut(url, newHR)
 	if ibapiErr != nil {

@@ -25,8 +25,6 @@ type APIConfig struct {
 	BaseURL      string
 	AuthMethod   string
 	AuthToken    string
-	AuthUser     string
-	AuthPassword string
 }
 
 var API APIConfig
@@ -42,25 +40,25 @@ const FetchStatusNotFound FetchStatus = 2
   API GET, POST, PUT and DELETE Requests
 \*****************************************************************************/
 
-func APIGet(url_request string, headers ...http.Header) (body []byte, err error) {
-	return APIRequest("GET", url_request, nil, headers...)
+func APIGet(url string, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("GET", url, nil, headers...)
 }
-func APIPost(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
-	return APIRequest("POST", url_request, data, headers...)
+func APIPost(url string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("POST", url, data, headers...)
 }
-func APIPut(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
-	return APIRequest("PUT", url_request, data, headers...)
+func APIPut(url string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("PUT", url, data, headers...)
 }
-func APIDelete(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
-	return APIRequest("DELETE", url_request, data, headers...)
+func APIDelete(url string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("DELETE", url, data, headers...)
 }
-func APIPatch(url_request string, data interface{}, headers ...http.Header) (body []byte, err error) {
-	return APIRequest("PATCH", url_request, data, headers...)
+func APIPatch(url string, data interface{}, headers ...http.Header) (body []byte, err error) {
+	return APIRequest("PATCH", url, data, headers...)
 }
 
-func APIRequest(update_type string, url_request string, data interface{}, headers ...http.Header) ([]byte, error) {
+func APIRequest(method string, url string, data interface{}, headers ...http.Header) ([]byte, error) {
 
-	var body, data_json []byte
+	var body, dataJson []byte
 	var payload io.Reader
 	var err error
 
@@ -74,10 +72,10 @@ func APIRequest(update_type string, url_request string, data interface{}, header
 		}
 	}
 	timeout := time.Duration(time.Duration(seconds) * time.Second)
-	url := API.BaseURL + url_request
+	urlPath := API.BaseURL + url
 	if Debug {
-		Show("Method: \"%s\".", update_type)
-		Show("URL: \"%s\".", url)
+		Show("Method: \"%s\".", method)
+		Show("URL: \"%s\".", urlPath)
 	}
 
 	if data != nil {
@@ -92,22 +90,22 @@ func APIRequest(update_type string, url_request string, data interface{}, header
 			}
 		case interface{}:
 			if data != nil {
-				if data_json, err = json.Marshal(data); err != nil {
+				if dataJson, err = json.Marshal(data); err != nil {
 					return body, err
 				}
-				payload = bytes.NewBuffer(data_json)
+				payload = bytes.NewBuffer(dataJson)
 			}
 			if Debug {
 				Show("Data (any): \"%v\".", data)
-				Show("Payload: \"%s\".", data_json)
+				Show("Payload: \"%s\".", dataJson)
 			}
 		}
 	}
 
 	// Create a new http.Request.
-	req, err := http.NewRequest(update_type, url, payload)
+	req, err := http.NewRequest(method, url, payload)
 	if err != nil {
-		return body, Error("error getting url \"%s\": %v", url, err)
+		return body, Error("error getting url \"%s\": %v", urlPath, err)
 	}
 
 	// Configure auth for the new request.
@@ -183,9 +181,9 @@ func SetHTTPAuth(req *http.Request) (err error) {
 		if API.AuthToken == "" {
 			return Error("basic auth requires a username and password")
 		}
-		auth_slice := strings.Split(API.AuthToken, ":")
-		username := auth_slice[0]
-		password := auth_slice[1]
+		authSlice := strings.Split(API.AuthToken, ":")
+		username := authSlice[0]
+		password := authSlice[1]
 
 		if username == "" {
 			return Error("failure getting user from APIAuthToken \"%s\"", API.AuthToken)
@@ -194,11 +192,8 @@ func SetHTTPAuth(req *http.Request) (err error) {
 		}
 		req.SetBasicAuth(username, password)
 		if Debug {
-			Show("APIAuthUser: \"%v\".", username)
-		}
-		if Debug {
-			//	Show("APIAuthPassword: \"%v\".", password)
-			Show("APIAuthPassword: \"%v\".", "**************")
+			Show("Username: \"%v\".", username)
+			Show("Password: \"%v\".", "**************")
 		}
 
 		// Bearer auth requires a "Bearer: AuthToken" header.  At this point,
