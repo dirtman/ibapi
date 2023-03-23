@@ -17,7 +17,9 @@ type Commands map[string]func([]string) error
 
 func main() {
 
-	// Let's point DefaultShow and DefaultDebug to Stderr.
+	// Let's point DefaultShow and DefaultDebug to Stderr so that
+	// Stdout is consistent and not dependent on --verbose, --debug
+	// etc (extra details will go to Stderr).
 	DefaultShow = os.Stderr
 	DefaultDebug = os.Stderr
 

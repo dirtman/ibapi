@@ -103,7 +103,7 @@ func APIRequest(method string, url string, data interface{}, headers ...http.Hea
 	}
 
 	// Create a new http.Request.
-	req, err := http.NewRequest(method, url, payload)
+	req, err := http.NewRequest(method, urlPath, payload)
 	if err != nil {
 		return body, Error("error getting url \"%s\": %v", urlPath, err)
 	}
@@ -145,7 +145,7 @@ func APIRequest(method string, url string, data interface{}, headers ...http.Hea
 		if body != nil {
 			// Show("%s:\n%s", "Response body", body)
 			Show("Response body:")
-			PrintBody(body)
+			ShowBody(body)
 		}
 	}
 
@@ -382,13 +382,13 @@ func SetAPIOptions(args ...string) error {
 	return nil
 }
 
-// PrintBody attempts to "pretty print" the returned body of an API request.
+// ShowBody attempts to "pretty print" the returned body of an API request.
 // It is generally used for debugging purposes.
 // The old Mulesoft-based API returned a body as indented JSON,
 // but the new java-based API returns normal (non-indented) JSON.
 // The mailhome API endpoint returns a string.
 
-func PrintBody(body []byte, indentOpts ...string) error {
+func ShowBody(body []byte, indentOpts ...string) error {
 
 	prefix := ""
 	indent := "  "
@@ -396,7 +396,7 @@ func PrintBody(body []byte, indentOpts ...string) error {
 	if len(body) == 0 {
 		return Error("body has no bytes")
 	} else if len(indentOpts) > 2 {
-		return Error("bug: bad call to PrintBody()")
+		return Error("bug: bad call to ShowBody()")
 	}
 
 	if len(indentOpts) > 0 {
@@ -414,7 +414,7 @@ func PrintBody(body []byte, indentOpts ...string) error {
 			Warn("Failure indenting body for printing: %v", err)
 			Print("%s\n", body)
 		}
-		Print("%s\n", prettyJSON.Bytes())
+		Fprint(DefaultShow, "%s\n", prettyJSON.Bytes())
 		return err
 	}
 	Print("%s\n", body)

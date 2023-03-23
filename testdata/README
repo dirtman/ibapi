@@ -10,8 +10,9 @@ access to the Infoblox WAPI and permissions to configure records in
 To test individual scripts:
 
   go test -run Test/address
+  go test -run Test/alias
+  go test -run Test/cname
+  go test -run Test/disabled
+  go test -run Test/mixed
   go test -run Test/host
   go test -run Test/ptr
-  go test -run Test/cname
-  go test -run Test/alias
-  go test -run Test/mix

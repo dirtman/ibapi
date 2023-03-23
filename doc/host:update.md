@@ -20,14 +20,13 @@ the hostname is required.
 Some options can be specified with either a short (i.e., -h) or long
 (i.e., --help) form.  In the latter case, case is non-sensitive.
 
+Boolean options (flags) do not require a value.  "-v" is equivalent to "-v=true".
+To disable, set to "false" ("-v=false" or "--verbose=false")..
+
 Most options have a corresponding configuration file setting
 that is equal to the long option name without the "--" prefix.
 Command line options always override configuration file settings.
-See ibapi.conf(5) for more information.
-
-Note: while the "default" value for an option is sometimes specified in the option's
-description, do not rely on this value.  It is always best to use the --ShowConfig
-option to verify the real value.
+Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
@@ -37,7 +36,9 @@ option to verify the real value.
 
 - -D &lt;true|false>, --Disable=&lt;true|false>:
 
-    Update the record's "disable" setting to the specified value.
+    Update the record's disabled status to the specified value.
+    Note this is not a boolean flag - the value "true" or "false"
+    must be specified.
 
 - -n &lt;new\_hostname>, --Name=&lt;new\_hostname>:
 
@@ -88,6 +89,8 @@ option to verify the real value.
 - -d &lt;true|false>, --enableDHCP=&lt;true|false>:
 
     Update the specified IP address's configure\_for\_dhcp" setting to the specified value.
+    Note this is not a boolean flag - the value "true" or "false"
+    must be specified.
 
 - -m &lt;newMAC>, --MAC=&lt;newMAC>:
 
@@ -177,28 +180,29 @@ option to verify the real value.
 
     Read in and show all configuration settings and exit.
 
-- -q, --Quiet (--noQuiet):
+- -q, --Quiet:
 
     Be quieter than normal.
 
-- --Quieter (--noQuieter):
+- --Quieter:
 
     Quieter mode.  Suppress all messages except warning and error messages.
 
-- -v, --Verbose (--noVerbose):
+- -v, --Verbose:
 
     Be louder than normal. Over-rides the "--Quiet"  and "-Quieter" options.
+    Note such extra details are printed to Stderr so that the normal output
+    remains the same regardless of verbosity.
 
-- --nopage:
+- --page:
 
-    By default, usage information (see --help) is piped to the pager specified
-    by the environment variable "PAGER", if this environment variable is set,
-    or by the pager specified by --Pager.
-    The --nopage option disables this paging.
+    Page help/usage information via the command specified by the --Pager option or
+    the environment variable "PAGER".  If neither of these is set, this option 
+    is ignored.  Default: true.
 
 - --Pager=&lt;pager>:
 
-    Specify a pager command for paging the usage information (with --help).  By default,
+    Specify a pager command for paging the usage information (shown with --help).  By default,
     the environment variable PAGER is used.  If a full path is not specified, the command
     is searched for using the PATH environment variable.
 

@@ -71,14 +71,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -165,25 +165,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -236,14 +236,14 @@ DESCRIPTION
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -f <filename>, --filename=<filename>:
@@ -306,25 +306,25 @@ DESCRIPTION
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -378,14 +378,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -462,25 +462,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -580,14 +580,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -671,25 +671,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -738,14 +738,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -f <filename>, --filename=<filename>:
@@ -807,25 +807,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -882,14 +882,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -970,25 +970,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -1040,21 +1040,23 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
         Specify the view of the record to update. Default: "default".
 
     -D <true|false>, --Disable=<true|false>:
-        Update the record's disabled status to the specified value.
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
 
     -n <new_hostname>, --Name=<new_hostname>:
         Update the name of the specified record to "new_hostname".
@@ -1140,25 +1142,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -1204,21 +1206,23 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
         Specify the view of the record to update. Default: "default".
 
     -D <true|false>, --Disable=<true|false>:
-        Update the record's disabled status to the specified value.
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
 
     -n <new_hostname>, --Name=<new_hostname>:
         Update the name of the specified record to "new_hostname".
@@ -1302,25 +1306,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -1417,14 +1421,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -1504,25 +1508,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -1571,14 +1575,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -f <filename>, --filename=<filename>:
@@ -1640,25 +1644,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -1715,14 +1719,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -1799,25 +1803,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -1869,21 +1873,23 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
         Specify the view of the record to update. Default: "default".
 
     -D <true|false>, --Disable=<true|false>:
-        Update the record's disabled status to the specified value.
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
 
     -n <new_hostname>, --Name=<new_hostname>:
         Update the name of the specified record to "new_hostname".
@@ -1959,25 +1965,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -2074,14 +2080,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -2192,25 +2198,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -2274,14 +2280,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -f <filename>, --filename=<filename>:
@@ -2344,25 +2350,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -2419,14 +2425,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -2507,25 +2513,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -2580,21 +2586,23 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
         Specify the view of the record to update. Default: "default".
 
     -D <true|false>, --Disable=<true|false>:
-        Update the record's "disable" setting to the specified value.
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
 
     -n <new_hostname>, --Name=<new_hostname>:
         Update the name of the specified record to "new_hostname".
@@ -2637,7 +2645,8 @@ OPTIONS
   OPTIONS - IPv4 related Options
     -d <true|false>, --enableDHCP=<true|false>:
         Update the specified IP address's configure_for_dhcp" setting to the
-        specified value.
+        specified value. Note this is not a boolean flag - the value "true"
+        or "false" must be specified.
 
     -m <newMAC>, --MAC=<newMAC>:
         Update the MAC address of the specified IP address to "newMAC" Note
@@ -2711,25 +2720,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -3061,14 +3070,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -3154,25 +3163,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -3226,14 +3235,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -f <filename>, --filename=<filename>:
@@ -3296,25 +3305,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -3368,14 +3377,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
@@ -3453,25 +3462,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -3521,21 +3530,23 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - General
     -V <view>, --View=<view>:
         Specify the view for the new record. Default: "default".
 
-    -D, --Disable:
-        Disable the new record. Default: false.
+    -D <true|false>, --Disable=<true|false>:
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
 
     -c <comment>, --Comment=<comment>:
         Specify the comment for the new record. Alternatively, you can
@@ -3621,25 +3632,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -3735,14 +3746,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - API Options
     --APIBaseURL=<url>:
@@ -3797,25 +3808,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -3868,14 +3879,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - API Options
     --APIBaseURL=<url>:
@@ -3930,25 +3941,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -4001,14 +4012,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - API Options
     --APIBaseURL=<url>:
@@ -4063,25 +4074,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
@@ -4152,14 +4163,14 @@ OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or
+    "--verbose=false")..
+
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
-    options always override configuration file settings. See ibapi.conf(5)
-    for more information.
-
-    Note: while the "default" value for an option is sometimes specified in
-    the option's description, do not rely on this value. It is always best
-    to use the --ShowConfig option to verify the real value.
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
 
   OPTIONS - API Options
     --APIBaseURL=<url>:
@@ -4214,25 +4225,25 @@ OPTIONS
     --showConfig:
         Read in and show all configuration settings and exit.
 
-    -q, --Quiet (--noQuiet):
+    -q, --Quiet:
         Be quieter than normal.
 
-    --Quieter (--noQuieter):
+    --Quieter:
         Quieter mode. Suppress all messages except warning and error
         messages.
 
-    -v, --Verbose (--noVerbose):
+    -v, --Verbose:
         Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
-        options.
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
 
-    --nopage:
-        By default, usage information (see --help) is piped to the pager
-        specified by the environment variable "PAGER", if this environment
-        variable is set, or by the pager specified by --Pager. The --nopage
-        option disables this paging.
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
 
     --Pager=<pager>:
-        Specify a pager command for paging the usage information (with
+        Specify a pager command for paging the usage information (shown with
         --help). By default, the environment variable PAGER is used. If a
         full path is not specified, the command is searched for using the
         PATH environment variable.
