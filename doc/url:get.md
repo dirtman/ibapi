@@ -16,12 +16,23 @@ Some options can be specified with either a short (i.e., -h) or long
 (i.e., --help) form.  In the latter case, case is non-sensitive.
 
 Boolean options (flags) do not require a value.  "-v" is equivalent to "-v=true".
-To disable, set to "false" ("-v=false" or "--verbose=false")..
+To disable, set to "false" ("-v=false" or "--verbose=false").
 
 Most options have a corresponding configuration file setting
 that is equal to the long option name without the "--" prefix.
 Command line options always override configuration file settings.
 Use the --ShowConfig to view each option and its value.
+
+## OPTIONS - General
+
+- -R &lt;return\_fields>, --rFieldsPlus=&lt;return\_fields>:
+
+    Specify fields to show in addition to those normally shown.
+
+- -r &lt;return\_fields>, --rFields=&lt;return\_fields>:
+
+    Specify the fields to show (in addition to the reference (\_ref) field, which is always
+    shown).
 
 ## OPTIONS - API Options
 

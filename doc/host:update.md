@@ -21,7 +21,7 @@ Some options can be specified with either a short (i.e., -h) or long
 (i.e., --help) form.  In the latter case, case is non-sensitive.
 
 Boolean options (flags) do not require a value.  "-v" is equivalent to "-v=true".
-To disable, set to "false" ("-v=false" or "--verbose=false")..
+To disable, set to "false" ("-v=false" or "--verbose=false").
 
 Most options have a corresponding configuration file setting
 that is equal to the long option name without the "--" prefix.
