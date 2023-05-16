@@ -72,8 +72,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -237,8 +236,7 @@ DESCRIPTION
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -379,8 +377,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -581,8 +578,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -739,8 +735,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -883,8 +878,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -1041,8 +1035,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -1207,8 +1200,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -1422,8 +1414,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -1576,8 +1567,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -1720,8 +1710,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -1874,8 +1863,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -2081,8 +2069,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -2281,8 +2268,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -2426,8 +2412,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -2587,8 +2572,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -3071,8 +3055,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -3236,8 +3219,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -3378,8 +3360,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -3531,8 +3512,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -3747,8 +3727,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -3880,8 +3859,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
@@ -4013,13 +3991,20 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line
     options always override configuration file settings. Use the
     --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -R <return_fields>, --rFieldsPlus=<return_fields>:
+        Specify fields to show in addition to those normally shown.
+
+    -r <return_fields>, --rFields=<return_fields>:
+        Specify the fields to show (in addition to the reference (_ref)
+        field, which is always shown).
 
   OPTIONS - API Options
     --APIBaseURL=<url>:
@@ -4164,8 +4149,7 @@ OPTIONS
     (i.e., --help) form. In the latter case, case is non-sensitive.
 
     Boolean options (flags) do not require a value. "-v" is equivalent to
-    "-v=true". To disable, set to "false" ("-v=false" or
-    "--verbose=false")..
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
 
     Most options have a corresponding configuration file setting that is
     equal to the long option name without the "--" prefix. Command line

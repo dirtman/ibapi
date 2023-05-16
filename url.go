@@ -44,8 +44,14 @@ func commandURL(invokedAs []string) error {
 		Warn("Failure setting API options: %v", err)
 		os.Exit(1)
 	}
-	// Set any other options:
+	// Set any other common options:
 	SetBoolOpt("Debug", "", false, false, "Debug mode.")
+
+	// Set command specific options:
+	if command == "get" {
+		SetStringOpt("rfieldsplus", "R", true, "", "Specify fields to show in additional to the default")
+		SetStringOpt("rfields", "r", true, "", "Specify the fields to show")
+	}
 
 	// Now that all our options have been specified, configure them, initialize
 	// the API, and process user input..
@@ -75,10 +81,28 @@ func commandURL(invokedAs []string) error {
 
 func getURL(invokedAs []string) error {
 
-	body, err := IBAPIRequest("GET", urlRequest, nil)
-	if err != nil {
+	var rfplus, rf, fields string
+	var err error
+
+	if rfplus, err = GetStringOpt("rfieldsplus"); err != nil {
+		return Error("failure getting rfieldsplus option: %v", err)
+	} else if rf, err = GetStringOpt("rfields"); err != nil {
+		return Error("failure getting rfields option: %v", err)
+	} else if rfplus != "" && rf != "" {
+		return Error("rfieldplus and rfield not allowed together")
+	} else if rfplus != "" {
+		fields = "_return_fields%2b=" + rfplus
+	} else if rf != "" {
+		fields = "_return_fields=" + rf
+	}
+	if fields != "" {
+		urlRequest += "&" + fields
+	}
+
+	body, api_err := IBAPIRequest("GET", urlRequest, nil)
+	if api_err != nil {
 		Print("%s:  %s\n", strings.Join(invokedAs, " "), "Failed")
-		return Error("GET request failed: %s", err)
+		return Error("GET request failed: %s", api_err)
 	}
 	Print("%s:  %s\n%s\n", strings.Join(invokedAs, " "), "Success", body)
 	return nil
