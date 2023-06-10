@@ -47,7 +47,7 @@ func addAlias(invokedAs []string) error {
 	}
 
 	// Check if any errors occurred getting the above records. If so, abort.
-	if errors := checkStateErrors(states, false, true); errors != nil && len(errors) != 0 {
+	if errors := checkStateErrors(states, false, true); len(errors) != 0 {
 		return Error("Aborting process; no records added.")
 	}
 	f = []string{"view=" + input.view} // CNAME and A records do not have a target_type.
@@ -87,7 +87,7 @@ func addAlias(invokedAs []string) error {
 
 		var name, data, conflict string
 		sep := "Conflicts found: "
-		name, data, err = splitND(nameData)
+		name, data, _ = splitND(nameData)
 
 		if len(states[nameData].records) != 0 {
 			if state.records[0].Name == name {

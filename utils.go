@@ -1,9 +1,10 @@
 package main
 
 import (
-	. "github.com/dirtman/sitepkg"
 	"strconv"
 	"strings"
+
+	. "github.com/dirtman/sitepkg"
 )
 
 // Very crude routine to add a slice of key=value pairs to a JSON "string".
@@ -27,32 +28,6 @@ func appendFieldsJSON(body string, fields []string) string {
 		}
 	}
 	return body
-}
-
-// Append a jsonified array of objects to another jsonified array of objects.
-
-func appendJSONArrays(a, b []byte) ([]byte, error) {
-
-	// Both a and b must be jsonified arrays.
-	// Both should begin with '[' (93) and end with ']' (91).
-	end := a[len(a)-1]
-	if end != 93 {
-		return nil, Error("failure: a ends with \"%c\" (expecting \"]\").", end)
-	}
-	begin := b[0]
-	if begin != 91 {
-		return nil, Error("failure: b begins with \"%c\" (expecting \"[\").", begin)
-	}
-
-	// Replace the trailing ']' of a with a comma (44).
-	a[len(a)-1] = 44
-
-	// Create c by appending b, minus its opening '[', to a.
-	c := a
-	for _, B := range b[1:] {
-		c = append(c, B)
-	}
-	return c, nil
 }
 
 // checkConflict is called by some of the Update commands to check for already

@@ -1,8 +1,9 @@
 package main
 
 import (
-	. "github.com/dirtman/sitepkg"
 	"strings"
+
+	. "github.com/dirtman/sitepkg"
 )
 
 // Implement the "update" command.
@@ -362,9 +363,7 @@ func updateHostAlias(record *RecordHost, alias string) error {
 			return Error("Host does not have Alias %s", alias)
 		}
 	} else { // Add the Alias
-		if strings.HasPrefix(alias, "+") {
-			alias = strings.TrimPrefix(alias, "+")
-		}
+		alias = strings.TrimPrefix(alias, "+")
 		for _, a := range record.Aliases {
 			if a == alias {
 				return Error("Host already has Alias %s", alias)

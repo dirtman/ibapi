@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+
 	. "github.com/dirtman/sitepkg"
 )
 
@@ -37,12 +38,12 @@ func (err *IBAPIError) Error() string {
 		if Verbose {
 			return fmt.Sprintf("%s: %s", err.apiError, err.ibError)
 		} else {
-			return fmt.Sprintf("%s", err.text)
+			return err.text
 		}
 	} else if err.ibError != "" {
 		return fmt.Sprintf("%s: %s", err.apiError, err.ibError)
 	} else {
-		return fmt.Sprintf("%s", err.apiError)
+		return err.apiError
 	}
 }
 
@@ -129,7 +130,7 @@ func getRecords(object, nKey, dKey, name, data string, sf, rf []string) ([]byte,
 	ShowDebug("getRecords: sf \"%#v\".", sf)
 	ShowDebug("getRecords: rf \"%#v\".", rf)
 
-	if name == "" && data == "" && (sf == nil || len(sf) == 0) {
+	if name == "" && data == "" && (len(sf) == 0) {
 		return nil, Error("no name, data or fields specified for GET request")
 	}
 	url := "/" + object
@@ -143,13 +144,13 @@ func getRecords(object, nKey, dKey, name, data string, sf, rf []string) ([]byte,
 		url += sep + dKey + "=" + data
 		sep = "&"
 	}
-	if sf != nil && len(sf) > 0 {
+	if len(sf) > 0 {
 		for _, field := range sf {
 			url += sep + field
 			sep = "&"
 		}
 	}
-	if rf != nil && len(rf) > 0 {
+	if len(rf) > 0 {
 		url += sep + "_return_fields%2b" // %2b == '+'
 		sep = "="
 		for _, field := range rf {
@@ -178,7 +179,7 @@ func addRecord(object, nKey, dKey, name, data string, f []string) ([]byte, error
 	sep := "&"
 	url := "/" + object + "?" + nKey + "=" + name + sep + dKey + "=" + data
 
-	if f != nil && len(f) > 0 {
+	if len(f) > 0 {
 		for _, field := range f {
 			url += sep + field
 		}

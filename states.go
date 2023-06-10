@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	. "github.com/dirtman/sitepkg"
 )
 
@@ -85,7 +86,6 @@ type StateAlias struct {
 }
 type StateTXT struct {
 	StateBase
-	records []*RecordTXT
 }
 
 /*****************************************************************************\
@@ -117,7 +117,7 @@ func getStates(F Fetcher, nd, sf, rf []string, checkN, checkD bool) error {
 	for _, nameData := range nd {
 		F.NewState(nameData)
 		if name, data, err = splitND(nameData); err == nil {
-			if name == "" && data == "" && (sf == nil || len(sf) == 0) {
+			if name == "" && data == "" && (len(sf) == 0) {
 				err = Error("cannot GET with no name, data or search fields")
 			} else {
 				err = getState(F, nameData, sf, rf, checkN, checkD)

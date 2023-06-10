@@ -29,9 +29,6 @@ type EA map[string]interface{}
 type EASearch map[string]interface{}
 
 type IBBase struct {
-	objectType   string
-	returnFields []string
-	eaSearch     EASearch
 }
 
 type Network struct {

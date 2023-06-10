@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	. "github.com/dirtman/sitepkg"
 	"strings"
+
+	. "github.com/dirtman/sitepkg"
 )
 
 // Implement the "get" command.
@@ -26,16 +27,16 @@ func getPTR(invokedAs []string) error {
 	}
 
 	// Let's force a few extra return fields.
-	if inList, err = InList(input.rFields, "name"); !inList {
+	if inList, _ = InList(input.rFields, "name"); !inList {
 		input.rFields = append(input.rFields, "name")
 	}
-	if inList, err = InList(input.rFields, "ipv4addr"); !inList {
+	if inList, _ = InList(input.rFields, "ipv4addr"); !inList {
 		input.rFields = append(input.rFields, "ipv4addr")
 	}
-	if inList, err = InList(input.rFields, "ptrdname"); !inList {
+	if inList, _ = InList(input.rFields, "ptrdname"); !inList {
 		input.rFields = append(input.rFields, "ptrdname")
 	}
-	if inList, err = InList(input.rFields, "zone"); !inList {
+	if inList, _ = InList(input.rFields, "zone"); !inList {
 		input.rFields = append(input.rFields, "zone")
 	}
 
@@ -45,7 +46,7 @@ func getPTR(invokedAs []string) error {
 		return Error("failure getting ref option: %v", err)
 	}
 
-	if errors := checkStateErrors(states, false, true); errors != nil && len(errors) > 0 {
+	if errors := checkStateErrors(states, false, true); len(errors) > 0 {
 		return Error("Aborting process; no records fetched.")
 	}
 
@@ -92,7 +93,7 @@ func getPTR(invokedAs []string) error {
 					data += fmt.Sprintf("%s%s", sep, "DISABLED")
 					end = ")"
 				}
-				data += fmt.Sprintf("%s", end)
+				data += end
 				Print("%-*s %s %s\n", space, "PTR("+request+"): ", record.PtrdName, data)
 			}
 		}

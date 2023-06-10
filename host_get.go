@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	. "github.com/dirtman/sitepkg"
 	"strings"
+
+	. "github.com/dirtman/sitepkg"
 )
 
 // Implement the "get" command.
@@ -38,7 +39,7 @@ func getHost(invokedAs []string) error {
 	err = getStates(states, input.ndList, input.fields, input.rFields, false, false)
 	if err != nil {
 		return Error("failure getting states: %v", err)
-	} else if errors := checkStateErrors(states, false, true); errors != nil && len(errors) > 0 {
+	} else if errors := checkStateErrors(states, false, true); len(errors) > 0 {
 		return Error("Aborting process; no records fetched.")
 	}
 
@@ -89,7 +90,7 @@ func getHost(invokedAs []string) error {
 					data += fmt.Sprintf("%s%s", sep, "DISABLED")
 					end = ")"
 				}
-				data += fmt.Sprintf("%s", end)
+				data += end
 				Print("%-*s %s %s\n", space, "Host("+request+"): ", record.Name, data)
 			}
 		}

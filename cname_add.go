@@ -39,7 +39,7 @@ func addCNAME(invokedAs []string) error {
 	}
 
 	// Check if any errors occurred getting the above records. If so, abort.
-	if errors := checkStateErrors(states, false, true); errors != nil && len(errors) != 0 {
+	if errors := checkStateErrors(states, false, true); len(errors) != 0 {
 		return Error("Aborting process; no records added.")
 	}
 
@@ -77,7 +77,7 @@ func addCNAME(invokedAs []string) error {
 
 		var name, data, conflict string
 		sep := "Conflicts found: "
-		name, data, err = splitND(nameData)
+		name, data, _ = splitND(nameData)
 
 		if len(states[nameData].records) != 0 {
 			if state.records[0].Name == name {
