@@ -2110,6 +2110,12 @@ OPTIONS
         those that share the same name and/or content, such as a Host record
         and A record with the same name and/or IP address. Default: false.
 
+    -R, --restartServices:
+        If all record requests are successfully processed, instruct Infoblox
+        to restart any grid services that need to be restarted, generally
+        due to pending updates that require a particular service, such as
+        DHCP, is be restarted.
+
   OPTIONS - IPv4 related Options
     -d, --enableDHCP:
         Set the "configure_for_dhcp" flag for the specified IP to true, thus
@@ -2282,6 +2288,12 @@ OPTIONS
         either order, separated by one or more spaces. Blank lines and lines
         beginning with "#" are ignored, as is anything on a line following a
         "#".
+
+    -R, --restartServices:
+        If all record requests are successfully processed, instruct Infoblox
+        to restart any grid services that need to be restarted, generally
+        due to pending updates that require a particular service, such as
+        DHCP, is be restarted.
 
   OPTIONS - API Options
     --APIBaseURL=<url>:
@@ -2625,6 +2637,12 @@ OPTIONS
         line must contain a hostname and, depending on the specified
         options, an IP address. Blank lines and lines beginning with "#" are
         ignored, as is anything on a line following a "#".
+
+    -R, --restartServices:
+        If all record requests are successfully processed, instruct Infoblox
+        to restart any grid services that need to be restarted, generally
+        due to pending updates that require a particular service, such as
+        DHCP, is be restarted.
 
   OPTIONS - IPv4 related Options
     -d <true|false>, --enableDHCP=<true|false>:

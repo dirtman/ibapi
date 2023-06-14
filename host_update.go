@@ -42,6 +42,7 @@ func upateHost(invokedAs []string) error {
 	SetStringOpt("fields", "F", false, "", "Additional fields to be updated.")
 	SetStringOpt("filename", "f", true, "", "Specify a name/data input file.")
 	SetBoolOpt("checkRecords", "C", true, false, "Check for existing related records.")
+	SetBoolOpt("restartServices", "R", true, false, "Restart Grid services if needed")
 
 	// These involve lists as opposed to simple atomic values.
 	SetStringOpt("ip", "i", false, "", "Update, add or delete an IP address.")
@@ -198,6 +199,8 @@ func upateHost(invokedAs []string) error {
 	} else if len(input.ipFields) != 0 {
 		err = updateHostIPFields(record, data, input.ipFields)
 		message = "(fields: " + strings.Join(input.ipFields, ",") + ")"
+	} else if input.restartServices {
+		return updateHostFields(input, states, space)
 	} else {
 		err = Error("don't know what to update")
 	}
@@ -206,6 +209,11 @@ func upateHost(invokedAs []string) error {
 		Print("%-*s NOT updated: %v\n", space, "HOST("+request+")", err)
 	} else {
 		Print("%-*s Updated %s\n", space, "HOST("+request+")", message)
+		if input.restartServices {
+			if err = restartGridServices(Verbose); err != nil {
+				return Error("failure restarting services: %s", err)
+			}
+		}
 	}
 
 	return nil
@@ -251,6 +259,10 @@ func updateHostFields(input *UserInput, states StatesHost, space int) error {
 		return Error("One or more updates failed")
 	} else if numNotFound != 0 {
 		return Error("One or more records not found")
+	} else if input.restartServices {
+		if err := restartGridServices(Verbose); err != nil {
+			return Error("failure restarting services: %s", err)
+		}
 	}
 	return nil
 }

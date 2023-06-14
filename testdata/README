@@ -1,18 +1,27 @@
 ## Command line testing
 
 The Go package "testscript" is used for testing.  The tests are invoked via
-test_test.go, and the test scripts are in testdata/script/*.  The tests rely on
-access to the Infoblox WAPI and permissions to configure records in
-"seci.rice.edu".  To test all scripts in testdata/script/:
+test_test.go, and the test scripts are in testdata/script/*.
 
-  go test
+These tests rely on
+
+1. access to the Infoblox WAPI
+
+2. existance of 2 DNS views, default and external
+
+3. existance of and permissions to configure records in "seci.rice.edu".
+
+
+To test all scripts in testdata/script/:
+
+    go test
 
 To test individual scripts:
 
-  go test -run Test/address
-  go test -run Test/alias
-  go test -run Test/cname
-  go test -run Test/disabled
-  go test -run Test/mixed
-  go test -run Test/host
-  go test -run Test/ptr
+    go test -run Test/address
+    go test -run Test/alias
+    go test -run Test/cname
+    go test -run Test/disabled
+    go test -run Test/mixed
+    go test -run Test/host
+    go test -run Test/ptr

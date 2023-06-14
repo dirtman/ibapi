@@ -1,8 +1,9 @@
 package main
 
 import (
-	. "github.com/dirtman/sitepkg"
 	"strings"
+
+	. "github.com/dirtman/sitepkg"
 )
 
 // Implement the "delete" command.
@@ -18,6 +19,7 @@ func deleteHost(invokedAs []string) error {
 
 	SetStringOpt("view", "V", true, "default", "Specify the the record's view")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
+	SetBoolOpt("restartServices", "R", true, false, "Restart Grid services if needed")
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
@@ -62,7 +64,10 @@ func deleteHost(invokedAs []string) error {
 		return Error("One or more updates failed")
 	} else if numNotFound != 0 {
 		return Error("One or more records not found")
+	} else if input.restartServices {
+		if err = restartGridServices(Verbose); err != nil {
+			return Error("failure restarting services: %s", err)
+		}
 	}
-
 	return nil
 }

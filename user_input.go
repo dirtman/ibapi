@@ -53,24 +53,25 @@ const viewAny = "any"
 const targetAny = "any"
 
 type UserInput struct {
-	objectType    int      // Type of object specified by user
-	operation     int      // Operation requested by user, such as get or add
-	ndList        []string // The list of name/data pairs provided by the user
-	maxNameLength int      // For prettier print-out formatting later.
-	view          string   // --view value
-	comment       string   // --comment value
-	disable       string   // --disable: handled differently for Add vs Update
-	ttl           uint32   // --ttl value
-	fields        []string // --fields
-	rFields       []string // --rFields, for Get requests
-	enableDNS     string   // --enableDNS, for Host
-	enableDHCP    string   // --enableDCHP, for Host
-	mac           string   // --mac, for Host
-	bootfile      string   // --bootfile, for Host
-	nextserver    string   // --nextserver, for Host
-	bootserver    string   // --bootserver, for Host
-	ipFields      []string // --ipFields, for Host
-	targetType    string   // --targetType, for Alias and CNAME
+	objectType      int      // Type of object specified by user
+	operation       int      // Operation requested by user, such as get or add
+	ndList          []string // The list of name/data pairs provided by the user
+	maxNameLength   int      // For prettier print-out formatting later.
+	view            string   // --view value
+	comment         string   // --comment value
+	disable         string   // --disable: handled differently for Add vs Update
+	ttl             uint32   // --ttl value
+	fields          []string // --fields
+	rFields         []string // --rFields, for Get requests
+	enableDNS       string   // --enableDNS, for Host
+	enableDHCP      string   // --enableDCHP, for Host
+	mac             string   // --mac, for Host
+	bootfile        string   // --bootfile, for Host
+	nextserver      string   // --nextserver, for Host
+	bootserver      string   // --bootserver, for Host
+	ipFields        []string // --ipFields, for Host
+	restartServices bool     // --restart_if_needed, for Host
+	targetType      string   // --targetType, for Alias and CNAME
 }
 
 // Process and store the user arguments that define the objects on which to
@@ -168,6 +169,14 @@ func GetFieldOptions(input *UserInput) error {
 			input.operation != requestTypeUpdate {
 			input.fields = append(input.fields, "target_type="+input.targetType)
 		}
+	}
+
+	// A host record has a "restart_if_needed" field, and host add, update and
+	// delete have the --resetartService option to reflect this.  But note this
+	// field is not searchable; my guess is that it is not saved with the host
+	// record object, but is more of a one-time flag.  We'll see...
+	if input.objectType == objectTypeHost && input.operation != requestTypeGet {
+		input.restartServices, _ = GetBoolOpt("restartServices")
 	}
 
 	// For Deletes we're done.

@@ -280,8 +280,8 @@ stderr 'wrong field count'
 ! stdout .
 
 
-# Delete 06: Delete bapi host delete host4.seci.rice.edu
-exec ibapi host delete host4.seci.rice.edu
+# Delete 06: Delete host4.seci.rice.edu and restart grid services
+exec ibapi host delete host4.seci.rice.edu -R
 ! stderr .
 stdout 'Host\(host4.seci.rice.edu\) Deleted'
 

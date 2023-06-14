@@ -22,9 +22,9 @@ const AuthMethodBearer = "bearer"
 
 // For convenience, hold the basic API parameter:
 type APIConfig struct {
-	BaseURL      string
-	AuthMethod   string
-	AuthToken    string
+	BaseURL    string
+	AuthMethod string
+	AuthToken  string
 }
 
 var API APIConfig

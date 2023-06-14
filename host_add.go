@@ -28,8 +28,9 @@ func addHost(invokedAs []string) error {
 	SetStringOpt("filename", "f", true, "", "Specify a name/data input file")
 	SetBoolOpt("checkRecords", "C", true, false, "Check for existing related records")
 	SetBoolOpt("enableDNS", "e", true, true, "Configure host record for DNS")
+	SetBoolOpt("restartServices", "R", true, false, "Restart Grid services if needed")
 
-	// These all pertain to updating fields of the Host's IPv4 address.
+	// These all pertain to fields of the Host's IPv4 address.
 	SetBoolOpt("enableDHCP", "d", false, false, "Configure the IP for DHCP")
 	SetStringOpt("ipFields", "I", false, "", "IP address fields to be updated.")
 	SetStringOpt("mac", "m", false, "", "Specify the MAC of the IP address.")
@@ -134,13 +135,19 @@ func addHost(invokedAs []string) error {
 		}
 	}
 
-	if numConflicts == 0 {
-		return nil
-	} else if len(states) > 1 {
-		return Error("One or more records not added due to conflict.")
-	} else {
-		return Error("Record not added due to conflict.")
+	if numConflicts > 0 {
+		if len(states) > 1 {
+			return Error("One or more records not added due to conflict.")
+		} else {
+			return Error("Record not added due to conflict.")
+		}
+	} else if input.restartServices {
+		if err = restartGridServices(Verbose); err != nil {
+			return Error("failure restarting services: %s", err)
+		}
 	}
+	return nil
+
 }
 
 func addRecordHost(name, data string, input *UserInput) ([]byte, error) {
