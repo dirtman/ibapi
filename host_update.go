@@ -210,7 +210,7 @@ func upateHost(invokedAs []string) error {
 	} else {
 		Print("%-*s Updated %s\n", space, "HOST("+request+")", message)
 		if input.restartServices {
-			if err = restartGridServices(Verbose); err != nil {
+			if err = gridRestartServices(Verbose); err != nil {
 				return Error("failure restarting services: %s", err)
 			}
 		}
@@ -260,7 +260,7 @@ func updateHostFields(input *UserInput, states StatesHost, space int) error {
 	} else if numNotFound != 0 {
 		return Error("One or more records not found")
 	} else if input.restartServices {
-		if err := restartGridServices(Verbose); err != nil {
+		if err := gridRestartServices(Verbose); err != nil {
 			return Error("failure restarting services: %s", err)
 		}
 	}

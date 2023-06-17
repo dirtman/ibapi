@@ -1,0 +1,89 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+# Add01: Add a fixedaddress record.
+exec ibapi fixedaddress add 10.10.95.201 00:10:10:10:10:00 -b '/grub2/grubx64.efi' -N 10.128.95.14
+! stderr .
+stdout 'Added'
+
+
+# Get01: Get a fixedaddress record by IP.
+exec ibapi fixedaddress get 10.10.95.201
+! stderr .
+stdout 'FixedAddress'
+
+# Get02: Get a fixedaddress record by MAC.
+exec ibapi fixedaddress get 00:10:10:10:10:00
+! stderr .
+stdout 'FixedAddress'
+
+# Get03: Get a fixedaddress record by IP and MAC.
+exec ibapi fixedaddress get 10.10.95.201 00:10:10:10:10:00
+! stderr .
+stdout 'FixedAddress'
+
+# Get04: Get a fixedaddress record in verbose mode
+exec ibapi fixedaddress get 10.10.95.201 -v -Rbootfile,nextserver
+stderr ipv4addr
+stdout 'FixedAddress'
+
+# Get05: Get a fixedaddress record with only field options
+exec ibapi fixedaddress get -Fmac=00:10:10:10:10:00 -v
+stderr ipv4addr
+stdout 'FixedAddress'
+
+
+# Del01: Delete a fixedaddress record by IP
+exec ibapi fixedaddress delete 10.10.95.201
+! stderr .
+stdout 'Deleted'
+
+# Add02: Add a fixedaddress record.
+exec ibapi fixedaddress add 10.10.95.201 00:10:10:10:10:00 
+! stderr .
+stdout 'Added'
+
+# Del02: Delete a fixedaddress record by MAC
+exec ibapi fixedaddress delete 00:10:10:10:10:00
+! stderr .
+stdout 'Deleted'
+
+# Add03: Add a fixedaddress record.
+exec ibapi fixedaddress add 10.10.95.201 00:10:10:10:10:00
+! stderr .
+stdout 'Added'
+
+# Del03: Delete a fixedaddress record by IP and MAC:
+exec ibapi fixedaddress delete 10.10.95.201 00:10:10:10:10:00
+! stderr .
+stdout 'Deleted'
+
+
+# Add04: Add a fixedaddress record with --restartService
+exec ibapi fixedaddress add 10.10.95.201 00:10:10:10:10:00 -v -R -b '/grub2/grubx64.efi' -N 10.128.95.14
+stderr 'restart'
+stdout 'Added'
+
+
+# Update01: Update fixedaddress bootfile and nextserver
+exec ibapi fixedaddress update 10.10.95.201 -b '/update/grub.efi' -N 168.7.56.224 
+! stderr .
+stdout 'Updated'
+
+# Update02: Update the name and IP address
+exec ibapi fixedaddress update 10.10.95.201 -n newname -i 10.10.95.202
+! stderr .
+stdout 'Updated'
+
+# Update03: Update the mac address
+exec ibapi fixedaddress update 00:10:10:10:10:00 -m 00:10:10:10:10:01
+! stderr .
+stdout 'Updated'
+
+
+# Del04: Delete a fixedaddress record with --restartService
+exec ibapi fixedaddress delete 00:10:10:10:10:01 -R
+! stderr .
+stdout 'Deleted'
+

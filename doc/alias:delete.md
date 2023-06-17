@@ -28,6 +28,10 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
+- -T &lt;targetType>, --TargetType=&lt;targetType>:
+
+    Specify the target type to delete.  Default: A record.
+
 - -f &lt;filename>, --filename=&lt;filename>:
 
     Specify a filename containing a list of Alias records to delete.
@@ -91,6 +95,12 @@ Use the --ShowConfig to view each option and its value.
     avoided altogether.
     Default: "/etc/opt/ibapi/private".
 
+- --GridReference=&lt;grid\_reference>:
+
+    Specify the Infoblox grid reference ID. This can be used to save a fetch when
+    the --restartServices option is specified.  While this option is only relevant
+    to a few commands, it is allowed (ignored) by the other commands.
+
 ## OPTIONS - Common To All IBAPI Commands
 
 - -h, --help:
@@ -131,19 +141,19 @@ Use the --ShowConfig to view each option and its value.
 
 - ibapi alias delete rb4.rice.edu somewhere.com
 
-    Delete the Alias record with hostname "rb4.rice.edu" and target "somewhere.com".
+    Delete the Alias record with hostname "rb4.rice.edu" and A record target "somewhere.com".
 
-- ibapi alias delete rb4.rice.edu
+- ibapi alias delete rb4.rice.edu -T TXT
 
-    Delete the "rb4.rice.edu" Alias record.
+    Delete the "rb4.rice.edu" Alias record of target type TXT.
 
 # FILES
 
-- /usr/site/ibapi-0.0/etc/ibapi.conf
+- /usr/site/ibapi-1.0/etc/ibapi.conf
 - /etc/opt/ibapi/ibapi.conf
-- /etc/opt/ibapi-0.0//ibapi.conf
+- /etc/opt/ibapi-1.0//ibapi.conf
 - ~/.ibapi/ibapi.conf
-- ~/.ibapi-0.0/ibapi.conf
+- ~/.ibapi-1.0/ibapi.conf
 
     The IBAPI configuration files which can be used to
     set defaults for nearly all of the options described above.
@@ -184,4 +194,10 @@ a:delete(1),
 a:get(1),
 a:update(1),
 a:add(1),
+fixedaddress(1),
+fixedaddress:add(1),
+fixedaddress:delete(1),
+fixedaddress:get(1),
+fixedaddress:update(1),
+grid(1),
 ibapi.conf(5)

@@ -1,17 +1,21 @@
 # NAME
 
-ibapi alias add - create Infoblox Alias records
+ibapi fixedaddress get - get Infoblox fixedaddress records
 
 # USAGE
 
-- ibapi alias add &lt;options/args>
+- ibapi fixedaddress get &lt;options/args>
 
 # DESCRIPTION
 
-The add command is used to create Infoblox Alias records.
-To create a single Alias record, a single hostname and target can be provided as
-command line arguments.
-Alternatively, a list of records to add can be specified in a file (see --filename).
+The get command is used to read/fetch Infoblox fixedaddress records.
+
+By default, the IP address and MAC address of each fetched record is shown.
+The --verbose option can be specified to print out the raw response from the API.
+
+To fetch a single fixedaddress record, a single IPv4 address and/or MAC
+address may be provided as command line arguments.  Alternatively, a list of
+records to fetch can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -28,43 +32,32 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
-- -V &lt;view>, --View=&lt;view>:
+- -V &lt;network\_view>, --View=&lt;network\_view>:
 
-    Specify the view for the new record.  Default: "default".
-
-- -D, --Disable:
-
-    Disable the new record.  Default: false.
-
-- -T &lt;targetType>, --TargetType=&lt;targetType>:
-
-    Specify the target type for the Alias record.  Default: A record.
-
-- -c &lt;comment>, --Comment=&lt;comment>:
-
-    Specify the comment for the new record.
-    Alternatively, you can specify this via the --fields option.
-    Default: "ibapi:alias:add".
+    Specify the network\_view of the record to fetch. Specify "any" to search for
+    records in all network\_views.  Default: "any".
 
 - -F &lt;fields>, --Fields=&lt;fields>:
 
-    Specify fields and corresponding values for the new record.  For instance:
-    "comment=RT100931",view=default,ttl=900".
+    Specify a comma-separated list of field name/value pairs to restrict the record(s)
+    fetched.
 
-- -f &lt;filename>, --Filename=&lt;filename>:
+- -R &lt;return\_fields>, --rFields=&lt;return\_fields>:
 
-    Specify a filename containing a list of Alias records to create.
-    Each line should contain a hostname and a target, separated
+    Specify additional fields to show when in Verbose mode.
+
+- -f &lt;filename>, --filename=&lt;filename>:
+
+    Specify a filename containing a list of fixedaddress records to get.
+    Each line should contain an IPv4 address and/or a MAC address, in either order, separated
     by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
-- -C, --Check:
+- -r &lt;obj\_ref>, --Ref=&lt;obj\_ref>:
 
-    Before creating a new record, check if any "related" records already exist, and if
-    so do not create the new record.
-    Related records are those that share the same name and/or content.
-    Default: false.
+    Instead of showing the name and content of the fetched record(s), show
+    the object reference of each record.
 
 ## OPTIONS - API Options
 
@@ -165,13 +158,21 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi alias add rb4.rice.edu somewhere.com
+- ibapi fixedaddress get -F mac\~=00:10:10:10:10 -V external
 
-    Create a new Alias record with hostname "rb4.rice.edu" and A record target "somewhere.com".
+    Fetch each fixedaddress record (in the external network\_view) whose MAC address matches "00:10:10:10:10".
 
-- ibapi alias add -T TXT rb4.rice.edu somewhere.com
+- ibapi fixedaddress get -F ipv4addr\~=10.143.195.
 
-    Create a new Alias record with hostname "rb4.rice.edu" and TXT record target "somewhere.com".
+    Fetch each fixedaddress record (in any network\_view) that has an IPv4 address matching "10.143.195.".
+
+- ibapi fixedaddress get 00:10:10:10:10:01
+
+    Fetch the fixedaddress record with MAC address "00:10:10:10:10:01".
+
+- ibapi fixedaddress get 168.7.56.224
+
+    Fetch the fixedaddress record with IPv4 address "168.7.56.224".
 
 # FILES
 
@@ -207,6 +208,7 @@ cname:add(1),
 cname:delete(1),
 cname:get(1),
 cname:update(1),
+alias:add(1),
 alias:delete(1),
 alias:get(1),
 alias:update(1),
@@ -223,7 +225,6 @@ a:add(1),
 fixedaddress(1),
 fixedaddress:add(1),
 fixedaddress:delete(1),
-fixedaddress:get(1),
 fixedaddress:update(1),
 grid(1),
 ibapi.conf(5)

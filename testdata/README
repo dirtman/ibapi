@@ -25,3 +25,5 @@ To test individual scripts:
     go test -run Test/mixed
     go test -run Test/host
     go test -run Test/ptr
+    go test -run Test/url
+    go test -run Test/fixedaddress

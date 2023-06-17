@@ -379,6 +379,10 @@ func SetAPIOptions(args ...string) error {
 	SetStringOpt("SecretsDir", "", true, "", "Location of \"APIAuthTokenID\"")
 	SetIntOpt("HTTPTimeout", "", true, 60, "Timeout in seconds of the HTTP connection")
 
+	// This one is not really common, being used by only a few commands.  For simplicity,
+	// though, I'll allow it everywhere and just ignore it if it does not apply.
+	SetStringOpt("GridReference", "", true, "", "specify the grid reference ID (to save a lookup)")
+
 	return nil
 }
 

@@ -19,7 +19,7 @@ import (
   as a "TTL" and a few other "fields".  Infoblox WAPI objects have introduced
   many additional fields, and sometimes the concept of a name and data pair
   does not fit well with Infoblox objects - everything is just a field.
-  However, this CLI does separate out a name and data field from the other
+  However, this CLI does separate out a "name" and "data" field from the other
   fields.  While to Infoblox everything is a field, this CLI expects the name
   and data fields, if present, to be specified as command line arguments or
   in a file.  The only exception is Get requests, since these support search
@@ -49,6 +49,7 @@ const objectTypeA = 2
 const objectTypePTR = 3
 const objectTypeCNAME = 4
 const objectTypeAlias = 5
+const objectTypeFixedAddress = 6
 const viewAny = "any"
 const targetAny = "any"
 
@@ -109,6 +110,8 @@ func getUserInput(objectType, operation string, duo bool, args []string) (*UserI
 		input.objectType = objectTypeCNAME
 	} else if objectType == "alias" {
 		input.objectType = objectTypeAlias
+	} else if objectType == "fixedaddress" {
+		input.objectType = objectTypeFixedAddress
 	}
 
 	if err = GetFieldOptions(input); err != nil {
@@ -157,7 +160,11 @@ func GetFieldOptions(input *UserInput) error {
 		return Error("the \"view\" option cannot be empty")
 	} else if (!(input.view == viewAny && input.operation == requestTypeGet)) &&
 		input.operation != requestTypeUpdate {
-		input.fields = append(input.fields, "view="+input.view)
+		if input.objectType == objectTypeFixedAddress {
+			input.fields = append(input.fields, "network_view="+input.view)
+		} else {
+			input.fields = append(input.fields, "view="+input.view)
+		}
 	}
 
 	// A "target_type" is required for Alias records.  Note that for Update, the
@@ -175,7 +182,8 @@ func GetFieldOptions(input *UserInput) error {
 	// delete have the --resetartService option to reflect this.  But note this
 	// field is not searchable; my guess is that it is not saved with the host
 	// record object, but is more of a one-time flag.  We'll see...
-	if input.objectType == objectTypeHost && input.operation != requestTypeGet {
+	if (input.objectType == objectTypeHost || input.objectType == objectTypeFixedAddress) &&
+		input.operation != requestTypeGet {
 		input.restartServices, _ = GetBoolOpt("restartServices")
 	}
 
@@ -217,7 +225,55 @@ func GetFieldOptions(input *UserInput) error {
 		return Error("%v", err)
 	}
 
-	// The rest only applies to Host records.
+	// ipFields is only for host records.
+	if input.objectType == objectTypeHost {
+		if ipFields, _ := GetStringOpt("ipFields"); ipFields != "" {
+			input.ipFields = strings.Split(ipFields, ",")
+		}
+	}
+
+	// The rest only applies to host and fixedaddress records
+	if input.objectType != objectTypeHost && input.objectType != objectTypeFixedAddress {
+		return nil
+	}
+
+	// Handle the mac option.
+	if input.mac, _ = GetStringOpt("mac"); input.mac != "" {
+		if input.objectType == objectTypeHost {
+			input.ipFields = append(input.ipFields, "mac="+input.mac)
+		} else if input.operation != requestTypeCreate {
+			input.fields = append(input.fields, "mac="+input.mac)
+		}
+	}
+
+	// Handle the bootfile option.
+	if input.bootfile, _ = GetStringOpt("bootfile"); input.bootfile != "" {
+		if input.objectType == objectTypeHost {
+			input.ipFields = append(input.ipFields, "bootfile="+input.bootfile)
+		} else {
+			input.fields = append(input.fields, "bootfile="+input.bootfile)
+		}
+	}
+
+	// Handle the nextserver option.
+	if input.nextserver, _ = GetStringOpt("nextserver"); input.nextserver != "" {
+		if input.objectType == objectTypeHost {
+			input.ipFields = append(input.ipFields, "nextserver="+input.nextserver)
+		} else {
+			input.fields = append(input.fields, "nextserver="+input.nextserver)
+		}
+	}
+
+	// Handle the bootserver option.
+	if input.bootserver, _ = GetStringOpt("bootserver"); input.bootserver != "" {
+		if input.objectType == objectTypeHost {
+			input.ipFields = append(input.ipFields, "bootserver="+input.bootserver)
+		} else {
+			input.fields = append(input.fields, "bootserver="+input.bootserver)
+		}
+	}
+
+	// The rest only apply to host records
 	if input.objectType != objectTypeHost {
 		return nil
 	}
@@ -227,36 +283,11 @@ func GetFieldOptions(input *UserInput) error {
 		getStringBool("enableDNS", "configure_for_dns", input, &input.fields); err != nil {
 		return Error("%v", err)
 	}
-	// The rest are specific to a Host's IPv4 or IPv6 members.
-
-	if ipFields, _ := GetStringOpt("ipFields"); ipFields != "" {
-		input.ipFields = strings.Split(ipFields, ",")
-	}
 
 	// enableDHCP is type boolean for Add, but type string for Update.
 	if input.enableDHCP, err =
 		getStringBool("enableDHCP", "configure_for_dhcp", input, &input.ipFields); err != nil {
 		return Error("%v", err)
-	}
-
-	// Handle the mac option.
-	if input.mac, _ = GetStringOpt("mac"); input.mac != "" {
-		input.ipFields = append(input.ipFields, "mac="+input.mac)
-	}
-
-	// Handle the bootfile option.
-	if input.bootfile, _ = GetStringOpt("bootfile"); input.bootfile != "" {
-		input.ipFields = append(input.ipFields, "bootfile="+input.bootfile)
-	}
-
-	// Handle the nextserver option.
-	if input.nextserver, _ = GetStringOpt("nextserver"); input.nextserver != "" {
-		input.ipFields = append(input.ipFields, "nextserver="+input.nextserver)
-	}
-
-	// Handle the bootserver option.
-	if input.bootserver, _ = GetStringOpt("bootserver"); input.bootserver != "" {
-		input.ipFields = append(input.ipFields, "bootserver="+input.bootserver)
 	}
 
 	return nil
@@ -414,6 +445,9 @@ func getND(input *UserInput, args []string) (string, string, error) {
 		input.objectType == objectTypePTR {
 		return getNameIP(args)
 	}
+	if input.objectType == objectTypeFixedAddress {
+		return getIPMac(args)
+	}
 	ShowDebug("getND: name: \"%s\";  data: \"%s\".", name, data)
 	return name, data, nil
 }
@@ -452,6 +486,38 @@ func getNameIP(args []string) (string, string, error) {
 	return name, data, nil
 }
 
+func getIPMac(args []string) (string, string, error) {
+
+	ShowDebug("getIPMac: args: %#v", args)
+	var name, data string
+	numArgs := len(args)
+
+	arg := args[0]
+	if net.ParseIP(arg) != nil {
+		name = arg
+	} else if validMac(arg) {
+		data = arg
+	} else {
+		return "", "", Error("argument \"%s\" is neither a valid IP or MAC", arg)
+	}
+
+	if numArgs == 2 {
+		arg = args[1]
+		if name == "" {
+			if net.ParseIP(arg) != nil {
+				name = arg
+			} else {
+				return "", "", Error("neither argument is a valid IP address")
+			}
+		} else if validMac(arg) {
+			data = arg
+		} else {
+			return "", "", Error("neither argument is a valid MAC")
+		}
+	}
+	return name, data, nil
+}
+
 // Split the name and data parts from the specified nameData pair.
 
 func splitND(nameData string) (string, string, error) {
@@ -471,4 +537,11 @@ func validHost(host string) bool {
 
 	re, _ := regexp.Compile(`^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$`)
 	return re.MatchString(host)
+}
+
+func validMac(mac string) bool {
+	mac = strings.Trim(mac, " ")
+
+	re, _ := regexp.Compile(`^([a-zA-Z0-9]{2}:){5}[a-zA-Z0-9]`)
+	return re.MatchString(mac)
 }

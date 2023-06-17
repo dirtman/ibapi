@@ -1,25 +1,28 @@
 # NAME
 
-ibapi - create, read, update and delete basic Infoblox records
+ibapi - create, read, update and delete basic Infoblox objects
 
 # USAGE
 
-- ibapi <-h|--help>
-- ibapi &lt;host|a|ptr|cname|alias|url> <-h|--help>
-- ibapi &lt;host|a|ptr|cname|alias|url> &lt;add|get|update|delete> &lt;options/args>
+- ibapi \[-h|--help\] OBJECT \[-h|--help\] OPERATION \[&lt;args>\]
+
+where OBJECT is one of
+
+> host a ptr cname alias fixedaddress url grid
+
+OPERATION, for all but the "grid" object, is one of
+
+> add get update delete
 
 # DESCRIPTION
 
-ibapi can be used to add, get, update and delete a few of the most basic Infoblox
-records.  The basic format is
+ibapi can be used to add, get, update and delete a few of the most basic
+Infoblox records via the Infoblox WAPI.  Additionally, it can used to restart
+Infoblox grid services.  For more details, invoke the specific
+OBJECT/OPERATION with the --help|-h option. For example:
 
-- ibapi &lt;record\_type|url> &lt;operation> &lt;options/args>
-
-For more details, invoke the specific record\_type/operation
-with the --help|-h option. For example:
-
-- ibapi a -h
-- ibapi a add -h
+- ibapi host -h
+- ibapi host add -h
 
 # Configuration Files
 
@@ -27,7 +30,6 @@ ibapi configuration files can be used to set defaults for most of the available
 options. The ibapi command searches for configuration files in several places,
 including:
 
-- /usr/site/ibapi-0.0/etc/ibapi.conf
 - /etc/opt/ibapi/ibapi.conf
 - ~/.ibapi/ibapi.conf
 
@@ -60,7 +62,7 @@ current options and values:
 
 # Authentication
 
-ibapi supports only basic authentication.  A username and password
+ibapi currently supports only basic authentication.  A username and password
 can be specified via command line options or via a "username:password"
 string stored in a local file.  Here is an example of configuring a username and
 password for WAPI user "sandman":
@@ -73,10 +75,10 @@ password for WAPI user "sandman":
 
 # EXAMPLES
 
-- ibapi host add rb3.rice.edu 168.7.56.225 -d -m f4:8e:38:84:89:e6 -N 10.128.81.10 -b /grub2/shim.efi
+- ibapi host add rb3.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N 10.128.95.14 -b "/grub2/grubx64.efi"
 
     Create the specified Host record with IPv4 address 168.7.56.225, configure that address
-    for DHCP and set DHCP-related options as specified.
+    for DHCP and set DHCP-related options as specified.  When done, issue the "restart\_if\_needed" command to restart Grid services if needed.
 
 - ibapi host update rb3.rice.edu -i +168.7.56.226
 
@@ -213,13 +215,19 @@ password for WAPI user "sandman":
 
     Change the target, or canonical name, of the referenced CNAME record.
 
+- ibapi grid restart
+
+    Instruct Infoblox to restart any grid services that need to be restarted,
+    generally due to pending updates that require a particular service, such as
+    DHCP, is be restarted.
+
 # FILES
 
-- /usr/site/ibapi-0.0/etc/ibapi.conf
+- /usr/site/ibapi-1.0/etc/ibapi.conf
 - /etc/opt/ibapi/ibapi.conf
-- /etc/opt/ibapi-0.0//ibapi.conf
+- /etc/opt/ibapi-1.0//ibapi.conf
 - ~/.ibapi/ibapi.conf
-- ~/.ibapi-0.0/ibapi.conf
+- ~/.ibapi-1.0/ibapi.conf
 
     The IBAPI configuration files which can be used to
     set defaults for nearly all of the options described above.
@@ -260,4 +268,10 @@ a:delete(1),
 a:get(1),
 a:update(1),
 a:add(1),
+fixedaddress(1),
+fixedaddress:add(1),
+fixedaddress:delete(1),
+fixedaddress:get(1),
+fixedaddress:update(1),
+grid(1),
 ibapi.conf(5)

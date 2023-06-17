@@ -1,17 +1,18 @@
 # NAME
 
-ibapi alias add - create Infoblox Alias records
+ibapi fixedaddress update - update Infoblox fixedaddress records
 
 # USAGE
 
-- ibapi alias add &lt;options/args>
+- ibapi fixedaddress update &lt;options/args>
 
 # DESCRIPTION
 
-The add command is used to create Infoblox Alias records.
-To create a single Alias record, a single hostname and target can be provided as
-command line arguments.
-Alternatively, a list of records to add can be specified in a file (see --filename).
+The update command is used to update Infoblox fixedaddress records.
+
+To delete a single fixedaddress record, a single IPv4 address and/or a MAC address
+can be provided as command line arguments, in either order.  Alternatively, a
+list of records to delete can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -28,43 +29,62 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
-- -V &lt;view>, --View=&lt;view>:
+- -V &lt;network\_view>, --View=&lt;network\_view>:
 
-    Specify the view for the new record.  Default: "default".
+    Specify the network\_view of the record to update.  Default: "default".
 
-- -D, --Disable:
+- -D &lt;true|false>, --Disable=&lt;true|false>:
 
-    Disable the new record.  Default: false.
+    Update the record's disabled status to the specified value.
+    Note this is not a boolean flag - the value "true" or "false"
+    must be specified.
 
-- -T &lt;targetType>, --TargetType=&lt;targetType>:
+- -i &lt;new\_IPv4\_address>, --ip=&lt;new\_IPv4\_address>:
 
-    Specify the target type for the Alias record.  Default: A record.
+    Update the IPv4 address of the specified record to "new\_IPv4\_address".
+
+- -m &lt;new\_MAC>, --mac=&lt;new\_MAC>:
+
+    Update the MAC address of the specified record to "new\_MAC".
+
+- -b &lt;bootfile>, --bootfile=&lt;bootfile>:
+
+    Update the bootfile of the specified IP address.
+
+- -N &lt;nextserver>, --nextserver=&lt;nextserver>:
+
+    Update the nextserver of the specified IP address.
+
+- -B &lt;bootserver>, --bootserver=&lt;bootserver>:
+
+    Update the bootserver of the specified IP address.
+
+- -n &lt;new\_name>, --Name=&lt;new\_name>:
+
+    Update the name of the specified record to "new\_name".
 
 - -c &lt;comment>, --Comment=&lt;comment>:
 
-    Specify the comment for the new record.
-    Alternatively, you can specify this via the --fields option.
-    Default: "ibapi:alias:add".
+    Update the record's comment.
 
 - -F &lt;fields>, --Fields=&lt;fields>:
 
-    Specify fields and corresponding values for the new record.  For instance:
-    "comment=RT100931",view=default,ttl=900".
+    Specify fields and corresponding values to be updated.  For instance:
+    "comment=RT100931",network\_view=default,name=rambo".
 
-- -f &lt;filename>, --Filename=&lt;filename>:
+- -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify a filename containing a list of Alias records to create.
-    Each line should contain a hostname and a target, separated
+    Specify a filename containing a list of fixedaddress records to update.
+    Each line should contain an IPv4 address and a MAC address, in either order, separated
     by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
-- -C, --Check:
+- -R, --restartServices:
 
-    Before creating a new record, check if any "related" records already exist, and if
-    so do not create the new record.
-    Related records are those that share the same name and/or content.
-    Default: false.
+    If all record requests are successfully processed, instruct Infoblox to restart
+    any grid services that need to be restarted, generally due to pending updates 
+    that require a particular service, such as DHCP, is be restarted.
 
 ## OPTIONS - API Options
 
@@ -165,13 +185,18 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi alias add rb4.rice.edu somewhere.com
+- ibapi fixedaddress update 168.7.56.224 -b "/grub2/grubx64.efi"
 
-    Create a new Alias record with hostname "rb4.rice.edu" and A record target "somewhere.com".
+    Update the bootfile of the fixedaddress record with IPv4 168.7.56.224.
 
-- ibapi alias add -T TXT rb4.rice.edu somewhere.com
+- ibapi fixedaddress update 168.7.56.224 -i 168.7.56.225
 
-    Create a new Alias record with hostname "rb4.rice.edu" and TXT record target "somewhere.com".
+    Update the "168.7.56.224" fixedaddress record, changing the IP address 
+    to "168.7.56.225".
+
+- ibapi fixedaddress update 168.7.56.224 -m c8:1f:66:c1:79:a1
+
+    Update the MAC address of the "168.7.56.224" fixedaddress record.
 
 # FILES
 
@@ -207,6 +232,7 @@ cname:add(1),
 cname:delete(1),
 cname:get(1),
 cname:update(1),
+alias:add(1),
 alias:delete(1),
 alias:get(1),
 alias:update(1),
@@ -224,6 +250,5 @@ fixedaddress(1),
 fixedaddress:add(1),
 fixedaddress:delete(1),
 fixedaddress:get(1),
-fixedaddress:update(1),
 grid(1),
 ibapi.conf(5)

@@ -59,6 +59,7 @@ type StatesHost map[string]*StateHost
 type StatesPTR map[string]*StatePTR
 type StatesCNAME map[string]*StateCNAME
 type StatesAlias map[string]*StateAlias
+type StatesFixedAddress map[string]*StateFixedAddress
 type StatesTXT map[string]*StateTXT
 
 type StateBase struct {
@@ -83,6 +84,10 @@ type StateCNAME struct {
 type StateAlias struct {
 	StateBase
 	records []*RecordAlias
+}
+type StateFixedAddress struct {
+	StateBase
+	records []*FixedAddress
 }
 type StateTXT struct {
 	StateBase

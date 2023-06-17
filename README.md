@@ -2,16 +2,25 @@
 
 ibapi is a command-line client, written in Go, for adding, retrieving, updating
 and deleting a few of the most basic Infoblox records via the Infoblox WAPI.
-Currently supported record types are A, PTR, CNAME, Alias and Host.  Basic
-usage is as follows:
+Currently supported record types are Host, A, PTR, CNAME, Alias and FixedAddress.
+Basic usage is as follows:
 
-- ibapi &lt;host|a|ptr|cname|alias|url> &lt;add|get|update|delete> &lt;options/args>
+- ibapi \[-h|--help\] OBJECT \[-h|--help\] OPERATION \[&lt;args>\]
+
+where OBJECT is one of
+
+> host a ptr cname alias fixedaddress url grid
+
+and OPERATION, for all but the "grid" object, is one of
+
+> add get update delete
+
 
 Use the -h/--help option for more details of each command.  For instance:
 
 - ibapi -h
-- ibapi a -h
-- ibapi a add -h
+- ibapi host -h
+- ibapi host add -h
 
 ## Building/Installing Example for Fedora/RHEL
 
@@ -79,10 +88,10 @@ password for WAPI user "sandman":
 
 ## EXAMPLES
 
-- ibapi host add rb3.rice.edu 168.7.56.225 -d -m f4:8e:38:84:89:e6 -N 10.128.81.10 -b /grub2/shim.efi
+- ibapi host add rb3.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N 10.128.95.14 -b "/grub2/grubx64.efi"
 
     Create the specified Host record with IPv4 address 168.7.56.225, configure that address
-    for DHCP and set DHCP-related options as specified.
+    for DHCP and set DHCP-related options as specified.  When done, issue the "restart\_if\_needed" command to restart Grid services if needed.
 
 - ibapi host update rb3.rice.edu -i +168.7.56.226
 
@@ -218,4 +227,10 @@ password for WAPI user "sandman":
 - ibapi url update "record:cname/ZG5zLmJpbmRfYSQuX2RlZmF1bHQuZWR1LnJpY2Uuc2VjaSxkYngsMTAuMTAuMTAuMjAx:dbx.seci.rice.edu/default?canonical=somewhere.edu"
 
     Change the target, or canonical name, of the referenced CNAME record.
+
+- ibapi grid restart
+
+    Instruct Infoblox to restart any grid services that need to be restarted,
+    generally due to pending updates that require a particular service, such as
+    DHCP, is be restarted.
 

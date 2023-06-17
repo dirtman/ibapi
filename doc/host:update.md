@@ -58,7 +58,7 @@ Use the --ShowConfig to view each option and its value.
 
 - -F &lt;fields>, --Fields=&lt;fields>:
 
-    Specify fields and corresponding values to be updated.  For intance:
+    Specify fields and corresponding values to be updated.  For instance:
     "comment=RT100931",view=default,ttl=900".
 
 - -i \[+|-\]&lt;new\_IP>, --IP=\[+|-\]&lt;new\_IP>:
@@ -83,6 +83,12 @@ Use the --ShowConfig to view each option and its value.
     Each line must contain a hostname and, depending on the specified options, an IP address.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
+
+- -R, --restartServices:
+
+    If all record requests are successfully processed, instruct Infoblox to restart
+    any grid services that need to be restarted, generally due to pending updates 
+    that require a particular service, such as DHCP, is be restarted.
 
 ## OPTIONS - IPv4 related Options
 
@@ -170,6 +176,12 @@ Use the --ShowConfig to view each option and its value.
     avoided altogether.
     Default: "/etc/opt/ibapi/private".
 
+- --GridReference=&lt;grid\_reference>:
+
+    Specify the Infoblox grid reference ID. This can be used to save a fetch when
+    the --restartServices option is specified.  While this option is only relevant
+    to a few commands, it is allowed (ignored) by the other commands.
+
 ## OPTIONS - Common To All IBAPI Commands
 
 - -h, --help:
@@ -208,6 +220,10 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
+- ibapi host update rb4.rice.edu 168.7.56.224 -b "/grub2/grubx64.efi"
+
+    Update the bootfile of IP address 168.7.56.224 of host rb4.rice.edu.
+
 - ibapi host update rb4.rice.edu 168.7.56.224 -i 168.7.56.225
 
     Update the "rb4.rice.edu" Host record, changing the IP address "168.7.56.224"
@@ -219,11 +235,11 @@ Use the --ShowConfig to view each option and its value.
 
 # FILES
 
-- /usr/site/ibapi-0.0/etc/ibapi.conf
+- /usr/site/ibapi-1.0/etc/ibapi.conf
 - /etc/opt/ibapi/ibapi.conf
-- /etc/opt/ibapi-0.0//ibapi.conf
+- /etc/opt/ibapi-1.0//ibapi.conf
 - ~/.ibapi/ibapi.conf
-- ~/.ibapi-0.0/ibapi.conf
+- ~/.ibapi-1.0/ibapi.conf
 
     The IBAPI configuration files which can be used to
     set defaults for nearly all of the options described above.
@@ -264,4 +280,10 @@ a:delete(1),
 a:get(1),
 a:update(1),
 a:add(1),
+fixedaddress(1),
+fixedaddress:add(1),
+fixedaddress:delete(1),
+fixedaddress:get(1),
+fixedaddress:update(1),
+grid(1),
 ibapi.conf(5)

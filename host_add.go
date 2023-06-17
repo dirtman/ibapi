@@ -142,7 +142,7 @@ func addHost(invokedAs []string) error {
 			return Error("Record not added due to conflict.")
 		}
 	} else if input.restartServices {
-		if err = restartGridServices(Verbose); err != nil {
+		if err = gridRestartServices(Verbose); err != nil {
 			return Error("failure restarting services: %s", err)
 		}
 	}

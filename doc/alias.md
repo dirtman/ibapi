@@ -26,15 +26,15 @@ with the --help|-h option. For example:
 
 - ibapi alias delete rb4.rice.edu somewhere.com
 
-    Delete an Alias record.  
+    Delete an Alias record with A record target type..  
 
 # FILES
 
-- /usr/site/ibapi-0.0/etc/ibapi.conf
+- /usr/site/ibapi-1.0/etc/ibapi.conf
 - /etc/opt/ibapi/ibapi.conf
-- /etc/opt/ibapi-0.0//ibapi.conf
+- /etc/opt/ibapi-1.0//ibapi.conf
 - ~/.ibapi/ibapi.conf
-- ~/.ibapi-0.0/ibapi.conf
+- ~/.ibapi-1.0/ibapi.conf
 
     The IBAPI configuration files which can be used to
     set defaults for nearly all of the options described above.
@@ -75,4 +75,10 @@ a:delete(1),
 a:get(1),
 a:update(1),
 a:add(1),
+fixedaddress(1),
+fixedaddress:add(1),
+fixedaddress:delete(1),
+fixedaddress:get(1),
+fixedaddress:update(1),
+grid(1),
 ibapi.conf(5)

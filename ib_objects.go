@@ -56,6 +56,7 @@ type FixedAddress struct {
 	BootFile    string `json:"bootfile,omitempty"`
 	BootServer  string `json:"bootserver,omitempty"`
 	NextServer  string `json:"nextserver,omitempty"`
+	Disable     bool   `json:"disable"`
 }
 
 type RecordA struct {

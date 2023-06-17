@@ -1,17 +1,17 @@
 # NAME
 
-ibapi alias add - create Infoblox Alias records
+ibapi fixedaddress delete - delete Infoblox fixedaddress records
 
 # USAGE
 
-- ibapi alias add &lt;options/args>
+- ibapi fixedaddress delete &lt;options/args>
 
 # DESCRIPTION
 
-The add command is used to create Infoblox Alias records.
-To create a single Alias record, a single hostname and target can be provided as
-command line arguments.
-Alternatively, a list of records to add can be specified in a file (see --filename).
+The delete command is used to delete Infoblox fixedaddress records.  To delete
+a single fixedaddress record, a single IPv4 address and/or MAC address
+may be provided as command line arguments.  Alternatively, a list of
+records to delete can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -28,43 +28,19 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
-- -V &lt;view>, --View=&lt;view>:
+- -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify the view for the new record.  Default: "default".
-
-- -D, --Disable:
-
-    Disable the new record.  Default: false.
-
-- -T &lt;targetType>, --TargetType=&lt;targetType>:
-
-    Specify the target type for the Alias record.  Default: A record.
-
-- -c &lt;comment>, --Comment=&lt;comment>:
-
-    Specify the comment for the new record.
-    Alternatively, you can specify this via the --fields option.
-    Default: "ibapi:alias:add".
-
-- -F &lt;fields>, --Fields=&lt;fields>:
-
-    Specify fields and corresponding values for the new record.  For instance:
-    "comment=RT100931",view=default,ttl=900".
-
-- -f &lt;filename>, --Filename=&lt;filename>:
-
-    Specify a filename containing a list of Alias records to create.
-    Each line should contain a hostname and a target, separated
-    by one or more spaces.
+    Specify a filename containing a list of fixedaddress records to delete.
+    Each line should contain an IPv4 address and/or a MAC address, in either order,
+    separated by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
-- -C, --Check:
+- -R, --restartServices:
 
-    Before creating a new record, check if any "related" records already exist, and if
-    so do not create the new record.
-    Related records are those that share the same name and/or content.
-    Default: false.
+    If all record requests are successfully processed, instruct Infoblox to restart
+    any grid services that need to be restarted, generally due to pending updates 
+    that require a particular service, such as DHCP, is be restarted.
 
 ## OPTIONS - API Options
 
@@ -165,13 +141,17 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi alias add rb4.rice.edu somewhere.com
+- ibapi fixedaddress delete 168.7.56.224 c8:1f:66:c1:79:a1
 
-    Create a new Alias record with hostname "rb4.rice.edu" and A record target "somewhere.com".
+    Delete the fixedaddress record with IPv4 address "168.7.56.224" and MAC address "c8:1f:66:c1:79:a1".
 
-- ibapi alias add -T TXT rb4.rice.edu somewhere.com
+- ibapi fixedaddress delete 168.7.56.224
 
-    Create a new Alias record with hostname "rb4.rice.edu" and TXT record target "somewhere.com".
+    Delete the fixedaddress record with IPv4 address "168.7.56.224".
+
+- ibapi fixedaddress delete c8:1f:66:c1:79:a1
+
+    Delete the fixedaddress record with MAC address "c8:1f:66:c1:79:a1".
 
 # FILES
 
@@ -207,6 +187,7 @@ cname:add(1),
 cname:delete(1),
 cname:get(1),
 cname:update(1),
+alias:add(1),
 alias:delete(1),
 alias:get(1),
 alias:update(1),
@@ -222,7 +203,6 @@ a:update(1),
 a:add(1),
 fixedaddress(1),
 fixedaddress:add(1),
-fixedaddress:delete(1),
 fixedaddress:get(1),
 fixedaddress:update(1),
 grid(1),

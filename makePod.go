@@ -32,11 +32,11 @@ EXAMPLES
         Delete an A record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -50,7 +50,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -96,7 +97,7 @@ OPTIONS
 
     -F <fields>, --Fields=<fields>:
         Specify fields and corresponding values for the new record. For
-        intance: "comment=RT100931",view=default,ttl=900".
+        instance: "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --Filename=<filename>:
         Specify a filename containing a list of A records to create. Each
@@ -157,6 +158,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -192,12 +199,16 @@ EXAMPLES
         Create a new A record with hostname "rb4.rice.edu" and IP address
         "168.7.56.224".
 
+    ibapi a add -V external -f /tmp/hosts
+        Create an A record in the "external" view for each hostname/IP pair
+        specified in the file "/tmp/hosts".
+
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -210,7 +221,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
-    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), ibapi.conf(5)
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -297,6 +310,12 @@ DESCRIPTION
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -333,11 +352,11 @@ EXAMPLES
         "168.7.56.224".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -350,7 +369,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
-    url:update(1), a(1), a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    url:update(1), a(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -452,6 +473,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -483,19 +510,26 @@ OPTIONS
         PATH environment variable.
 
 EXAMPLES
-    ibapi a get rb4.rice.edu 168.7.56.224
-        Fetch the A record with hostname "rb4.rice.edu" and IP address
-        "168.7.56.224".
+    ibapi a get -F name~=mx -V external
+        Fetch each A record (in the external DNS view) whose name matches
+        "mx".
+
+    ibapi a get rb4.rice.edu
+        Fetch each A record with hostname "rb4.rice.edu".
 
     ibapi a get 168.7.56.224
-        Get all A records that contain the IP address "168.7.56.224".
+        Fetch each A record with IP address "168.7.56.224".
+
+    ibapi a get rb4.rice.edu 168.7.56.224
+        Fetch each A record with hostname "rb4.rice.edu" and IP address
+        "168.7.56.224".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -508,7 +542,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
-    url:update(1), a(1), a:delete(1), a:update(1), a:add(1), ibapi.conf(5)
+    url:update(1), a(1), a:delete(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -535,14 +571,14 @@ EXAMPLES
         Add an Alias record.
 
     ibapi alias delete rb4.rice.edu somewhere.com
-        Delete an Alias record.
+        Delete an Alias record with A record target type..
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -556,7 +592,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -601,7 +638,7 @@ OPTIONS
 
     -F <fields>, --Fields=<fields>:
         Specify fields and corresponding values for the new record. For
-        intance: "comment=RT100931",view=default,ttl=900".
+        instance: "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --Filename=<filename>:
         Specify a filename containing a list of Alias records to create.
@@ -660,6 +697,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -695,12 +738,16 @@ EXAMPLES
         Create a new Alias record with hostname "rb4.rice.edu" and A record
         target "somewhere.com".
 
+    ibapi alias add -T TXT rb4.rice.edu somewhere.com
+        Create a new Alias record with hostname "rb4.rice.edu" and TXT
+        record target "somewhere.com".
+
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -713,7 +760,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -743,6 +792,9 @@ OPTIONS
     --ShowConfig to view each option and its value.
 
   OPTIONS - General
+    -T <targetType>, --TargetType=<targetType>:
+        Specify the target type to delete. Default: A record.
+
     -f <filename>, --filename=<filename>:
         Specify a filename containing a list of Alias records to delete.
         Each line should contain a hostname and optionally a target,
@@ -795,6 +847,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -827,18 +885,18 @@ OPTIONS
 
 EXAMPLES
     ibapi alias delete rb4.rice.edu somewhere.com
-        Delete the Alias record with hostname "rb4.rice.edu" and target
-        "somewhere.com".
+        Delete the Alias record with hostname "rb4.rice.edu" and A record
+        target "somewhere.com".
 
-    ibapi alias delete rb4.rice.edu
-        Delete the "rb4.rice.edu" Alias record.
+    ibapi alias delete rb4.rice.edu -T TXT
+        Delete the "rb4.rice.edu" Alias record of target type TXT.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -851,7 +909,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -957,6 +1017,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -989,21 +1055,21 @@ OPTIONS
 
 EXAMPLES
     ibapi alias get rb4.rice.edu
-        Fetch the Alias record with hostname "rb4.rice.edu".
+        Fetch each Alias record with hostname "rb4.rice.edu".
 
     ibapi alias get "" somewhere.com
-        Get all Alias records that contain the target "somewhere.com".
+        Fetch each Alias record that contains the target "somewhere.com".
 
     ibapi alias get rb4.rice.edu somewhere.com
-        Fetch the Alias record with hostname "rb4.rice.edu" and target
+        Fetch each Alias record with hostname "rb4.rice.edu" and target
         "somewhere.com".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1016,7 +1082,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -1067,7 +1135,7 @@ OPTIONS
         Update the target_type of the specified alias to "new_target_type".
 
     -F <fields>, --Fields=<fields>:
-        Specify fields and corresponding values to be updated. For intance:
+        Specify fields and corresponding values to be updated. For instance:
         "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --filename=<filename>:
@@ -1128,6 +1196,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -1164,11 +1238,11 @@ EXAMPLES
         "nowhere.com".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1181,7 +1255,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -1229,7 +1305,7 @@ OPTIONS
         Update the IP of the specified record to "new_IP".
 
     -F <fields>, --Fields=<fields>:
-        Specify fields and corresponding values to be updated. For intance:
+        Specify fields and corresponding values to be updated. For instance:
         "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --filename=<filename>:
@@ -1291,6 +1367,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -1327,11 +1409,11 @@ EXAMPLES
         address to "168.7.56.225".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1344,7 +1426,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
-    url:update(1), a(1), a:delete(1), a:get(1), a:add(1), ibapi.conf(5)
+    url:update(1), a(1), a:delete(1), a:get(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -1374,11 +1458,11 @@ EXAMPLES
         Delete a CNAME record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1392,7 +1476,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -1438,7 +1523,7 @@ OPTIONS
 
     -F <fields>, --Fields=<fields>:
         Specify fields and corresponding values for the new record. For
-        intance: "comment=RT100931",view=default,ttl=900".
+        instance: "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --Filename=<filename>:
         Specify a filename containing a list of CNAME records to create.
@@ -1492,6 +1577,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -1528,11 +1619,11 @@ EXAMPLES
         "somewhere.com".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1545,7 +1636,9 @@ SEE ALSO
     ptr:update(1), cname:delete(1), cname:get(1), cname:update(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -1627,6 +1720,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -1666,11 +1765,11 @@ EXAMPLES
         Delete the "rb4.rice.edu" CNAME record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1683,7 +1782,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:get(1), cname:update(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -1785,6 +1886,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -1827,11 +1934,11 @@ EXAMPLES
         "somewhere.com".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1844,7 +1951,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:update(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -1892,7 +2001,7 @@ OPTIONS
         Update the target of the specified CNAME record to "newTarget"
 
     -F <fields>, --Fields=<fields>:
-        Specify fields and corresponding values to be updated. For intance:
+        Specify fields and corresponding values to be updated. For instance:
         "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --filename=<filename>:
@@ -1946,6 +2055,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -1982,11 +2097,11 @@ EXAMPLES
         "nowhere.com".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -1999,7 +2114,914 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
+
+
+`
+	PodMap["fixedaddress"] = `
+NAME
+    ibapi fixedaddress - create, read, update and delete Infoblox
+    fixedaddress records
+
+USAGE
+    ibapi fixedaddress <add|get|update|delete> <options/args>
+
+DESCRIPTION
+    "ibapi fixedaddress" can be used to add, get, update and delete Infoblox
+    fixedaddress records. The basic format is
+
+    * ibapi fixedaddress <operation> <options/args>
+
+    For more details, invoke the specific operation with the --help|-h
+    option. For example:
+
+    * ibapi fixedaddress add -h
+
+EXAMPLES
+    ibapi fixedaddress add 168.7.56.224 c8:1f:66:c3:a7:e1 -n sitedisk -b
+    "/grub2/grubx64.efi" -R
+        Add a fixedaddress record with IPv4 168.7.56.224, MAC
+        c8:1f:66:c3:a7:e1, name sitedisk, and bootfile "/grub2/grubx64.efi".
+        When done, issue the "restart_if_needed" command to restart Grid
+        services if needed.
+
+    ibapi fixedaddress delete 168.7.56.224
+        Delete a fixedaddress record.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
+
+
+`
+	PodMap["fixedaddress:add"] = `
+NAME
+    ibapi fixedaddress add - create Infoblox fixedaddress records
+
+USAGE
+    ibapi fixedaddress add <options/args>
+
+DESCRIPTION
+    The add command is used to create Infoblox fixedaddress records. To
+    create a single fixedaddress record, a single IPv4 address and a MAC
+    address can be provided as command line arguments, in either order.
+    Alternatively, a list of records to add can be specified in a file (see
+    --filename).
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -n <name>, --Name=<name>
+        Specify the name of the new record.
+
+    -V <network_view>, --View=<network_view>:
+        Specify the network_view for the new record. Default: "default".
+
+    -D, --Disable:
+        Disable the new record. Default: false.
+
+    -c <comment>, --Comment=<comment>:
+        Specify the comment for the new record. Alternatively, you can
+        specify this via the --fields option. Default:
+        "ibapi:fixedaddress:add".
+
+    -F <fields>, --Fields=<fields>:
+        Specify fields and corresponding values for the new record. For
+        instance: "comment=RT100931",network_view=external".
+
+    -f <filename>, --Filename=<filename>:
+        Specify a filename containing a list of fixedaddress records to
+        create. Each line should contain an IPv4 address and a MAC address,
+        in either order, separated by one or more spaces. Blank lines and
+        lines beginning with "#" are ignored, as is anything on a line
+        following a "#".
+
+    -R, --restartServices:
+        If all record requests are successfully processed, instruct Infoblox
+        to restart any grid services that need to be restarted, generally
+        due to pending updates that require a particular service, such as
+        DHCP, is be restarted.
+
+    -b <bootfile>, --bootfile=<bootfile>:
+        Specify the bootfile for the specified IP address.
+
+    -N <nextserver>, --nextserver=<nextserver>:
+        Specify the nextserver for the specified IP address.
+
+    -B <bootserver>, --bootserver=<bootserver>:
+        Specify the bootserver for the specified IP address.
+
+    -I <ipFields>, --ipFields=<ipFields>:
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    -u <username>, --username=<username>:
+        Specify the username used for basic auth.
+
+    -p <password>, --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    -P, --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi fixedaddress add 10.143.195.121 c8:1f:66:c1:79:a1 -n
+    zabbix-n1.rice.edu
+        Create a new fixedaddress record with IPv4 address "10.143.195.121",
+        MAC address "c8:1f:66:c1:79:a1", and name "zabbix-n1.rice.edu".
+
+    ibapi fixedaddress add 10.10.10.214 -d 64:00:6a:8f:cc:4d -N10.128.81.10
+    -b/grub2/grubx64.efi -R
+        Create a fixedaddress record with the specified IPv4 address, MAC
+        address, nextserver and bootfile. When done, issue the
+        "restart_if_needed" command to restart Grid services if needed.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
+
+
+`
+	PodMap["fixedaddress:delete"] = `
+NAME
+    ibapi fixedaddress delete - delete Infoblox fixedaddress records
+
+USAGE
+    ibapi fixedaddress delete <options/args>
+
+DESCRIPTION
+    The delete command is used to delete Infoblox fixedaddress records. To
+    delete a single fixedaddress record, a single IPv4 address and/or MAC
+    address may be provided as command line arguments. Alternatively, a list
+    of records to delete can be specified in a file (see --filename).
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of fixedaddress records to
+        delete. Each line should contain an IPv4 address and/or a MAC
+        address, in either order, separated by one or more spaces. Blank
+        lines and lines beginning with "#" are ignored, as is anything on a
+        line following a "#".
+
+    -R, --restartServices:
+        If all record requests are successfully processed, instruct Infoblox
+        to restart any grid services that need to be restarted, generally
+        due to pending updates that require a particular service, such as
+        DHCP, is be restarted.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    -u <username>, --username=<username>:
+        Specify the username used for basic auth.
+
+    -p <password>, --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    -P, --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi fixedaddress delete 168.7.56.224 c8:1f:66:c1:79:a1
+        Delete the fixedaddress record with IPv4 address "168.7.56.224" and
+        MAC address "c8:1f:66:c1:79:a1".
+
+    ibapi fixedaddress delete 168.7.56.224
+        Delete the fixedaddress record with IPv4 address "168.7.56.224".
+
+    ibapi fixedaddress delete c8:1f:66:c1:79:a1
+        Delete the fixedaddress record with MAC address "c8:1f:66:c1:79:a1".
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
+
+
+`
+	PodMap["fixedaddress:get"] = `
+NAME
+    ibapi fixedaddress get - get Infoblox fixedaddress records
+
+USAGE
+    ibapi fixedaddress get <options/args>
+
+DESCRIPTION
+    The get command is used to read/fetch Infoblox fixedaddress records.
+
+    By default, the IP address and MAC address of each fetched record is
+    shown. The --verbose option can be specified to print out the raw
+    response from the API.
+
+    To fetch a single fixedaddress record, a single IPv4 address and/or MAC
+    address may be provided as command line arguments. Alternatively, a list
+    of records to fetch can be specified in a file (see --filename).
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <network_view>, --View=<network_view>:
+        Specify the network_view of the record to fetch. Specify "any" to
+        search for records in all network_views. Default: "any".
+
+    -F <fields>, --Fields=<fields>:
+        Specify a comma-separated list of field name/value pairs to restrict
+        the record(s) fetched.
+
+    -R <return_fields>, --rFields=<return_fields>:
+        Specify additional fields to show when in Verbose mode.
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of fixedaddress records to get.
+        Each line should contain an IPv4 address and/or a MAC address, in
+        either order, separated by one or more spaces. Blank lines and lines
+        beginning with "#" are ignored, as is anything on a line following a
+        "#".
+
+    -r <obj_ref>, --Ref=<obj_ref>:
+        Instead of showing the name and content of the fetched record(s),
+        show the object reference of each record.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    -u <username>, --username=<username>:
+        Specify the username used for basic auth.
+
+    -p <password>, --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    -P, --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi fixedaddress get -F mac~=00:10:10:10:10 -V external
+        Fetch each fixedaddress record (in the external network_view) whose
+        MAC address matches "00:10:10:10:10".
+
+    ibapi fixedaddress get -F ipv4addr~=10.143.195.
+        Fetch each fixedaddress record (in any network_view) that has an
+        IPv4 address matching "10.143.195.".
+
+    ibapi fixedaddress get 00:10:10:10:10:01
+        Fetch the fixedaddress record with MAC address "00:10:10:10:10:01".
+
+    ibapi fixedaddress get 168.7.56.224
+        Fetch the fixedaddress record with IPv4 address "168.7.56.224".
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
+
+
+`
+	PodMap["fixedaddress:update"] = `
+NAME
+    ibapi fixedaddress update - update Infoblox fixedaddress records
+
+USAGE
+    ibapi fixedaddress update <options/args>
+
+DESCRIPTION
+    The update command is used to update Infoblox fixedaddress records.
+
+    To delete a single fixedaddress record, a single IPv4 address and/or a
+    MAC address can be provided as command line arguments, in either order.
+    Alternatively, a list of records to delete can be specified in a file
+    (see --filename).
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <network_view>, --View=<network_view>:
+        Specify the network_view of the record to update. Default:
+        "default".
+
+    -D <true|false>, --Disable=<true|false>:
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
+
+    -i <new_IPv4_address>, --ip=<new_IPv4_address>:
+        Update the IPv4 address of the specified record to
+        "new_IPv4_address".
+
+    -m <new_MAC>, --mac=<new_MAC>:
+        Update the MAC address of the specified record to "new_MAC".
+
+    -b <bootfile>, --bootfile=<bootfile>:
+        Update the bootfile of the specified IP address.
+
+    -N <nextserver>, --nextserver=<nextserver>:
+        Update the nextserver of the specified IP address.
+
+    -B <bootserver>, --bootserver=<bootserver>:
+        Update the bootserver of the specified IP address.
+
+    -n <new_name>, --Name=<new_name>:
+        Update the name of the specified record to "new_name".
+
+    -c <comment>, --Comment=<comment>:
+        Update the record's comment.
+
+    -F <fields>, --Fields=<fields>:
+        Specify fields and corresponding values to be updated. For instance:
+        "comment=RT100931",network_view=default,name=rambo".
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of fixedaddress records to
+        update. Each line should contain an IPv4 address and a MAC address,
+        in either order, separated by one or more spaces. Blank lines and
+        lines beginning with "#" are ignored, as is anything on a line
+        following a "#".
+
+    -R, --restartServices:
+        If all record requests are successfully processed, instruct Infoblox
+        to restart any grid services that need to be restarted, generally
+        due to pending updates that require a particular service, such as
+        DHCP, is be restarted.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    -u <username>, --username=<username>:
+        Specify the username used for basic auth.
+
+    -p <password>, --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    -P, --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi fixedaddress update 168.7.56.224 -b "/grub2/grubx64.efi"
+        Update the bootfile of the fixedaddress record with IPv4
+        168.7.56.224.
+
+    ibapi fixedaddress update 168.7.56.224 -i 168.7.56.225
+        Update the "168.7.56.224" fixedaddress record, changing the IP
+        address to "168.7.56.225".
+
+    ibapi fixedaddress update 168.7.56.224 -m c8:1f:66:c1:79:a1
+        Update the MAC address of the "168.7.56.224" fixedaddress record.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), grid(1), ibapi.conf(5)
+
+
+`
+	PodMap["grid"] = `
+NAME
+    ibapi grid - manage the Infoblox grid
+
+USAGE
+    ibapi grid [<options>] <retart|ref>
+
+DESCRIPTION
+    "ibapi grid" can be used to instruct Infoblox to restart any grid
+    services that need to be restarted, generally due to pending updates
+    that require a particular service, such as DHCP, is be restarted.
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    -u <username>, --username=<username>:
+        Specify the username used for basic auth.
+
+    -p <password>, --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    -P, --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi grid restart
+        Instruct Infoblox to restart any grid services that need to be
+        restarted, generally due to pending updates that require a
+        particular service, such as DHCP, is be restarted.
+
+    ibapi grid ref
+        Fetch the reference ID of the Infoblox grid.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), ibapi.conf(5)
 
 
 `
@@ -2029,11 +3051,11 @@ EXAMPLES
         Delete a Host record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -2047,7 +3069,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -2096,7 +3119,7 @@ OPTIONS
 
     -F <fields>, --Fields=<fields>:
         Specify fields and corresponding values for the new record. For
-        intance: "comment=RT100931",view=default,ttl=900".
+        instance: "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --Filename=<filename>:
         Specify a filename containing a list of Host records to create. Each
@@ -2184,6 +3207,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -2220,16 +3249,18 @@ EXAMPLES
         "168.7.56.224".
 
     ibapi host add rb4.rice.edu 10.10.10.214 -d -m 64:00:6a:8f:cc:4d
-    -N10.128.81.10 -b/grub2/grubx64.efi
+    -N10.128.81.10 -b/grub2/grubx64.efi -R
         Create the specified Host with IP address 10.10.10.214, configure
-        that IP for DHCP and set DHCP-related options as specified.
+        that IP for DHCP and set DHCP-related options as specified. When
+        done, issue the "restart_if_needed" command to restart Grid services
+        if needed.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -2243,7 +3274,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -2341,6 +3373,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -2380,11 +3418,11 @@ EXAMPLES
         Delete the "rb4.rice.edu" Host record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -2397,7 +3435,9 @@ SEE ALSO
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -2503,6 +3543,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -2534,6 +3580,14 @@ OPTIONS
         PATH environment variable.
 
 EXAMPLES
+    ibapi host get -F name~=cs.rice.edu -V external
+        Fetch each host record (in the external DNS view) whose name matches
+        cs.rice.edu.
+
+    ibapi host get -F ipv4addr~=10.143.195.
+        Fetch each host record (in any DNS view) that has an IP address
+        matching "10.143.195.".
+
     ibapi host get rb4.rice.edu 168.7.56.224
         Fetch the Host record with hostname "rb4.rice.edu" and IP address
         "168.7.56.224".
@@ -2542,11 +3596,11 @@ EXAMPLES
         Get all Host records that contain the IP address "168.7.56.224".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -2560,7 +3614,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -2614,7 +3669,7 @@ OPTIONS
         value.
 
     -F <fields>, --Fields=<fields>:
-        Specify fields and corresponding values to be updated. For intance:
+        Specify fields and corresponding values to be updated. For instance:
         "comment=RT100931",view=default,ttl=900".
 
     -i [+|-]<new_IP>, --IP=[+|-]<new_IP>:
@@ -2715,6 +3770,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -2746,6 +3807,9 @@ OPTIONS
         PATH environment variable.
 
 EXAMPLES
+    ibapi host update rb4.rice.edu 168.7.56.224 -b "/grub2/grubx64.efi"
+        Update the bootfile of IP address 168.7.56.224 of host rb4.rice.edu.
+
     ibapi host update rb4.rice.edu 168.7.56.224 -i 168.7.56.225
         Update the "rb4.rice.edu" Host record, changing the IP address
         "168.7.56.224" to "168.7.56.225".
@@ -2755,11 +3819,11 @@ EXAMPLES
         "168.7.56.225"
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -2772,39 +3836,41 @@ SEE ALSO
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
 	PodMap["ibapi"] = `
 NAME
-    ibapi - create, read, update and delete basic Infoblox records
+    ibapi - create, read, update and delete basic Infoblox objects
 
 USAGE
-    ibapi <-h|--help>
-    ibapi <host|a|ptr|cname|alias|url> <-h|--help>
-    ibapi <host|a|ptr|cname|alias|url> <add|get|update|delete>
-    <options/args>
+    ibapi [-h|--help] OBJECT [-h|--help] OPERATION [<args>]
+
+    where OBJECT is one of
+
+      host a ptr cname alias fixedaddress url grid
+
+    OPERATION, for all but the "grid" object, is one of
+
+        add get update delete
 
 DESCRIPTION
     ibapi can be used to add, get, update and delete a few of the most basic
-    Infoblox records. The basic format is
+    Infoblox records via the Infoblox WAPI. Additionally, it can used to
+    restart Infoblox grid services. For more details, invoke the specific
+    OBJECT/OPERATION with the --help|-h option. For example:
 
-    * ibapi <record_type|url> <operation> <options/args>
+    * ibapi host -h
 
-    For more details, invoke the specific record_type/operation with the
-    --help|-h option. For example:
-
-    * ibapi a -h
-
-    * ibapi a add -h
+    * ibapi host add -h
 
 Configuration Files
     ibapi configuration files can be used to set defaults for most of the
     available options. The ibapi command searches for configuration files in
     several places, including:
-
-    *   /usr/site/ibapi-0.0/etc/ibapi.conf
 
     *   /etc/opt/ibapi/ibapi.conf
 
@@ -2840,10 +3906,10 @@ Configuration Files
     *   ibapi url add --showconfig
 
 Authentication
-    ibapi supports only basic authentication. A username and password can be
-    specified via command line options or via a "username:password" string
-    stored in a local file. Here is an example of configuring a username and
-    password for WAPI user "sandman":
+    ibapi currently supports only basic authentication. A username and
+    password can be specified via command line options or via a
+    "username:password" string stored in a local file. Here is an example of
+    configuring a username and password for WAPI user "sandman":
 
     *   mkdir -p $HOME/.ibapi/private
 
@@ -2856,11 +3922,12 @@ Authentication
     *   chmod 600 $HOME/.ibapi/private/sandman
 
 EXAMPLES
-    ibapi host add rb3.rice.edu 168.7.56.225 -d -m f4:8e:38:84:89:e6 -N
-    10.128.81.10 -b /grub2/shim.efi
+    ibapi host add rb3.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N
+    10.128.95.14 -b "/grub2/grubx64.efi"
         Create the specified Host record with IPv4 address 168.7.56.225,
         configure that address for DHCP and set DHCP-related options as
-        specified.
+        specified. When done, issue the "restart_if_needed" command to
+        restart Grid services if needed.
 
     ibapi host update rb3.rice.edu -i +168.7.56.226
         Update the Host record named "rb3.rice.edu", adding the IPv4 address
@@ -2984,12 +4051,17 @@ EXAMPLES
         Change the target, or canonical name, of the referenced CNAME
         record.
 
+    ibapi grid restart
+        Instruct Infoblox to restart any grid services that need to be
+        restarted, generally due to pending updates that require a
+        particular service, such as DHCP, is be restarted.
+
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3003,7 +4075,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -3033,11 +4106,11 @@ EXAMPLES
         Delete a PTR record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3051,7 +4124,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -3097,7 +4171,7 @@ OPTIONS
 
     -F <fields>, --Fields=<fields>:
         Specify fields and corresponding values for the new record. For
-        intance: "comment=RT100931",view=default,ttl=900".
+        instance: "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --Filename=<filename>:
         Specify a filename containing a list of PTR records to create. Each
@@ -3157,6 +4231,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -3193,11 +4273,11 @@ EXAMPLES
         "168.7.56.224".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3211,7 +4291,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -3298,6 +4379,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -3334,11 +4421,11 @@ EXAMPLES
         "168.7.56.224".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3351,7 +4438,9 @@ SEE ALSO
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -3454,6 +4543,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -3493,11 +4588,11 @@ EXAMPLES
         Get all PTR records that contain the IP address "168.7.56.224".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3511,7 +4606,8 @@ SEE ALSO
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
-    ibapi.conf(5)
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -3561,7 +4657,7 @@ OPTIONS
         Change the IP address of the specified ptr to "new_IP".
 
     -F <fields>, --Fields=<fields>:
-        Specify fields and corresponding values to be updated. For intance:
+        Specify fields and corresponding values to be updated. For instance:
         "comment=RT100931",view=default,ttl=900".
 
     -f <filename>, --filename=<filename>:
@@ -3623,6 +4719,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -3659,11 +4761,11 @@ EXAMPLES
         address to "168.7.56.225".
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3676,7 +4778,9 @@ SEE ALSO
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
     alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
     url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
-    a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), ibapi.conf(5)
 
 
 `
@@ -3709,11 +4813,11 @@ EXAMPLES
         Retrieve the schema for a Host record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3726,7 +4830,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url:add(1), url:delete(1), url:get(1), url:update(1),
-    a(1), a:delete(1), a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a(1), a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -3798,6 +4904,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -3836,11 +4948,11 @@ EXAMPLES
           ibapi address add dbx.seci.rice.edu 10.10.10.201
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3853,7 +4965,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:delete(1), url:get(1), url:update(1), a(1),
-    a:delete(1), a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -3930,6 +5044,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -3973,11 +5093,11 @@ EXAMPLES
         then use the reference to delete the record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -3990,7 +5110,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:get(1), url:update(1), a(1),
-    a:delete(1), a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -4070,6 +5192,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -4127,11 +5255,11 @@ EXAMPLES
         Retrieve the schema for a Host record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -4144,7 +5272,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:update(1), a(1),
-    a:delete(1), a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `
@@ -4220,6 +5350,12 @@ OPTIONS
         Obviously, these files should be safely guarded or avoided
         altogether. Default: "/etc/opt/ibapi/private".
 
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
   OPTIONS - Common To All IBAPI Commands
     -h, --help:
         Help; show usage information and exit.
@@ -4264,11 +5400,11 @@ EXAMPLES
         then use the reference to update the record.
 
 FILES
-    /usr/site/ibapi-0.0/etc/ibapi.conf
+    /usr/site/ibapi-1.0/etc/ibapi.conf
     /etc/opt/ibapi/ibapi.conf
-    /etc/opt/ibapi-0.0//ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
     ~/.ibapi/ibapi.conf
-    ~/.ibapi-0.0/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
         The IBAPI configuration files which can be used to set defaults for
         nearly all of the options described above. Any combination of these
         may be used. Each file found is read in turn, with settings in later
@@ -4281,7 +5417,9 @@ SEE ALSO
     ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
     cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
     alias:update(1), url(1), url:add(1), url:delete(1), url:get(1), a(1),
-    a:delete(1), a:get(1), a:update(1), a:add(1), ibapi.conf(5)
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), ibapi.conf(5)
 
 
 `

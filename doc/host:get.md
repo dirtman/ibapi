@@ -118,6 +118,12 @@ Use the --ShowConfig to view each option and its value.
     avoided altogether.
     Default: "/etc/opt/ibapi/private".
 
+- --GridReference=&lt;grid\_reference>:
+
+    Specify the Infoblox grid reference ID. This can be used to save a fetch when
+    the --restartServices option is specified.  While this option is only relevant
+    to a few commands, it is allowed (ignored) by the other commands.
+
 ## OPTIONS - Common To All IBAPI Commands
 
 - -h, --help:
@@ -156,6 +162,14 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
+- ibapi host get -F name\~=cs.rice.edu -V external
+
+    Fetch each host record (in the external DNS view) whose name matches cs.rice.edu.
+
+- ibapi host get -F ipv4addr\~=10.143.195.
+
+    Fetch each host record (in any DNS view) that has an IP address matching "10.143.195.".
+
 - ibapi host get rb4.rice.edu 168.7.56.224
 
     Fetch the Host record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
@@ -166,11 +180,11 @@ Use the --ShowConfig to view each option and its value.
 
 # FILES
 
-- /usr/site/ibapi-0.0/etc/ibapi.conf
+- /usr/site/ibapi-1.0/etc/ibapi.conf
 - /etc/opt/ibapi/ibapi.conf
-- /etc/opt/ibapi-0.0//ibapi.conf
+- /etc/opt/ibapi-1.0//ibapi.conf
 - ~/.ibapi/ibapi.conf
-- ~/.ibapi-0.0/ibapi.conf
+- ~/.ibapi-1.0/ibapi.conf
 
     The IBAPI configuration files which can be used to
     set defaults for nearly all of the options described above.
@@ -211,4 +225,10 @@ a:delete(1),
 a:get(1),
 a:update(1),
 a:add(1),
+fixedaddress(1),
+fixedaddress:add(1),
+fixedaddress:delete(1),
+fixedaddress:get(1),
+fixedaddress:update(1),
+grid(1),
 ibapi.conf(5)

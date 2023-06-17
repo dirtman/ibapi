@@ -181,7 +181,10 @@ stdout '10.10.10.219'
 # Update 17: Update the fields of a Host IP address.
 exec ibapi host update host1.seci.rice.edu 10.10.10.219 -dtrue -I mac=64:00:6a:8f:cc:4f -N10.128.81.11 -b/todfile
 ! stderr .
-stdout 'fields: mac=64:00:6a:8f:cc:4f,configure_for_dhcp=true,bootfile=/todfile,nextserver=10.128.81.11'
+stdout 'fields: mac=64:00:6a:8f:cc:4f'
+stdout 'configure_for_dhcp=true'
+stdout 'bootfile=/todfile'
+stdout 'nextserver=10.128.81.11'
 
 # Update 17a: Get above added fields
 exec ibapi host get host1.seci.rice.edu -V default -v -Imac,nextserver,bootfile

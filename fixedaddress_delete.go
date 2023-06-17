@@ -8,16 +8,16 @@ import (
 
 // Implement the "delete" command.
 
-func deleteHost(invokedAs []string) error {
+func deleteFixedAddress(invokedAs []string) error {
 
 	var fields []string
 	var input *UserInput
-	var states StatesHost = make(StatesHost)
-	var record *RecordHost
+	var states StatesFixedAddress = make(StatesFixedAddress)
+	var record *FixedAddress
 	var err error
 	duo := false
 
-	SetStringOpt("view", "V", true, "default", "Specify the the record's view")
+	SetStringOpt("view", "V", true, "default", "Specify the network view to which the record belongs")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
 	SetBoolOpt("restartServices", "R", true, false, "Restart Grid services if needed")
 
@@ -31,6 +31,7 @@ func deleteHost(invokedAs []string) error {
 	if errors := checkStateErrors(states, duo, true); len(errors) != 0 {
 		return Error("Aborting process; no records deleted.")
 	}
+
 	// Loop through the user provided input (name/data) list.
 	space := input.maxNameLength + 8
 	var numNotFound, numFailed uint
@@ -41,7 +42,7 @@ func deleteHost(invokedAs []string) error {
 		request = strings.TrimRight(request, nameDataSep)
 
 		if len(records) == 0 {
-			Print("%-*s NOTFOUND\n", space, "Host("+request+")")
+			Print("%-*s NOTFOUND\n", space, "FixedAddress("+request+")")
 			numNotFound++
 			continue
 		}
@@ -49,14 +50,14 @@ func deleteHost(invokedAs []string) error {
 		ref := record.Ref
 		_, err := deleteRecord(record.Ref, fields)
 		if err != nil {
-			Print("%-*s FAILED to delete: %v\n", space, "Host("+request+")", err)
+			Print("%-*s FAILED to delete: %v\n", space, "FixedAddress("+request+")", err)
 			numFailed++
 			continue
 		} else if ref != record.Ref {
-			Print("%-*s FAILED to delete: ref mismatch\n", space, "Host("+request+")")
+			Print("%-*s FAILED to delete: ref mismatch\n", space, "FixedAddress("+request+")")
 			numFailed++
 		} else {
-			Print("%-*s Deleted\n", space, "Host("+request+")")
+			Print("%-*s Deleted\n", space, "FixedAddress("+request+")")
 		}
 	}
 
@@ -69,5 +70,6 @@ func deleteHost(invokedAs []string) error {
 			return Error("failure restarting services: %s", err)
 		}
 	}
+
 	return nil
 }

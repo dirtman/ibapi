@@ -1,17 +1,16 @@
 # NAME
 
-ibapi alias add - create Infoblox Alias records
+ibapi grid - manage the Infoblox grid
 
 # USAGE
 
-- ibapi alias add &lt;options/args>
+- ibapi grid \[&lt;options>\] &lt;retart|ref>
 
 # DESCRIPTION
 
-The add command is used to create Infoblox Alias records.
-To create a single Alias record, a single hostname and target can be provided as
-command line arguments.
-Alternatively, a list of records to add can be specified in a file (see --filename).
+"ibapi grid" can be used to instruct Infoblox to restart
+any grid services that need to be restarted, generally due to pending updates
+that require a particular service, such as DHCP, is be restarted.
 
 # OPTIONS
 
@@ -27,44 +26,6 @@ Command line options always override configuration file settings.
 Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
-
-- -V &lt;view>, --View=&lt;view>:
-
-    Specify the view for the new record.  Default: "default".
-
-- -D, --Disable:
-
-    Disable the new record.  Default: false.
-
-- -T &lt;targetType>, --TargetType=&lt;targetType>:
-
-    Specify the target type for the Alias record.  Default: A record.
-
-- -c &lt;comment>, --Comment=&lt;comment>:
-
-    Specify the comment for the new record.
-    Alternatively, you can specify this via the --fields option.
-    Default: "ibapi:alias:add".
-
-- -F &lt;fields>, --Fields=&lt;fields>:
-
-    Specify fields and corresponding values for the new record.  For instance:
-    "comment=RT100931",view=default,ttl=900".
-
-- -f &lt;filename>, --Filename=&lt;filename>:
-
-    Specify a filename containing a list of Alias records to create.
-    Each line should contain a hostname and a target, separated
-    by one or more spaces.
-    Blank lines and lines beginning with "#" are ignored, as is anything on a line
-    following a "#".
-
-- -C, --Check:
-
-    Before creating a new record, check if any "related" records already exist, and if
-    so do not create the new record.
-    Related records are those that share the same name and/or content.
-    Default: false.
 
 ## OPTIONS - API Options
 
@@ -165,13 +126,15 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi alias add rb4.rice.edu somewhere.com
+- ibapi grid restart
 
-    Create a new Alias record with hostname "rb4.rice.edu" and A record target "somewhere.com".
+    Instruct Infoblox to restart any grid services that need to be restarted,
+    generally due to pending updates that require a particular service, such as
+    DHCP, is be restarted.
 
-- ibapi alias add -T TXT rb4.rice.edu somewhere.com
+- ibapi grid ref
 
-    Create a new Alias record with hostname "rb4.rice.edu" and TXT record target "somewhere.com".
+    Fetch the reference ID of the Infoblox grid.
 
 # FILES
 
@@ -207,6 +170,7 @@ cname:add(1),
 cname:delete(1),
 cname:get(1),
 cname:update(1),
+alias:add(1),
 alias:delete(1),
 alias:get(1),
 alias:update(1),
@@ -225,5 +189,4 @@ fixedaddress:add(1),
 fixedaddress:delete(1),
 fixedaddress:get(1),
 fixedaddress:update(1),
-grid(1),
 ibapi.conf(5)

@@ -1,17 +1,17 @@
 # NAME
 
-ibapi alias add - create Infoblox Alias records
+ibapi fixedaddress add - create Infoblox fixedaddress records
 
 # USAGE
 
-- ibapi alias add &lt;options/args>
+- ibapi fixedaddress add &lt;options/args>
 
 # DESCRIPTION
 
-The add command is used to create Infoblox Alias records.
-To create a single Alias record, a single hostname and target can be provided as
-command line arguments.
-Alternatively, a list of records to add can be specified in a file (see --filename).
+The add command is used to create Infoblox fixedaddress records.  To create a
+single fixedaddress record, a single IPv4 address and a MAC address can be
+provided as command line arguments, in either order.  Alternatively, a list of
+records to add can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -28,43 +28,56 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
-- -V &lt;view>, --View=&lt;view>:
+- -n &lt;name>, --Name=&lt;name>
 
-    Specify the view for the new record.  Default: "default".
+    Specify the name of the new record.
+
+- -V &lt;network\_view>, --View=&lt;network\_view>:
+
+    Specify the network\_view for the new record.  Default: "default".
 
 - -D, --Disable:
 
     Disable the new record.  Default: false.
 
-- -T &lt;targetType>, --TargetType=&lt;targetType>:
-
-    Specify the target type for the Alias record.  Default: A record.
-
 - -c &lt;comment>, --Comment=&lt;comment>:
 
     Specify the comment for the new record.
     Alternatively, you can specify this via the --fields option.
-    Default: "ibapi:alias:add".
+    Default: "ibapi:fixedaddress:add".
 
 - -F &lt;fields>, --Fields=&lt;fields>:
 
     Specify fields and corresponding values for the new record.  For instance:
-    "comment=RT100931",view=default,ttl=900".
+    "comment=RT100931",network\_view=external".
 
 - -f &lt;filename>, --Filename=&lt;filename>:
 
-    Specify a filename containing a list of Alias records to create.
-    Each line should contain a hostname and a target, separated
+    Specify a filename containing a list of fixedaddress records to create.
+    Each line should contain an IPv4 address and a MAC address, in either order, separated
     by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
-- -C, --Check:
+- -R, --restartServices:
 
-    Before creating a new record, check if any "related" records already exist, and if
-    so do not create the new record.
-    Related records are those that share the same name and/or content.
-    Default: false.
+    If all record requests are successfully processed, instruct Infoblox to restart
+    any grid services that need to be restarted, generally due to pending updates 
+    that require a particular service, such as DHCP, is be restarted.
+
+- -b &lt;bootfile>, --bootfile=&lt;bootfile>:
+
+    Specify the bootfile for the specified IP address.
+
+- -N &lt;nextserver>, --nextserver=&lt;nextserver>:
+
+    Specify the nextserver for the specified IP address.
+
+- -B &lt;bootserver>, --bootserver=&lt;bootserver>:
+
+    Specify the bootserver for the specified IP address.
+
+- -I &lt;ipFields>, --ipFields=&lt;ipFields>:
 
 ## OPTIONS - API Options
 
@@ -165,13 +178,13 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi alias add rb4.rice.edu somewhere.com
+- ibapi fixedaddress add 10.143.195.121 c8:1f:66:c1:79:a1 -n zabbix-n1.rice.edu
 
-    Create a new Alias record with hostname "rb4.rice.edu" and A record target "somewhere.com".
+    Create a new fixedaddress record with IPv4 address "10.143.195.121", MAC address "c8:1f:66:c1:79:a1", and name "zabbix-n1.rice.edu".
 
-- ibapi alias add -T TXT rb4.rice.edu somewhere.com
+- ibapi fixedaddress add 10.10.10.214 -d 64:00:6a:8f:cc:4d -N10.128.81.10 -b/grub2/grubx64.efi -R
 
-    Create a new Alias record with hostname "rb4.rice.edu" and TXT record target "somewhere.com".
+    Create a fixedaddress record with the specified IPv4 address, MAC address, nextserver and bootfile.  When done, issue the "restart\_if\_needed" command to restart Grid services if needed.
 
 # FILES
 
@@ -207,6 +220,7 @@ cname:add(1),
 cname:delete(1),
 cname:get(1),
 cname:update(1),
+alias:add(1),
 alias:delete(1),
 alias:get(1),
 alias:update(1),
@@ -221,7 +235,6 @@ a:get(1),
 a:update(1),
 a:add(1),
 fixedaddress(1),
-fixedaddress:add(1),
 fixedaddress:delete(1),
 fixedaddress:get(1),
 fixedaddress:update(1),

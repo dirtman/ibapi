@@ -25,16 +25,18 @@ func main() {
 
 	// Define our command/func mapping:
 	commands := Commands{
-		"a":     commandA,
-		"alias": commandAlias,
-		"host":  commandHost,
-		"cname": commandCNAME,
-		"ptr":   commandPTR,
-		"url":   commandURL,
+		"a":            commandA,
+		"alias":        commandAlias,
+		"host":         commandHost,
+		"cname":        commandCNAME,
+		"ptr":          commandPTR,
+		"url":          commandURL,
+		"fixedaddress": commandFixedAddress,
+		"grid":         commandGrid,
 	}
 
 	// Initialize as a SitePkg.
-	err := PackageInit("ibapi", "0.0")
+	err := PackageInit("ibapi", "1.0")
 	if err != nil {
 		Warn("Failure initializing program: %v", err)
 		os.Exit(1)

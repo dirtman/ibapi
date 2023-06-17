@@ -1,32 +1,34 @@
 # NAME
 
-ibapi ptr - create, read, update and delete Infoblox PTR records
+ibapi fixedaddress - create, read, update and delete Infoblox fixedaddress records
 
 # USAGE
 
-- ibapi ptr &lt;add|get|update|delete> &lt;options/args>
+- ibapi fixedaddress &lt;add|get|update|delete> &lt;options/args>
 
 # DESCRIPTION
 
-"ibapi ptr" can be used to add, get, update and delete Infoblox PTR records.
-The basic format is
+"ibapi fixedaddress" can be used to add, get, update and delete Infoblox
+fixedaddress records.  The basic format is
 
-- ibapi ptr &lt;operation> &lt;options/args>
+- ibapi fixedaddress &lt;operation> &lt;options/args>
 
 For more details, invoke the specific operation
 with the --help|-h option. For example:
 
-- ibapi ptr add -h
+- ibapi fixedaddress add -h
 
 # EXAMPLES
 
-- ibapi ptr add -t 600 rb4.rice.edu 168.7.56.224
+- ibapi fixedaddress add 168.7.56.224 c8:1f:66:c3:a7:e1 -n sitedisk -b "/grub2/grubx64.efi" -R
 
-    Add a PTR record.
+    Add a fixedaddress record with IPv4 168.7.56.224, MAC c8:1f:66:c3:a7:e1, name
+    sitedisk, and bootfile "/grub2/grubx64.efi".  When done, issue the
+    "restart\_if\_needed" command to restart Grid services if needed.
 
-- ibapi ptr delete rb4.rice.edu 168.7.56.224
+- ibapi fixedaddress delete 168.7.56.224
 
-    Delete a PTR record.  
+    Delete a fixedaddress record.
 
 # FILES
 
@@ -48,6 +50,7 @@ with the --help|-h option. For example:
 ibapi(1),
 host(1),
 host:add(1),
+ptr(1),
 cname(1),
 alias(1),
 host:get(1),
@@ -75,7 +78,6 @@ a:delete(1),
 a:get(1),
 a:update(1),
 a:add(1),
-fixedaddress(1),
 fixedaddress:add(1),
 fixedaddress:delete(1),
 fixedaddress:get(1),
