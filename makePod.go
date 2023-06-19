@@ -3044,11 +3044,19 @@ DESCRIPTION
     * ibapi host add -h
 
 EXAMPLES
-    ibapi host add -t 600 rb4.rice.edu 168.7.56.224
-        Add a Host record.
+    ibapi host add zabbix.rice.edu 168.7.56.225
+        Create the "zabbix.rice.edu" Host record with IPv4 address
+        "168.7.56.225".
 
-    ibapi host delete rb4.rice.edu 168.7.56.224
-        Delete a Host record.
+    ibapi host add zabbix.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6
+    -N 10.128.95.14 -b "/grub2/grubx64.efi"
+        Create the "zabbix.rice.edu" Host record with the specified IPv4
+        address enabled for DHCP, and when done, issue the
+        "restart_if_needed" command to restart Grid services if needed.
+
+    ibapi host update zabbix.rice.edu 168.7.56.225 -i 168.7.56.211
+        Update the zabbix.rice.edu IPv4 address "168.7.56.225" to
+        "168.7.56.211".
 
 FILES
     /usr/site/ibapi-1.0/etc/ibapi.conf
@@ -3244,16 +3252,15 @@ OPTIONS
         PATH environment variable.
 
 EXAMPLES
-    ibapi host add rb4.rice.edu 168.7.56.224
-        Create a new Host record with hostname "rb4.rice.edu" and IP address
-        "168.7.56.224".
+    ibapi host add zabbix.rice.edu 168.7.56.225
+        Create the "zabbix.rice.edu" Host record with IPv4 address
+        "168.7.56.225".
 
-    ibapi host add rb4.rice.edu 10.10.10.214 -d -m 64:00:6a:8f:cc:4d
-    -N10.128.81.10 -b/grub2/grubx64.efi -R
-        Create the specified Host with IP address 10.10.10.214, configure
-        that IP for DHCP and set DHCP-related options as specified. When
-        done, issue the "restart_if_needed" command to restart Grid services
-        if needed.
+    ibapi host add zabbix.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6
+    -N 10.128.95.14 -b "/grub2/grubx64.efi"
+        Create the "zabbix.rice.edu" Host record with the specified IPv4
+        address enabled for DHCP, and when done, issue the
+        "restart_if_needed" command to restart Grid services if needed.
 
 FILES
     /usr/site/ibapi-1.0/etc/ibapi.conf
@@ -3452,8 +3459,8 @@ DESCRIPTION
     The get command is used to read/fetch Infoblox Host records.
 
     By default, the hostname and IP address of each fetched record is shown.
-    The --verbose option can be specified to print out the raw response from
-    the API.
+    The --verbose option can be specified to print out the raw API response,
+    which includes additional fields.
 
     To fetch a single Host record, a single hostname and/or IP address may
     be provided as command line arguments. Alternatively, a list of records
@@ -3847,20 +3854,20 @@ NAME
     ibapi - create, read, update and delete basic Infoblox objects
 
 USAGE
-    ibapi [-h|--help] OBJECT [-h|--help] OPERATION [<args>]
+    ibapi <OBJECT> <OPERATION> [<args>]
 
     where OBJECT is one of
 
       host a ptr cname alias fixedaddress url grid
 
-    OPERATION, for all but the "grid" object, is one of
+    and OPERATION, for all but the "grid" object, is one of
 
         add get update delete
 
 DESCRIPTION
-    ibapi can be used to add, get, update and delete a few of the most basic
-    Infoblox records via the Infoblox WAPI. Additionally, it can used to
-    restart Infoblox grid services. For more details, invoke the specific
+    ibapi is a command to create, read, update and delete several basic
+    Infoblox object types via the Infoblox WAPI. Additionally, it can used
+    to restart Infoblox grid services. For more details, invoke the specific
     OBJECT/OPERATION with the --help|-h option. For example:
 
     * ibapi host -h
@@ -3922,12 +3929,11 @@ Authentication
     *   chmod 600 $HOME/.ibapi/private/sandman
 
 EXAMPLES
-    ibapi host add rb3.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N
-    10.128.95.14 -b "/grub2/grubx64.efi"
-        Create the specified Host record with IPv4 address 168.7.56.225,
-        configure that address for DHCP and set DHCP-related options as
-        specified. When done, issue the "restart_if_needed" command to
-        restart Grid services if needed.
+    ibapi host add zabbix.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6
+    -N 10.128.95.14 -b "/grub2/grubx64.efi"
+        Create the "zabbix.rice.edu" Host record with the specified IPv4
+        address enabled for DHCP, and when done, issue the
+        "restart_if_needed" command to restart Grid services if needed.
 
     ibapi host update rb3.rice.edu -i +168.7.56.226
         Update the Host record named "rb3.rice.edu", adding the IPv4 address

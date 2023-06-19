@@ -4,22 +4,22 @@ ibapi - create, read, update and delete basic Infoblox objects
 
 # USAGE
 
-- ibapi \[-h|--help\] OBJECT \[-h|--help\] OPERATION \[&lt;args>\]
+- ibapi <OBJECT> <OPERATION> \[&lt;args>\]
 
 where OBJECT is one of
 
 > host a ptr cname alias fixedaddress url grid
 
-OPERATION, for all but the "grid" object, is one of
+and OPERATION, for all but the "grid" object, is one of
 
 > add get update delete
 
 # DESCRIPTION
 
-ibapi can be used to add, get, update and delete a few of the most basic
-Infoblox records via the Infoblox WAPI.  Additionally, it can used to restart
-Infoblox grid services.  For more details, invoke the specific
-OBJECT/OPERATION with the --help|-h option. For example:
+ibapi is a command to create, read, update and delete several basic Infoblox
+object types via the Infoblox WAPI.  Additionally, it can used to restart
+Infoblox grid services.  For more details, invoke the specific OBJECT/OPERATION
+with the --help|-h option. For example:
 
 - ibapi host -h
 - ibapi host add -h
@@ -75,10 +75,9 @@ password for WAPI user "sandman":
 
 # EXAMPLES
 
-- ibapi host add rb3.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N 10.128.95.14 -b "/grub2/grubx64.efi"
+- ibapi host add zabbix.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N 10.128.95.14 -b "/grub2/grubx64.efi"
 
-    Create the specified Host record with IPv4 address 168.7.56.225, configure that address
-    for DHCP and set DHCP-related options as specified.  When done, issue the "restart\_if\_needed" command to restart Grid services if needed.
+    Create the "zabbix.rice.edu" Host record with the specified IPv4 address enabled for DHCP, and when done, issue the "restart\_if\_needed" command to restart Grid services if needed.
 
 - ibapi host update rb3.rice.edu -i +168.7.56.226
 

@@ -205,14 +205,13 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi host add rb4.rice.edu 168.7.56.224
+- ibapi host add zabbix.rice.edu 168.7.56.225
 
-    Create a new Host record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
+    Create the "zabbix.rice.edu" Host record with IPv4 address "168.7.56.225".
 
-- ibapi host add rb4.rice.edu 10.10.10.214 -d -m 64:00:6a:8f:cc:4d -N10.128.81.10 -b/grub2/grubx64.efi -R
+- ibapi host add zabbix.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N 10.128.95.14 -b "/grub2/grubx64.efi"
 
-    Create the specified Host with IP address 10.10.10.214, configure that IP 
-    for DHCP and set DHCP-related options as specified.  When done, issue the "restart\_if\_needed" command to restart Grid services if needed.
+    Create the "zabbix.rice.edu" Host record with the specified IPv4 address enabled for DHCP, and when done, issue the "restart\_if\_needed" command to restart Grid services if needed.
 
 # FILES
 

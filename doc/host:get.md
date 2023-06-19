@@ -10,12 +10,13 @@ ibapi host get - get Infoblox Host records
 
 The get command is used to read/fetch Infoblox Host records.
 
-By default, the hostname and IP address of each fetched record is shown.
-The --verbose option can be specified to print out the raw response from the API.
+By default, the hostname and IP address of each fetched record is shown.  The
+\--verbose option can be specified to print out the raw API response, which
+includes additional fields.
 
-To fetch a single Host record, a single hostname and/or IP address may be provided as
-command line arguments.
-Alternatively, a list of records to fetch can be specified in a file (see --filename).
+To fetch a single Host record, a single hostname and/or IP address may be
+provided as command line arguments.  Alternatively, a list of records to fetch
+can be specified in a file (see --filename).
 
 # OPTIONS
 

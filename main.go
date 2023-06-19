@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	. "github.com/dirtman/sitepkg"
@@ -95,8 +96,14 @@ func commandHelp(invokedAs []string, commands Commands, message string, exitCode
 		Warn(message)
 	}
 
-	Println("Usage:  %s <command> <options>\nSupported commands:", strings.Join(invokedAs, " "))
+	Print("Usage:  %s [-h] <object> [-h] <operation> <args>\nSupported objects:\n",
+		strings.Join(invokedAs, " "))
+	var commandsSorted []string
 	for name := range commands {
+		commandsSorted = append(commandsSorted, name)
+	}
+	sort.Strings(commandsSorted)
+	for _, name := range commandsSorted {
 		Println("  %s", name)
 	}
 	Exit(exitCode)

@@ -20,13 +20,17 @@ with the --help|-h option. For example:
 
 # EXAMPLES
 
-- ibapi host add -t 600 rb4.rice.edu 168.7.56.224
+- ibapi host add zabbix.rice.edu 168.7.56.225
 
-    Add a Host record.
+    Create the "zabbix.rice.edu" Host record with IPv4 address "168.7.56.225".
 
-- ibapi host delete rb4.rice.edu 168.7.56.224
+- ibapi host add zabbix.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N 10.128.95.14 -b "/grub2/grubx64.efi"
 
-    Delete a Host record.  
+    Create the "zabbix.rice.edu" Host record with the specified IPv4 address enabled for DHCP, and when done, issue the "restart\_if\_needed" command to restart Grid services if needed.
+
+- ibapi host update zabbix.rice.edu 168.7.56.225 -i 168.7.56.211
+
+    Update the zabbix.rice.edu IPv4 address "168.7.56.225" to "168.7.56.211".
 
 # FILES
 
