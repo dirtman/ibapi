@@ -1,28 +1,35 @@
 # ibapi - Infoblox WAPI command line tool
 
-ibapi is a command-line client, written in Go, for adding, retrieving, updating
-and deleting a few of the most basic Infoblox records via the Infoblox WAPI.
-Currently supported record types are Host, A, PTR, CNAME, Alias and FixedAddress.
+ibapi is a command for adding, reading, updating and deleting basic DNS records
+as well as for managing other Infoblox-specific objects via the Infoblox WAPI.
+Currently supported object types are the DNS records 
+A, Alias, CNAME, and PTR;
+the Infoblox-specific object types
+fixedaddress, grid and host; 
+and the special type "url", which allows you to manipulate any type of Infoblox object.
 Basic usage is as follows:
 
-- ibapi \[-h|--help\] OBJECT \[-h|--help\] OPERATION \[&lt;args>\]
+* **ibapi OBJECT OPERATION &lt;args>**
 
 where OBJECT is one of
 
-> host a ptr cname alias fixedaddress url grid
+* **a alias cname fixedaddress grid host ptr url**
 
 and OPERATION, for all but the "grid" object, is one of
 
-> add get update delete
+* **add get update delete**
 
 
-Use the -h/--help option for more details of each command.  For instance:
+Use the ibapi -h/--help option for more details.  For instance:
 
 - ibapi -h
 - ibapi host -h
 - ibapi host add -h
 
-## Building/Installing Example for Fedora/RHEL
+## Installation
+
+ibapi is written in Go and is available at github.com.
+Below is an installation example for Fedora/RHEL:
 
     sudo dnf install golang
     export GOPATH=$HOME/go

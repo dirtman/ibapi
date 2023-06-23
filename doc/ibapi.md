@@ -1,6 +1,6 @@
 # NAME
 
-ibapi - create, read, update and delete basic Infoblox objects
+ibapi - Infoblox WAPI command line tool
 
 # USAGE
 
@@ -8,7 +8,7 @@ ibapi - create, read, update and delete basic Infoblox objects
 
 where OBJECT is one of
 
-> host a ptr cname alias fixedaddress url grid
+> a alias cname fixedaddress grid host url
 
 and OPERATION, for all but the "grid" object, is one of
 
@@ -16,11 +16,17 @@ and OPERATION, for all but the "grid" object, is one of
 
 # DESCRIPTION
 
-ibapi is a command to create, read, update and delete several basic Infoblox
-object types via the Infoblox WAPI.  Additionally, it can used to restart
-Infoblox grid services.  For more details, invoke the specific OBJECT/OPERATION
-with the --help|-h option. For example:
+ibapi is a command for adding, reading, updating and deleting basic DNS records
+as well as for managing other Infoblox-specific objects via the Infoblox WAPI.
+Currently supported object types are the DNS records
+A, Alias, CNAME, and PTR;
+the Infoblox-specific object types
+fixedaddress, grid and host;
+and the special type "url", which allows you to manipulate any type of Infoblox object.
 
+Use the ibapi -h/--help option for more details.  For instance:
+
+- ibapi -h
 - ibapi host -h
 - ibapi host add -h
 
@@ -72,6 +78,23 @@ password for WAPI user "sandman":
 - echo "APIAuthTokenID = sandman" > $HOME/.ibapi/ibapi.conf
 - echo "sandman:WAPI\_PASSWORD" > $HOME/.ibapi/private/sandman
 - chmod 600 $HOME/.ibapi/private/sandman
+
+# Building/Installing
+
+ibapi is written in Go and is available at github.com.
+Below is an installation example for Fedora/RHEL:
+
+    sudo dnf install golang
+    export GOPATH=$HOME/go
+    mkdir -p $GOPATH/src
+    cd $GOPATH/src
+    git clone https://github.com/dirtman/ibapi
+    cd ibapi
+    go mod tidy
+    make
+    ./bin/ibapi -h
+    make install
+    /usr/bin/ibapi -h
 
 # EXAMPLES
 
