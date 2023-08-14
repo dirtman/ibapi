@@ -85,17 +85,17 @@ Use the --ShowConfig to view each option and its value.
     WAPI authentication method for accessing the Infoblox API.  Currently,
     only "Basic" authentication (username and password) is supported.
 
-- -u &lt;username>, --username=&lt;username>:
+- --username=&lt;username>:
 
     Specify the username used for basic auth.
 
-- -p &lt;password>, --password=&lt;password>:
+- --password=&lt;password>:
 
     Specify the password used for basic auth.  If this option is specified
     and is non-empty, either the --username option can be used to specify
     the corresponding username, or the current user will be assumed for username.
 
-- -P, --PromptForPassword:
+- --PromptForPassword:
 
     Prompt the user for the password used for basic authentication.  This is done
     automatically unless one of these options is specified: --password,

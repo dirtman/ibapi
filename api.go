@@ -367,9 +367,9 @@ func SetAPIOptions(args ...string) error {
 	}
 	if authType == "" || authType == AuthMethodBasic {
 		authTokenHelp = "API access token (username:password)"
-		SetStringOpt("Username", "u", true, "", "Username for API access")
-		SetStringOpt("Password", "p", true, "", "Password for API access")
-		SetBoolOpt("PromptForPassword", "P", false, false, "Prompt for password for API access")
+		SetStringOpt("Username", "", true, "", "Username for API access")
+		SetStringOpt("Password", "", true, "", "Password for API access")
+		SetBoolOpt("PromptForPassword", "", false, false, "Prompt for password for API access")
 	}
 
 	// Set common API options:

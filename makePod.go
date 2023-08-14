@@ -124,16 +124,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -276,16 +276,16 @@ DESCRIPTION
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -439,16 +439,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -663,16 +663,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -813,16 +813,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -983,16 +983,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -1162,16 +1162,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -1333,16 +1333,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -1543,16 +1543,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -1686,16 +1686,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -1852,16 +1852,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -2021,16 +2021,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -2255,16 +2255,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -2412,16 +2412,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -2582,16 +2582,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -2779,16 +2779,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -2922,16 +2922,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -3181,16 +3181,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -3346,16 +3346,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -3516,16 +3516,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -3743,16 +3743,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -4225,16 +4225,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -4373,16 +4373,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -4537,16 +4537,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -4713,16 +4713,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -4898,16 +4898,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -5038,16 +5038,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -5186,16 +5186,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
@@ -5344,16 +5344,16 @@ OPTIONS
         Currently, only "Basic" authentication (username and password) is
         supported.
 
-    -u <username>, --username=<username>:
+    --username=<username>:
         Specify the username used for basic auth.
 
-    -p <password>, --password=<password>:
+    --password=<password>:
         Specify the password used for basic auth. If this option is
         specified and is non-empty, either the --username option can be used
         to specify the corresponding username, or the current user will be
         assumed for username.
 
-    -P, --PromptForPassword:
+    --PromptForPassword:
         Prompt the user for the password used for basic authentication. This
         is done automatically unless one of these options is specified:
         --password, --APIAuthToken, --APIAuthTokenID.
