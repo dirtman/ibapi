@@ -3,7 +3,7 @@
 ibapi is a command for adding, reading, updating and deleting basic DNS records
 as well as for managing other Infoblox-specific objects via the Infoblox WAPI.
 Currently supported object types are the DNS records 
-A, Alias, CNAME, and PTR;
+A, Alias, CNAME, MX and PTR;
 the Infoblox-specific object types
 fixedaddress, grid and host; 
 and the special type "url", which allows you to manipulate any type of Infoblox object.
@@ -13,7 +13,7 @@ Basic usage is as follows:
 
 where OBJECT is one of
 
-* **a alias cname fixedaddress grid host ptr url**
+* **a alias cname fixedaddress grid host mx ptr url**
 
 and OPERATION, for all but the "grid" object, is one of
 

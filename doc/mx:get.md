@@ -13,7 +13,7 @@ The get command is used to read/fetch Infoblox MX records.
 By default, the domain, MX and preference of each fetched record is shown.
 The --verbose option can be specified to print out the raw response from the API.
 
-To fetch a single MX record, a single domain and MX value may be provided as
+To fetch MX records, a single domain, or a domain and MX value, may be provided as
 command line arguments.
 Alternatively, a list of records to fetch can be specified in a file (see --filename).
 
@@ -165,17 +165,21 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi mx get rb4.rice.edu
+- ibapi mx get rb4.rice.edu -V any
 
-    Fetch all MX records for domain "rb4.rice.edu".
+    Fetch the MX records for domain "rb4.rice.edu".
 
-- ibapi mx get -m mx1.mail.rice.edu
+- ibapi mx get -m mx1.mail.rice.edu -V any
 
-    Get all MX records that specify the MX "mx1.mail.rice.edu".
+    Get the MX records that specify the MX "mx1.mail.rice.edu".
 
-- ibapi mx get rb4.rice.edu mx1.mail.rice.edu
+- ibapi mx get rb4.rice.edu mx1.mail.rice.edu -V any
 
-    Fetch the MX record with domain "rb4.rice.edu" and MX "mx1.mail.rice.edu".
+    Fetch the MX records with domain "rb4.rice.edu" and MX "mx1.mail.rice.edu".
+
+- ibapi mx get -V any -F mail\_exchanger\~=mail.rice.edu
+
+    Fetch the MX records in which the MX value matches "mail.rice.edu".
 
 # FILES
 

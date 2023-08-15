@@ -3899,7 +3899,7 @@ USAGE
 
     where OBJECT is one of
 
-      a alias cname fixedaddress grid host url
+      a alias cname fixedaddress grid host mx ptr url
 
     and OPERATION, for all but the "grid" object, is one of
 
@@ -3909,9 +3909,9 @@ DESCRIPTION
     ibapi is a command for adding, reading, updating and deleting basic DNS
     records as well as for managing other Infoblox-specific objects via the
     Infoblox WAPI. Currently supported object types are the DNS records A,
-    Alias, CNAME, and PTR; the Infoblox-specific object types fixedaddress,
-    grid and host; and the special type "url", which allows you to
-    manipulate any type of Infoblox object.
+    Alias, CNAME, MX and PTR; the Infoblox-specific object types
+    fixedaddress, grid and host; and the special type "url", which allows
+    you to manipulate any type of Infoblox object.
 
     Use the ibapi -h/--help option for more details. For instance:
 
@@ -4085,6 +4085,9 @@ EXAMPLES
     ibapi ptr update rb4.rice.edu 168.7.56.224 -i 168.7.56.225
         Update the rb4.rice.edu/168.7.56.224 PTR record, changing the IP
         address to "168.7.56.225".
+
+    ibapi mx add mail.rice.edu mx1.mail.rice.edu -p 30
+        Create an MX record with a preference value of 30.
 
     ibapi url add 'record:a?name=dbx.seci.rice.edu&ipv4addr=10.10.10.201'
         Create a new A record with hostname "dbx.seci.rice.edu" and IP
@@ -4530,7 +4533,7 @@ DESCRIPTION
     shown. The --verbose option can be specified to print out the raw
     response from the API.
 
-    To fetch a single MX record, a single domain and MX value may be
+    To fetch MX records, a single domain, or a domain and MX value, may be
     provided as command line arguments. Alternatively, a list of records to
     fetch can be specified in a file (see --filename).
 
@@ -4658,15 +4661,18 @@ OPTIONS
         PATH environment variable.
 
 EXAMPLES
-    ibapi mx get rb4.rice.edu
-        Fetch all MX records for domain "rb4.rice.edu".
+    ibapi mx get rb4.rice.edu -V any
+        Fetch the MX records for domain "rb4.rice.edu".
 
-    ibapi mx get -m mx1.mail.rice.edu
-        Get all MX records that specify the MX "mx1.mail.rice.edu".
+    ibapi mx get -m mx1.mail.rice.edu -V any
+        Get the MX records that specify the MX "mx1.mail.rice.edu".
 
-    ibapi mx get rb4.rice.edu mx1.mail.rice.edu
-        Fetch the MX record with domain "rb4.rice.edu" and MX
+    ibapi mx get rb4.rice.edu mx1.mail.rice.edu -V any
+        Fetch the MX records with domain "rb4.rice.edu" and MX
         "mx1.mail.rice.edu".
+
+    ibapi mx get -V any -F mail_exchanger~=mail.rice.edu
+        Fetch the MX records in which the MX value matches "mail.rice.edu".
 
 FILES
     /usr/site/ibapi-1.0/etc/ibapi.conf
@@ -4716,7 +4722,7 @@ OPTIONS
     --ShowConfig to view each option and its value.
 
   OPTIONS - General
-    -p <preference>, --preference=<preference>:
+    -P <preference>, --preference=<preference>:
         Specify the preference of the record to update; only needed when
         multiple MX records exist with the same name and MX value.
 
@@ -4724,7 +4730,8 @@ OPTIONS
         Specify the view of the record to update. Default: "default".
 
     -n <newName>, --name=<newName>:
-        Update the MX value of the specified MX record to "newName"
+        Update the name/domainname value of the specified MX record to
+        "newName"
 
     -m <newMX>, --MX=<newMX>:
         Update the MX value of the specified MX record to "newMX"
@@ -4736,9 +4743,6 @@ OPTIONS
         Update the record's disabled status to the specified value. Note
         this is not a boolean flag - the value "true" or "false" must be
         specified.
-
-    -n <new_domain>, --Name=<new_domain>:
-        Update the name of the specified record to "new_domain".
 
     -c <comment>, --Comment=<comment>:
         Update the record's comment.

@@ -8,7 +8,7 @@ ibapi - Infoblox WAPI command line tool
 
 where OBJECT is one of
 
-> a alias cname fixedaddress grid host url
+> a alias cname fixedaddress grid host mx ptr url
 
 and OPERATION, for all but the "grid" object, is one of
 
@@ -19,7 +19,7 @@ and OPERATION, for all but the "grid" object, is one of
 ibapi is a command for adding, reading, updating and deleting basic DNS records
 as well as for managing other Infoblox-specific objects via the Infoblox WAPI.
 Currently supported object types are the DNS records
-A, Alias, CNAME, and PTR;
+A, Alias, CNAME, MX and PTR;
 the Infoblox-specific object types
 fixedaddress, grid and host;
 and the special type "url", which allows you to manipulate any type of Infoblox object.
@@ -202,6 +202,10 @@ Below is an installation example for Fedora/RHEL:
 
     Update the rb4.rice.edu/168.7.56.224 PTR record, changing the IP address
     to "168.7.56.225".
+
+- ibapi mx add mail.rice.edu mx1.mail.rice.edu -p 30
+
+    Create an MX record with a preference value of 30.
 
 - ibapi url add 'record:a?name=dbx.seci.rice.edu&ipv4addr=10.10.10.201'
 

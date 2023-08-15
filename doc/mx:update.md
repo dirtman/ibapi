@@ -25,7 +25,7 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
-- -p &lt;preference>, --preference=&lt;preference>:
+- -P &lt;preference>, --preference=&lt;preference>:
 
     Specify the preference of the record to update; only needed when multiple MX records
     exist with the same name and MX value.
@@ -36,7 +36,7 @@ Use the --ShowConfig to view each option and its value.
 
 - -n &lt;newName>, --name=&lt;newName>:
 
-    Update the MX value of the specified MX record to "newName"  
+    Update the name/domainname value of the specified MX record to "newName"  
 
 - -m &lt;newMX>, --MX=&lt;newMX>:
 
@@ -51,10 +51,6 @@ Use the --ShowConfig to view each option and its value.
     Update the record's disabled status to the specified value.
     Note this is not a boolean flag - the value "true" or "false"
     must be specified.
-
-- -n &lt;new\_domain>, --Name=&lt;new\_domain>:
-
-    Update the name of the specified record to "new\_domain".
 
 - -c &lt;comment>, --Comment=&lt;comment>:
 
