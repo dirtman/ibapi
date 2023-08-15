@@ -158,3 +158,19 @@ type RecordTXT struct {
 	Ea      EA     `json:"extattrs"`
 	Disable bool   `json:"disable"`
 }
+
+type RecordMX struct {
+    IBBase     `json:"-"`
+    Ref        string `json:"_ref,omitempty"`
+    View       string `json:"view,omitempty"`
+    Fqdn       string `json:"name,omitempty"`
+    MX         string `json:"mail_exchanger,omitempty"`
+    Preference uint32 `json:"preference"`
+    Zone       string `json:"zone,omitempty"`
+    Ttl        uint32 `json:"ttl"`
+    UseTtl     bool   `json:"use_ttl"` 
+    Comment    string `json:"comment"`
+    Ea         EA     `json:"extattrs"`
+	Disable bool   `json:"disable"`
+}
+

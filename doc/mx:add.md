@@ -1,21 +1,17 @@
 # NAME
 
-ibapi ptr get - get Infoblox PTR records
+ibapi mx add - create Infoblox MX records
 
 # USAGE
 
-- ibapi ptr get &lt;options/args>
+- ibapi mx add &lt;options/args>
 
 # DESCRIPTION
 
-The get command is used to read/fetch Infoblox PTR records.
-
-By default, the name and IP address of each fetched record is shown.
-The --verbose option can be specified to print out the raw response from the API.
-
-To fetch a single PTR record, a single hostname and/or IP address may be provided as
+The add command is used to create Infoblox MX records.
+To create a single MX record, a single domain and MX can be provided as
 command line arguments.
-Alternatively, a list of records to fetch can be specified in a file (see --filename).
+Alternatively, a list of records to add can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -32,32 +28,41 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
+- -p &lt;preference>, --preference=&lt;preference>:
+
+    Specify the preference for the new record.  Default: "10".
+
 - -V &lt;view>, --View=&lt;view>:
 
-    Specify the view of the record to fetch. Specify "any" to search for
-    records in all views.  Default: "any".
+    Specify the view for the new record.  Default: "default".
+
+- -D, --Disable:
+
+    Disable the new record.  Default: false.
+
+- -c &lt;comment>, --Comment=&lt;comment>:
+
+    Specify the comment for the new record.
+    Alternatively, you can specify this via the --fields option.
+    Default: "ibapi:mx:add".
+
+- --TTL=&lt;ttl>:
+
+    Specify the ttl for the new record.
+    Alternatively, you can specify this via the --fields option.
 
 - -F &lt;fields>, --Fields=&lt;fields>:
 
-    Specify a comma-separated list of field name/value pairs to restrict the record(s)
-    fetched.
+    Specify fields and corresponding values for the new record.  For instance:
+    "comment=RT100931",view=default,ttl=900".
 
-- -R &lt;return\_fields>, --rFields=&lt;return\_fields>:
+- -f &lt;filename>, --Filename=&lt;filename>:
 
-    Specify additional fields to show when in Verbose mode.
-
-- -f &lt;filename>, --filename=&lt;filename>:
-
-    Specify a filename containing a list of PTR records to get.
-    Each line should contain a hostname and/or an IP address, in either order, separated
+    Specify a filename containing a list of MX records to create.
+    Each line should contain a domain and an MX, separated
     by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
-
-- -r &lt;obj\_ref>, --Ref=&lt;obj\_ref>:
-
-    Instead of showing the name and content of the fetched record(s), show
-    the object reference of each record.
 
 ## OPTIONS - API Options
 
@@ -158,13 +163,9 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi ptr get rb4.rice.edu 168.7.56.224
+- ibapi mx add rb4.rice.edu mx1.mail.rice.edu
 
-    Fetch the PTR record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
-
-- ibapi ptr get 168.7.56.224
-
-    Get all PTR records that contain the IP address "168.7.56.224".
+    Create a new MX record with domain "rb4.rice.edu",  MX "mx1.mail.rice.edu", and the default preference.
 
 # FILES
 
@@ -194,6 +195,7 @@ host:delete(1),
 host:update(1),
 ptr:add(1),
 ptr:delete(1),
+ptr:get(1),
 ptr:update(1),
 cname:add(1),
 cname:delete(1),
@@ -219,7 +221,6 @@ fixedaddress:delete(1),
 fixedaddress:get(1),
 fixedaddress:update(1),
 grid(1),
-mx:add(1),
 mx:delete(1),
 mx:get(1),
 mx:update(1),

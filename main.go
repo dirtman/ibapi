@@ -34,6 +34,7 @@ func main() {
 		"url":          commandURL,
 		"fixedaddress": commandFixedAddress,
 		"grid":         commandGrid,
+		"mx":         commandMX,
 	}
 
 	// Initialize as a SitePkg.

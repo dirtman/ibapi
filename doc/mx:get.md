@@ -1,19 +1,19 @@
 # NAME
 
-ibapi ptr get - get Infoblox PTR records
+ibapi mx get - get Infoblox MX records
 
 # USAGE
 
-- ibapi ptr get &lt;options/args>
+- ibapi mx get &lt;options/args>
 
 # DESCRIPTION
 
-The get command is used to read/fetch Infoblox PTR records.
+The get command is used to read/fetch Infoblox MX records.
 
-By default, the name and IP address of each fetched record is shown.
+By default, the domain, MX and preference of each fetched record is shown.
 The --verbose option can be specified to print out the raw response from the API.
 
-To fetch a single PTR record, a single hostname and/or IP address may be provided as
+To fetch a single MX record, a single domain and MX value may be provided as
 command line arguments.
 Alternatively, a list of records to fetch can be specified in a file (see --filename).
 
@@ -32,6 +32,14 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
+- -m &lt;mx>, --mx=&lt;mx>:
+
+    Fetch all records with the specified MX value.
+
+- -p &lt;preference>, --preference=&lt;preference>:
+
+    Fetch only records with the specified preference.  By default, all MX record are shown..
+
 - -V &lt;view>, --View=&lt;view>:
 
     Specify the view of the record to fetch. Specify "any" to search for
@@ -48,9 +56,8 @@ Use the --ShowConfig to view each option and its value.
 
 - -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify a filename containing a list of PTR records to get.
-    Each line should contain a hostname and/or an IP address, in either order, separated
-    by one or more spaces.
+    Specify a filename containing a list of MX records to get.
+    Each line should contain a domain to be deleted.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
@@ -158,13 +165,17 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi ptr get rb4.rice.edu 168.7.56.224
+- ibapi mx get rb4.rice.edu
 
-    Fetch the PTR record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
+    Fetch all MX records for domain "rb4.rice.edu".
 
-- ibapi ptr get 168.7.56.224
+- ibapi mx get -m mx1.mail.rice.edu
 
-    Get all PTR records that contain the IP address "168.7.56.224".
+    Get all MX records that specify the MX "mx1.mail.rice.edu".
+
+- ibapi mx get rb4.rice.edu mx1.mail.rice.edu
+
+    Fetch the MX record with domain "rb4.rice.edu" and MX "mx1.mail.rice.edu".
 
 # FILES
 
@@ -194,6 +205,7 @@ host:delete(1),
 host:update(1),
 ptr:add(1),
 ptr:delete(1),
+ptr:get(1),
 ptr:update(1),
 cname:add(1),
 cname:delete(1),
@@ -221,7 +233,6 @@ fixedaddress:update(1),
 grid(1),
 mx:add(1),
 mx:delete(1),
-mx:get(1),
 mx:update(1),
 mx(1),
 ibapi.conf(5)

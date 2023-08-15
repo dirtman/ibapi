@@ -61,6 +61,7 @@ type StatesCNAME map[string]*StateCNAME
 type StatesAlias map[string]*StateAlias
 type StatesFixedAddress map[string]*StateFixedAddress
 type StatesTXT map[string]*StateTXT
+type StatesMX map[string]*StateMX
 
 type StateBase struct {
 	err error
@@ -91,6 +92,11 @@ type StateFixedAddress struct {
 }
 type StateTXT struct {
 	StateBase
+	records []*RecordAlias
+}
+type StateMX struct {
+	StateBase
+	records []*RecordMX
 }
 
 /*****************************************************************************\

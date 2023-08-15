@@ -1,32 +1,32 @@
 # NAME
 
-ibapi a - create, read, update and delete Infoblox A records
+ibapi mx - create, read, update and delete Infoblox MX records
 
 # USAGE
 
-- ibapi a &lt;add|get|update|delete> &lt;options/args>
+- ibapi mx &lt;add|get|update|delete> &lt;options/args>
 
 # DESCRIPTION
 
-"ibapi a" can be used to add, get, update and delete Infoblox A records.
+"ibapi mx" can be used to add, get, update and delete Infoblox MX records.
 The basic format is
 
-- ibapi a &lt;operation> &lt;options/args>
+- ibapi mx &lt;operation> &lt;options/args>
 
 For more details, invoke the specific operation
 with the --help|-h option. For example:
 
-- ibapi a add -h
+- ibapi mx add -h
 
 # EXAMPLES
 
-- ibapi a add -t 600 rb4.rice.edu 168.7.56.224
+- ibapi mx add rb4.rice.edu mx1.mail.rice.edu -p 30
 
-    Add an A record.
+    Add an MX record with a preference of 30
 
-- ibapi a delete rb4.rice.edu 168.7.56.224
+- ibapi mx delete rb4.rice.edu mx1.mail.rice.edu
 
-    Delete an A record.  
+    Delete an MX record.  
 
 # FILES
 
@@ -71,6 +71,7 @@ url:add(1),
 url:delete(1),
 url:get(1),
 url:update(1),
+a(1),
 a:delete(1),
 a:get(1),
 a:update(1),
@@ -85,5 +86,4 @@ mx:add(1),
 mx:delete(1),
 mx:get(1),
 mx:update(1),
-mx(1),
 ibapi.conf(5)

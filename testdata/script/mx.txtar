@@ -1,0 +1,79 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+# Add01: Add an MX record.
+exec ibapi mx add mh1.seci.rice.edu mx1.mail.rice.edu -p 100
+! stderr .
+stdout 'Added'
+
+# Add02: Add an MX record (conflict - will fail).
+! exec ibapi mx add mh1.seci.rice.edu mx1.mail.rice.edu -p 100
+stderr 'conflict'
+
+# Add03: Add an MX record.
+exec ibapi mx add mh1.seci.rice.edu mx1.mail.rice.edu -p 200
+! stderr .
+stdout 'Added'
+
+# Add04: Add an MX record.
+exec ibapi mx add mh1.seci.rice.edu mx2.mail.rice.edu -p 100
+! stderr .
+stdout 'Added'
+
+
+# Get01: Get an MX record by name.
+exec ibapi mx get mh1.seci.rice.edu
+! stderr .
+stdout 'MX'
+
+# Get02: Get an MX record by MX.
+exec ibapi mx get -m mx1.mail.rice.edu
+! stderr .
+stdout 'MX'
+
+# Get03: Get an MX record by preference.
+exec ibapi mx get -Fpreference=100
+! stderr .
+stdout 'MX'
+
+# Get03: Get an MX record by preference.
+exec ibapi mx get -p 100
+! stderr .
+stdout 'MX'
+
+
+# Del01: Delete an MX record by name, MX and priority. 
+exec ibapi mx delete mh1.seci.rice.edu mx1.mail.rice.edu -p 200
+! stderr .
+stdout 'Deleted'
+
+# Del02: Delete an MX record by name only.
+! exec ibapi mx delete mh1.seci.rice.edu
+stderr failure
+
+# Del03: Delete an MX record by name and MX.
+exec ibapi mx delete mh1.seci.rice.edu mx1.mail.rice.edu
+! stderr .
+stdout 'Deleted'
+
+
+# Update an MX record.
+! exec ibapi mx update mh1.seci.rice.edu -m mx3.mail.rice.edu
+stderr 'failure'
+
+# Update an MX record.
+exec ibapi mx update mh1.seci.rice.edu mx2.mail.rice.edu -m mx3.mail.rice.edu
+! stderr .
+stdout 'Updated'
+
+# Update an MX record.
+exec ibapi mx update mh1.seci.rice.edu mx3.mail.rice.edu -m mx4.mail.rice.edu -p 777
+! stderr .
+stdout 'Updated'
+
+
+# Del04: Delete an MX record by name and MX.
+exec ibapi mx delete mh1.seci.rice.edu mx4.mail.rice.edu
+! stderr .
+stdout 'Deleted'

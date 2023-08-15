@@ -28,6 +28,10 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
+- -V &lt;view>, --View=&lt;view>:
+
+    Specify the view of the record to delete.  Default: "default".
+
 - -T &lt;targetType>, --TargetType=&lt;targetType>:
 
     Specify the target type to delete.  Default: A record.
@@ -200,4 +204,9 @@ fixedaddress:delete(1),
 fixedaddress:get(1),
 fixedaddress:update(1),
 grid(1),
+mx:add(1),
+mx:delete(1),
+mx:get(1),
+mx:update(1),
+mx(1),
 ibapi.conf(5)

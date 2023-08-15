@@ -28,6 +28,10 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
+- -V &lt;view>, --View=&lt;view>:
+
+    Specify the view of the record to delete.  Default: "default".
+
 - -f &lt;filename>, --filename=&lt;filename>:
 
     Specify a filename containing a list of fixedaddress records to delete.
@@ -206,4 +210,9 @@ fixedaddress:add(1),
 fixedaddress:get(1),
 fixedaddress:update(1),
 grid(1),
+mx:add(1),
+mx:delete(1),
+mx:get(1),
+mx:update(1),
+mx(1),
 ibapi.conf(5)

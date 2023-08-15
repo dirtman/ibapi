@@ -1,21 +1,14 @@
 # NAME
 
-ibapi ptr get - get Infoblox PTR records
+ibapi mx update - update Infoblox MX records
 
 # USAGE
 
-- ibapi ptr get &lt;options/args>
+- ibapi mx update &lt;options/args>
 
 # DESCRIPTION
 
-The get command is used to read/fetch Infoblox PTR records.
-
-By default, the name and IP address of each fetched record is shown.
-The --verbose option can be specified to print out the raw response from the API.
-
-To fetch a single PTR record, a single hostname and/or IP address may be provided as
-command line arguments.
-Alternatively, a list of records to fetch can be specified in a file (see --filename).
+The update command is used to update Infoblox MX records.
 
 # OPTIONS
 
@@ -32,32 +25,55 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
+- -p &lt;preference>, --preference=&lt;preference>:
+
+    Specify the preference of the record to update; only needed when multiple MX records
+    exist with the same name and MX value.
+
 - -V &lt;view>, --View=&lt;view>:
 
-    Specify the view of the record to fetch. Specify "any" to search for
-    records in all views.  Default: "any".
+    Specify the view of the record to update.  Default: "default".
+
+- -n &lt;newName>, --name=&lt;newName>:
+
+    Update the MX value of the specified MX record to "newName"  
+
+- -m &lt;newMX>, --MX=&lt;newMX>:
+
+    Update the MX value of the specified MX record to "newMX"  
+
+- -p &lt;newPreference>, --preference=&lt;newPreference>:
+
+    Update the MX value of the specified MX record to "newPreference"  
+
+- -D &lt;true|false>, --Disable=&lt;true|false>:
+
+    Update the record's disabled status to the specified value.
+    Note this is not a boolean flag - the value "true" or "false"
+    must be specified.
+
+- -n &lt;new\_domain>, --Name=&lt;new\_domain>:
+
+    Update the name of the specified record to "new\_domain".
+
+- -c &lt;comment>, --Comment=&lt;comment>:
+
+    Update the record's comment.
+
+- --TTL=&lt;ttl>:
+
+    Update the the record's TTL.
 
 - -F &lt;fields>, --Fields=&lt;fields>:
 
-    Specify a comma-separated list of field name/value pairs to restrict the record(s)
-    fetched.
-
-- -R &lt;return\_fields>, --rFields=&lt;return\_fields>:
-
-    Specify additional fields to show when in Verbose mode.
+    Specify fields and corresponding values to be updated.  For instance:
+    "comment=RT100931",view=default,ttl=900".
 
 - -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify a filename containing a list of PTR records to get.
-    Each line should contain a hostname and/or an IP address, in either order, separated
-    by one or more spaces.
+    Specify a filename containing a list of MX records to update.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
-
-- -r &lt;obj\_ref>, --Ref=&lt;obj\_ref>:
-
-    Instead of showing the name and content of the fetched record(s), show
-    the object reference of each record.
 
 ## OPTIONS - API Options
 
@@ -158,13 +174,9 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi ptr get rb4.rice.edu 168.7.56.224
+- ibapi mx update rb4.rice.edu mx1.mail.rice.edu -m mx2.mail.rice.edu
 
-    Fetch the PTR record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
-
-- ibapi ptr get 168.7.56.224
-
-    Get all PTR records that contain the IP address "168.7.56.224".
+    Update the "rb4.rice.edu/mx1.mail.rice.edu" MX record, changing the MX value to "mx2.mail.rice.edu".
 
 # FILES
 
@@ -194,6 +206,7 @@ host:delete(1),
 host:update(1),
 ptr:add(1),
 ptr:delete(1),
+ptr:get(1),
 ptr:update(1),
 cname:add(1),
 cname:delete(1),
@@ -222,6 +235,5 @@ grid(1),
 mx:add(1),
 mx:delete(1),
 mx:get(1),
-mx:update(1),
 mx(1),
 ibapi.conf(5)
