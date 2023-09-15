@@ -1,6 +1,6 @@
 package main
 
-import(
+import (
 	. "github.com/dirtman/sitepkg"
 )
 
@@ -6227,5 +6227,5 @@ SEE ALSO
 
 
 `
-return nil
+	return nil
 }

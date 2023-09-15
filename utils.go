@@ -97,3 +97,118 @@ func keys[K comparable, V any](m map[K]V) []K {
 	}
 	return keys
 }
+
+
+/*****************************************************************************\
+
+  sanitizeTXT is used to sanitize the TXT in TXT records.
+
+  The max size of a string in a TXT record is 255 chars, but a record can have
+  multiple strings (the client joins the strings back into one).  In the
+  Infloblox GUI, this could be done by splitting a long string into sub-strings
+  with doule quotes: "bigString1" "bigString2".  I can't figure out how to get
+  this working from the command line.
+  
+  I did notice by chance that a "+" in the TXT seems to split the TXT in two:
+    ibapi txt add txt.rice.edu onetwo+three
+      Infoblox:  onetwo three
+    ibapi txt add txt.rice.edu 'one two + three'
+      Infoblox:  one two three
+  
+  No double quotes appear in Inflox, and this will cause issues with spaces:
+    ibapi txt add --debug  txt.rice.edu "Plus+Plus-Equal=Equal-Semi;Semi-2Space  2Space"
+      Infoblox: Plus+Plus-Equal=Equal-Semi;Semi-2Space 2Space
+	  Dig: "Plus+Plus-Equal=Equal-Semi;Semi-2Space" "2Space"
+  The client with join the two and the space (was actually 2) will be lost.
+  If I manually quote the record in Infoblox, all is well:
+    Infoblox: "Plus+Plus-Equal=Equal-Semi;Semi-2Space 2Space"
+	Dig: "Plus+Plus-Equal=Equal-Semi;Semi-2Space 2Space"
+
+\*****************************************************************************/
+
+const maxTXTRecordChunkSize = 100
+
+func sanitizeTXT(txt string) string {
+    if maxTXTRecordChunkSize >= len(txt) {
+        return escapeURLText(txt)
+    }
+	var splitString, splitter string
+    currentLen := 0
+    currentStart := 0
+    for i := range txt {
+        if currentLen == maxTXTRecordChunkSize {
+			splitString += splitter + escapeURLText(txt[currentStart:i])
+            currentLen = 0
+            currentStart = i
+			splitter = "+"
+        }
+        currentLen++
+    }
+    splitString += splitter + escapeURLText(txt[currentStart:])
+	if Debug && splitString != txt {
+		ShowDebug("splitTXT: %s", txt)
+		ShowDebug("          %s", splitString)
+	}
+    return splitString
+}
+
+// escapeURLText escapes chars in a TXT record that cause issues in a URL.  This
+// seem to get converted back by the WAPI.
+
+func escapeURLText(htmlText string) string {
+
+	replacer := strings.NewReplacer(
+		`+`, "%2B",
+		`=`, "%3D",
+		`;`, "%3B",
+		` `, "%20",
+	)
+	escaped := replacer.Replace(htmlText)
+	if Debug && htmlText != escaped {
+		ShowDebug("escapeURLText: %s", htmlText)
+		ShowDebug("               %s", escaped)
+	}
+	return escaped
+}
+
+// Un-Escape URL special chars:
+func unEscapeURLText(escaped string) string {
+
+	replacer := strings.NewReplacer(
+		"%2B", `+`,
+		"%3D", `=`,
+		"%3B", `;`,
+		"%20", ` `,
+	)
+	htmlText := replacer.Replace(escaped)
+	if Debug && htmlText != escaped {
+		ShowDebug("unEscapeURLText: %s", escaped)
+		ShowDebug("                 %s", htmlText)
+	}
+	return htmlText
+}
+
+
+func splitTXT(s string) string {
+    if maxTXTRecordChunkSize >= len(s) {
+        return s
+    }
+	var splitString, splitter string
+    currentLen := 0
+    currentStart := 0
+    for i := range s {
+        if currentLen == maxTXTRecordChunkSize {
+			splitString += splitter + s[currentStart:i]
+            currentLen = 0
+            currentStart = i
+			splitter = "+"
+        }
+        currentLen++
+    }
+    splitString += splitter + s[currentStart:]
+	if Debug && splitString != s {
+		ShowDebug("splitTXT: %s", s)
+		ShowDebug("          %s", splitString)
+	}
+    return splitString
+}

@@ -50,6 +50,8 @@ const objectTypePTR = 3
 const objectTypeCNAME = 4
 const objectTypeAlias = 5
 const objectTypeFixedAddress = 6
+const objectTypeMX = 7
+const objectTypeTXT = 8
 const viewAny = "any"
 const targetAny = "any"
 
@@ -112,6 +114,10 @@ func getUserInput(objectType, operation string, duo bool, args []string) (*UserI
 		input.objectType = objectTypeAlias
 	} else if objectType == "fixedaddress" {
 		input.objectType = objectTypeFixedAddress
+	} else if objectType == "mx" {
+		input.objectType = objectTypeMX
+	} else if objectType == "txt" {
+		input.objectType = objectTypeTXT
 	}
 
 	if err = GetFieldOptions(input); err != nil {
@@ -422,10 +428,12 @@ func getUserInputFromFile(filename string, input *UserInput, duo bool, args []st
 	return nil
 }
 
-// Given a slice of one or two arguments, decide which is the "name" and
-// which is the "data".  For some record types the name and data my be
-// specified in either order by the user, so getND figures out which
-// looks like a hostname (name) and which like an IP address (data).
+// getND is used to preprocess input provided by the user via either command line
+// arguments or via an input file.  Either 1 or 2 arguments must be provided, and
+// one is taken as the "name" of the record, and the other is taken to be the
+// "data", or content of the record.  Some objects allow the name and data values
+// to be in either order, and for these object types getND determines which is
+// which.  Some objects may require the data to be sanitized.
 
 func getND(input *UserInput, args []string) (string, string, error) {
 
@@ -449,6 +457,12 @@ func getND(input *UserInput, args []string) (string, string, error) {
 		return getIPMac(args)
 	}
 	ShowDebug("getND: name: \"%s\";  data: \"%s\".", name, data)
+
+	// Hmmm, trying to get TXT records workings...
+	if input.objectType == objectTypeTXT {
+		data = sanitizeTXT(data)
+	}
+
 	return name, data, nil
 }
 
@@ -522,7 +536,8 @@ func getIPMac(args []string) (string, string, error) {
 
 func splitND(nameData string) (string, string, error) {
 
-	s := strings.Split(nameData, nameDataSep)
+	// Some data fields may contain the nameDataSep; don't split the data.
+	s := strings.SplitN(nameData, nameDataSep, 2)
 	if len(s) != 2 {
 		return "", "", Error("failure getting name/data from \"%s\"", nameData)
 	}

@@ -8,26 +8,20 @@ import (
 
 // Implement the "delete" command.
 
-func deleteMX(invokedAs []string) error {
+func deleteTXT(invokedAs []string) error {
 
 	var fields []string
 	var input *UserInput
-	var states StatesMX = make(StatesMX)
-	var record *RecordMX
-	var preference string
+	var states StatesTXT = make(StatesTXT)
+	var record *RecordTXT
 	var err error
 	duo := true
 
 	SetStringOpt("view", "V", true, "default", "Specify the view to which the record belongs")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
-	SetStringOpt("preference", "p", false, "", "Restrict deletion to specified preference")
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
-	} else if preference, err = GetStringOpt("preference"); err != nil {
-		return Error("failure getting preference option: %v", err)
-	} else if preference != "" {
-		input.fields = append(input.fields, "preference="+preference)
 	}
 	if err = getStates(states, input.ndList, input.fields, nil, false, false); err != nil {
 		return Error("failure getting states: %v", err)
@@ -46,9 +40,10 @@ func deleteMX(invokedAs []string) error {
 		records := states[nameData].records
 		request := strings.TrimLeft(nameData, nameDataSep)
 		request = strings.TrimRight(request, nameDataSep)
+		request = unEscapeURLText(request)
 
 		if len(records) == 0 {
-			Print("%-*s NOTFOUND\n", space, "MX("+request+")")
+			Print("%-*s NOTFOUND\n", space, "TXT("+request+")")
 			numNotFound++
 			continue
 		}
@@ -56,14 +51,14 @@ func deleteMX(invokedAs []string) error {
 		ref := record.Ref
 		_, err := deleteRecord(record.Ref, fields)
 		if err != nil {
-			Print("%-*s FAILED to delete: %v\n", space, "MX("+request+")", err)
+			Print("%-*s FAILED to delete: %v\n", space, "TXT("+request+")", err)
 			numFailed++
 			continue
 		} else if ref != record.Ref {
-			Print("%-*s FAILED to delete: ref mismatch\n", space, "MX("+request+")")
+			Print("%-*s FAILED to delete: ref mismatch\n", space, "TXT("+request+")")
 			numFailed++
 		} else {
-			Print("%-*s Deleted\n", space, "MX("+request+")")
+			Print("%-*s Deleted\n", space, "TXT("+request+")")
 		}
 	}
 

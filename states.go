@@ -92,7 +92,7 @@ type StateFixedAddress struct {
 }
 type StateTXT struct {
 	StateBase
-	records []*RecordAlias
+	records []*RecordTXT
 }
 type StateMX struct {
 	StateBase
