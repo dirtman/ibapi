@@ -38,9 +38,10 @@ func deleteTXT(invokedAs []string) error {
 
 	for _, nameData := range input.ndList {
 		records := states[nameData].records
-		request := strings.TrimLeft(nameData, nameDataSep)
-		request = strings.TrimRight(request, nameDataSep)
-		request = unEscapeURLText(request)
+        name, _, _ := splitND(nameData)
+        request := name + nameDataSep + input.txtData[nameData]
+        request = strings.TrimLeft(request, nameDataSep)
+        request = strings.TrimRight(request, nameDataSep)
 
 		if len(records) == 0 {
 			Print("%-*s NOTFOUND\n", space, "TXT("+request+")")

@@ -75,6 +75,7 @@ type UserInput struct {
 	ipFields        []string // --ipFields, for Host
 	restartServices bool     // --restart_if_needed, for Host
 	targetType      string   // --targetType, for Alias and CNAME
+	txtData			map[string]string	// original, pre-sanitized TXT data.
 }
 
 // Process and store the user arguments that define the objects on which to
@@ -118,6 +119,7 @@ func getUserInput(objectType, operation string, duo bool, args []string) (*UserI
 		input.objectType = objectTypeMX
 	} else if objectType == "txt" {
 		input.objectType = objectTypeTXT
+		input.txtData = make(map[string]string, 0)
 	}
 
 	if err = GetFieldOptions(input); err != nil {
@@ -431,7 +433,7 @@ func getUserInputFromFile(filename string, input *UserInput, duo bool, args []st
 // getND is used to preprocess input provided by the user via either command line
 // arguments or via an input file.  Either 1 or 2 arguments must be provided, and
 // one is taken as the "name" of the record, and the other is taken to be the
-// "data", or content of the record.  Some objects allow the name and data values
+// "data", or content, of the record.  Some objects allow the name and data values
 // to be in either order, and for these object types getND determines which is
 // which.  Some objects may require the data to be sanitized.
 
@@ -460,7 +462,10 @@ func getND(input *UserInput, args []string) (string, string, error) {
 
 	// Hmmm, trying to get TXT records workings...
 	if input.objectType == objectTypeTXT {
-		data = sanitizeTXT(data)
+		// Save the original raw data provided by the user.
+		input.txtData[name+nameDataSep+data] = data
+		// Sanitize the data provided by the user.
+		data = sanitizeRecordData(data)
 	}
 
 	return name, data, nil

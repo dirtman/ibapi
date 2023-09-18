@@ -17,7 +17,7 @@ func getTXT(invokedAs []string) error {
 	var duo, ref bool
 	var txt string
 
-	SetStringOpt("view", "V", true, "default", "Specify the the view to which the record belongs")
+	SetStringOpt("view", "V", true, "any", "Specify the the view to which the record belongs")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
 	SetStringOpt("rfields", "R", true, "", "Specify additional fields to show in verbose mode")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
@@ -31,7 +31,7 @@ func getTXT(invokedAs []string) error {
 	}
 
 	if txt != "" {
-		input.fields = append(input.fields, "text="+sanitizeTXT(txt))
+		input.fields = append(input.fields, "text="+sanitizeRecordData(txt))
 	}
 
 	if err = getStates(states, input.ndList, input.fields, input.rFields, false, false); err != nil {
@@ -50,16 +50,15 @@ func getTXT(invokedAs []string) error {
 
 	for _, nameData := range input.ndList {
 		records := states[nameData].records
-		request := strings.TrimLeft(nameData, nameDataSep)
+		name, _, _ := splitND(nameData)
+		request := name + nameDataSep + input.txtData[nameData]
+		request = strings.TrimLeft(request, nameDataSep)
 		request = strings.TrimRight(request, nameDataSep)
-		request = unEscapeURLText(request)
 
 		// I prefer to keep the output short, only showing the user-specified name/data
 		// fields.  But if the user provided no name or data, let's show the fields.
 		if request == "" {
-			request = unEscapeURLText(strings.Join(input.fields, ","))
-		} else {
-			request = unEscapeURLText(request)
+			request = strings.Join(input.fields, ",")
 		}
 
 		if err := states[nameData].err; err != nil {

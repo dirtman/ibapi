@@ -11,25 +11,13 @@ package main
   grabbed straight from infoblox-go-client.
 \*****************************************************************************/
 
-// Define a record type for Aliases; such is missing from infoblox-go-client.
-type RecordAlias struct {
-	Ref        string `json:"_ref,omitempty"`
-	Name       string `json:"name,omitempty"`
-	Target     string `json:"target_name,omitempty"`
-	TargetType string `json:"target_type,omitempty"`
-	View       string `json:"view,omitempty"`
-	Comment    string `json:"comment,omitempty"`
-	UseTtl     bool   `json:"use_ttl"`
-	Ttl        uint32 `json:"ttl"`
-	Zone       string `json:"zone,omitempty"`
-	Disable    bool   `json:"disable"`
-}
+// A single string in a TXT record cannot exceed 255 bytes; longer strings will
+// need to be broken up into sub-strings.
+const maxDataStringSize = 25
 
 type EA map[string]interface{}
 type EASearch map[string]interface{}
-
-type IBBase struct {
-}
+type IBBase struct{}
 
 type Network struct {
 	IBBase
@@ -171,5 +159,19 @@ type RecordMX struct {
 	UseTtl     bool   `json:"use_ttl"`
 	Comment    string `json:"comment"`
 	Ea         EA     `json:"extattrs"`
+	Disable    bool   `json:"disable"`
+}
+
+// Define a record type for Aliases; such is missing from infoblox-go-client.
+type RecordAlias struct {
+	Ref        string `json:"_ref,omitempty"`
+	Name       string `json:"name,omitempty"`
+	Target     string `json:"target_name,omitempty"`
+	TargetType string `json:"target_type,omitempty"`
+	View       string `json:"view,omitempty"`
+	Comment    string `json:"comment,omitempty"`
+	UseTtl     bool   `json:"use_ttl"`
+	Ttl        uint32 `json:"ttl"`
+	Zone       string `json:"zone,omitempty"`
 	Disable    bool   `json:"disable"`
 }

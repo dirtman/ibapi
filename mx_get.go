@@ -17,7 +17,7 @@ func getMX(invokedAs []string) error {
 	var duo, ref bool
 	var mx, preference string
 
-	SetStringOpt("view", "V", true, "default", "Specify the the view to which the record belongs")
+	SetStringOpt("view", "V", true, "any", "Specify the the view to which the record belongs")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
 	SetStringOpt("rfields", "R", true, "", "Specify additional fields to show in verbose mode")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")

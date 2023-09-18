@@ -41,28 +41,41 @@ func addTXT(invokedAs []string) error {
 	}
 
 	// Loop through the user provided input (name/data) list.
+	// nkey == "name".
+	// dkey == "text".
+	// object == "TXT"
 
-	space := input.maxNameLength + 8
 	nKey, dKey := states.GetNDKeys()
 	object := states.GetObjectType()
+	space := input.maxNameLength + 8
 	var numConflicts uint
 
-	for nameData, state := range states {
+	for nameData := range states {
 
+		// Note that "data" is sanitized: special URL chars have been escaped,
+		// and if the string was too long, it has been split into sub-strings.
 		var name, data, conflict string
 		name, data, _ = splitND(nameData)
-		ShowDebug("addTXT1: data: %s", data)
-		//data = unEscapeURLText(data)
 		sep := "Conflicts found: "
 
-		if len(states[nameData].records) != 0 {
-			if state.records[0].Name == name && state.records[0].Text == data {
-				conflict += sep + "TXT record with same name and data"
+		// rawData is the original data entered by the user.
+		rawData := input.txtData[nameData]
+		ShowDebug("Add: rawData: %s", rawData)
+		ShowDebug("Add: data:    %s", data)
+
+		// Check if any existing records conflict with the one being added.
+		for _, record := range states[nameData].records {
+			if record.Name == name {
+				if record.Text == rawData {
+					conflict += sep + "TXT record with same name and data"
+				} else if joinDataStrings(record.Text) == rawData {
+					conflict += sep + "TXT record with same name and data"
+				}
 			}
 			sep = ", "
 		}
 		// From here on, we are just showing "nameData".
-		nameData = unEscapeURLText(nameData)
+		nameData = name + nameDataSep + rawData
 
 		if conflict != "" {
 			Print("%-*s NOT added: %s\n", space, "TXT("+nameData+")", conflict)

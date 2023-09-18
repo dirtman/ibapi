@@ -35,7 +35,7 @@ func upateTXT(invokedAs []string) error {
 		input.fields = append(input.fields, "name="+name)
 	}
 	if txt != "" { // Append it to the list of field/values to be updated.
-		input.fields = append(input.fields, "text="+sanitizeTXT(txt))
+		input.fields = append(input.fields, "text="+sanitizeRecordData(txt))
 	}
 
 	// Query the record being updated, and check for errors.
@@ -53,9 +53,10 @@ func upateTXT(invokedAs []string) error {
 
 	for _, nameData := range input.ndList {
 		records := states[nameData].records
-		request := strings.TrimLeft(nameData, nameDataSep)
-		request = strings.TrimRight(request, nameDataSep)
-		request = unEscapeURLText(request)
+        name, _, _ = splitND(nameData)
+        request := name + nameDataSep + input.txtData[nameData]
+        request = strings.TrimLeft(request, nameDataSep)
+        request = strings.TrimRight(request, nameDataSep)
 
 		if len(records) == 0 {
 			Print("%-*s NOTFOUND\n", space, "TXT("+request+")")
