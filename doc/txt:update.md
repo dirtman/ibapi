@@ -1,21 +1,24 @@
 # NAME
 
-ibapi ptr delete - delete Infoblox PTR records
+ibapi txt update - update Infoblox TXT records
 
 # USAGE
 
-- ibapi ptr delete &lt;options/args>
+- ibapi txt update &lt;options/args>
 
 # DESCRIPTION
 
-The delete command is used to delete Infoblox PTR records.
-To delete a single PTR record, a single hostname and optionally an IP address may
+The update command is used to update Infoblox TXT records.
+To update a single TXT record, a single hostname and optionally a TXT value may
 be provided as command line arguments.
-Alternatively, a list of records to delete can be specified in a file (see --filename).
+Alternatively, a list of records to update can be specified in a file (see --filename).
 
-If an IP address is specified, the PTR record to delete must contain that IP address, else
-no ptr will be deleted.  If no IP address is specified, the PTR record is deleted
-regardless of its IP address(es).
+If a TXT value is specified, the TXT record to update must contain that TXT value, else
+no TXT record will be updated.  If no TXT value is specified and only one TXT record
+is found for the specified name, that TXT record is updated regardless of its TXT value.
+If multiple TXT records are found for the same
+request, the update process is aborted (no records are updated) unless the --multiple
+options is specified to allow mutliple record updates per request.
 
 # OPTIONS
 
@@ -34,13 +37,39 @@ Use the --ShowConfig to view each option and its value.
 
 - -V &lt;view>, --View=&lt;view>:
 
-    Specify the view of the record to delete.  Default: "default".
+    Specify the view of the record to update.  Default: "default".
+
+- -D &lt;true|false>, --Disable=&lt;true|false>:
+
+    Update the record's disabled status to the specified value.
+    Note this is not a boolean flag - the value "true" or "false"
+    must be specified.
+
+- -n &lt;new\_hostname>, --Name=&lt;new\_hostname>:
+
+    Update the name of the specified record to "new\_hostname".
+
+- -c &lt;comment>, --Comment=&lt;comment>:
+
+    Update the record's comment.
+
+- --TTL=&lt;ttl>:
+
+    Update the record's TTL.
+
+- -t <TXT>, --txt=<TXT>:
+
+    Update the record's TXT value.
+
+- -F &lt;fields>, --Fields=&lt;fields>:
+
+    Specify fields and corresponding values to be updated.  For instance:
+    "comment=RT100931",view=default,ttl=900".
 
 - -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify a filename containing a list of PTR records to delete.
-    Each line should contain a hostname and optionally an IP address, in either order,
-    separated by one or more spaces.
+    Specify a filename containing a list of TXT records to update.
+    Each line must contain a hostname and, depending on the specified options, a TXT value.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
@@ -143,9 +172,10 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi ptr delete rb4.rice.edu 168.7.56.224
+- ibapi txt update t1.txt.rice.edu "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all"
+  -t "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all"
 
-    Delete the PTR record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
+    Update the TXT value of the specified TXT record.
 
 # FILES
 
@@ -174,6 +204,7 @@ host:get(1),
 host:delete(1),
 host:update(1),
 ptr:add(1),
+ptr:delete(1),
 ptr:get(1),
 ptr:update(1),
 cname:add(1),
@@ -208,6 +239,5 @@ mx(1),
 txt:add(1),
 txt:delete(1),
 txt:get(1),
-txt:update(1),
 txt(1),
 ibapi.conf(5)

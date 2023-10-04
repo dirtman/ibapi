@@ -1,21 +1,22 @@
 # NAME
 
-ibapi ptr delete - delete Infoblox PTR records
+ibapi txt get - get Infoblox TXT records
 
 # USAGE
 
-- ibapi ptr delete &lt;options/args>
+- ibapi txt get &lt;options/args>
 
 # DESCRIPTION
 
-The delete command is used to delete Infoblox PTR records.
-To delete a single PTR record, a single hostname and optionally an IP address may
-be provided as command line arguments.
-Alternatively, a list of records to delete can be specified in a file (see --filename).
+The get command is used to read/fetch Infoblox TXT records.
 
-If an IP address is specified, the PTR record to delete must contain that IP address, else
-no ptr will be deleted.  If no IP address is specified, the PTR record is deleted
-regardless of its IP address(es).
+By default, the hostname and TXT value of each fetched record is shown.  The
+\--verbose option can be specified to print out the raw API response, which
+includes additional fields.
+
+To fetch a single TXT record, a single hostname and/or TXT value may be
+provided as command line arguments.  Alternatively, a list of records to fetch
+can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -34,15 +35,30 @@ Use the --ShowConfig to view each option and its value.
 
 - -V &lt;view>, --View=&lt;view>:
 
-    Specify the view of the record to delete.  Default: "default".
+    Specify the view of the record to fetch. Specify "any" to search for
+    records in all views.  Default: "any".
+
+- -F &lt;fields>, --Fields=&lt;fields>:
+
+    Specify a comma-separated list of field name/value pairs to restrict the record(s)
+    fetched.
+
+- -R &lt;return\_fields>, --rFields=&lt;return\_fields>:
+
+    Specify additional fields to show when in Verbose mode.
 
 - -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify a filename containing a list of PTR records to delete.
-    Each line should contain a hostname and optionally an IP address, in either order,
-    separated by one or more spaces.
+    Specify a filename containing a list of TXT records to get.
+    Each line should contain a hostname and/or a TXT value, separated
+    by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
+
+- -r &lt;obj\_ref>, --Ref=&lt;obj\_ref>:
+
+    Instead of showing the name and content of the fetched record(s), show
+    the object reference of each record.
 
 ## OPTIONS - API Options
 
@@ -143,9 +159,13 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi ptr delete rb4.rice.edu 168.7.56.224
+- ibapi txt get t1.txt.rice.edu
 
-    Delete the PTR record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
+    Fetch each TXT record named t1.txt.rice.edu.
+
+- ibapi txt get -F name\~=txt.rice.edu -V external
+
+    Fetch each TXT record (in the external DNS view) whose name matches t1.txt.rice.edu.
 
 # FILES
 
@@ -174,6 +194,7 @@ host:get(1),
 host:delete(1),
 host:update(1),
 ptr:add(1),
+ptr:delete(1),
 ptr:get(1),
 ptr:update(1),
 cname:add(1),
@@ -207,7 +228,6 @@ mx:update(1),
 mx(1),
 txt:add(1),
 txt:delete(1),
-txt:get(1),
 txt:update(1),
 txt(1),
 ibapi.conf(5)

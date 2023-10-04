@@ -1,21 +1,24 @@
 # NAME
 
-ibapi ptr delete - delete Infoblox PTR records
+ibapi txt delete - delete Infoblox TXT records
 
 # USAGE
 
-- ibapi ptr delete &lt;options/args>
+- ibapi txt delete &lt;options/args>
 
 # DESCRIPTION
 
-The delete command is used to delete Infoblox PTR records.
-To delete a single PTR record, a single hostname and optionally an IP address may
+The delete command is used to delete Infoblox TXT records.
+To delete a single TXT record, a single hostname and optionally a TXT value may
 be provided as command line arguments.
 Alternatively, a list of records to delete can be specified in a file (see --filename).
 
-If an IP address is specified, the PTR record to delete must contain that IP address, else
-no ptr will be deleted.  If no IP address is specified, the PTR record is deleted
-regardless of its IP address(es).
+If a TXT value is specified, the TXT record to delete must contain that TXT value, else
+no TXT record will be deleted.  If no TXT value is specified and only one TXT record
+is found for the specified name, that TXT record is deleted regardless of its TXT value.
+If multiple TXT records are found for the same
+request, the deletion process is aborted (no records are deleted) unless the --multiple
+options is specified to allow mutliple record deletions per request.
 
 # OPTIONS
 
@@ -38,11 +41,17 @@ Use the --ShowConfig to view each option and its value.
 
 - -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify a filename containing a list of PTR records to delete.
-    Each line should contain a hostname and optionally an IP address, in either order,
+    Specify a filename containing a list of TXT records to delete.
+    Each line should contain a hostname and optionally a TXT value,
     separated by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
+
+- -m, --multiple:
+
+    If only a name is specified (no TXT value is specified), allow deletion of 
+    multiple records if multiple records are found for the specified name.
+    This option has no effect if both the name and data value are specified.
 
 ## OPTIONS - API Options
 
@@ -143,9 +152,13 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi ptr delete rb4.rice.edu 168.7.56.224
+- ibapi txt delete t1.txt.rice.edu "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all"
 
-    Delete the PTR record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
+    Delete the TXT record with hostname "t1.txt.rice.edu" and TXT value "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all".
+
+- ibapi txt delete t1.txt.rice.edu
+
+    Delete all TXT records named t1.txt.rice.edu.
 
 # FILES
 
@@ -174,6 +187,7 @@ host:get(1),
 host:delete(1),
 host:update(1),
 ptr:add(1),
+ptr:delete(1),
 ptr:get(1),
 ptr:update(1),
 cname:add(1),
@@ -206,7 +220,6 @@ mx:get(1),
 mx:update(1),
 mx(1),
 txt:add(1),
-txt:delete(1),
 txt:get(1),
 txt:update(1),
 txt(1),

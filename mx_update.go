@@ -13,7 +13,7 @@ func upateMX(invokedAs []string) error {
 	var input *UserInput
 	var name, mx, preference, currentPref, message string
 	var err error
-	duo := true
+	var duo, multiple bool
 
 	SetStringOpt("view", "V", true, "default", "Specify the view of the record to update")
 	SetStringOpt("name", "n", false, "", "Update the record's name")
@@ -24,6 +24,7 @@ func upateMX(invokedAs []string) error {
 	SetStringOpt("currentPref", "P", false, "", "Specify the preference of the record to update")
 	SetStringOpt("fields", "F", false, "", "Additional fields to be updated")
 	SetStringOpt("filename", "f", true, "", "Specify a name/data input file")
+	SetBoolOpt("multiple", "", true, false, "Allow multiple records to be updated")
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
@@ -35,7 +36,9 @@ func upateMX(invokedAs []string) error {
 		return Error("failure getting currentPref option: %v", err)
 	} else if name, err = GetStringOpt("name"); err != nil {
 		return Error("failure getting name option: %v", err)
-	}
+	} else if multiple, err = GetBoolOpt("multiple"); err != nil {
+        return Error("failure getting multiple option: %v", err)
+    }
 
 	if name != "" { // Append it to the list of field/values to be updated.
 		input.fields = append(input.fields, "name="+name)
@@ -58,9 +61,19 @@ func upateMX(invokedAs []string) error {
 	} else if errors := checkStateErrors(states, duo, true); len(errors) != 0 {
 		return Error("Aborting process; no records updated.")
 	}
-	space := input.maxNameLength + 8
+
+    // Unless the --multiple option was specified, let's verify that only
+    // a single record was found per input request.
+    if ! multiple {
+        for _, nameData := range input.ndList {
+            if len(states[nameData].records) > 1 {
+                return Error("Multiple records found for \"%s\"; see the --multiple option", nameData)
+            }
+        }
+    }
 
 	// Loop through the user provided input (name/data) list.
+	space := input.maxNameLength + 8
 	var numNotFound, numFailed uint
 
 	for _, nameData := range input.ndList {
@@ -73,15 +86,17 @@ func upateMX(invokedAs []string) error {
 			numNotFound++
 			continue
 		}
-		_, err = updateRecord(records[0].Ref, input.fields)
-		message = "(fields: " + strings.Join(input.fields, ",") + ")"
 
-		if err != nil {
-			Print("%-*s FAILED to update: %v\n", space, "MX("+request+")", err)
-			numFailed++
-			continue
-		} else {
-			Print("%-*s Updated %s\n", space, "MX("+request+")", message)
+		for _, record := range records {
+			_, err = updateRecord(record.Ref, input.fields)
+			message = "(fields: " + strings.Join(input.fields, ",") + ")"
+			if err != nil {
+				Print("%-*s FAILED to update: %v\n", space, "MX("+request+")", err)
+				numFailed++
+				continue
+			} else {
+				Print("%-*s Updated %s\n", space, "MX("+request+")", message)
+			}
 		}
 	}
 

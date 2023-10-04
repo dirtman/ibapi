@@ -9,9 +9,16 @@ ibapi mx delete - delete Infoblox MX records
 # DESCRIPTION
 
 The delete command is used to delete Infoblox MX records.
-To delete a single MX record, a single domain and MX value may
+To delete a single MX record, a single hostname and optionally an MX value may
 be provided as command line arguments.
 Alternatively, a list of records to delete can be specified in a file (see --filename).
+
+If an MX value is specified, the MX record to delete must contain that MX value, else
+no MX record will be deleted.  If no MX value is specified and only one MX record
+is found for the specified name, that MX record is deleted regardless of its MX value.
+If multiple MX records are found for the same
+name, the deletion process is aborted (no records are deleted) unless the --multiple
+options is specified to allow mutliple record deletions per request.
 
 # OPTIONS
 
@@ -206,4 +213,9 @@ mx:add(1),
 mx:get(1),
 mx:update(1),
 mx(1),
+txt:add(1),
+txt:delete(1),
+txt:get(1),
+txt:update(1),
+txt(1),
 ibapi.conf(5)

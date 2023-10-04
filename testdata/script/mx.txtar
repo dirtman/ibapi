@@ -50,7 +50,7 @@ stdout 'Deleted'
 
 # Del02: Delete an MX record by name only.
 ! exec ibapi mx delete mh1.seci.rice.edu
-stderr failure
+stderr 'Multiple records found'
 
 # Del03: Delete an MX record by name and MX.
 exec ibapi mx delete mh1.seci.rice.edu mx1.mail.rice.edu
@@ -59,13 +59,10 @@ stdout 'Deleted'
 
 
 # Update an MX record.
-! exec ibapi mx update mh1.seci.rice.edu -m mx3.mail.rice.edu
-stderr 'failure'
-
-# Update an MX record.
-exec ibapi mx update mh1.seci.rice.edu mx2.mail.rice.edu -m mx3.mail.rice.edu
+exec ibapi mx update mh1.seci.rice.edu -m mx3.mail.rice.edu
 ! stderr .
 stdout 'Updated'
+
 
 # Update an MX record.
 exec ibapi mx update mh1.seci.rice.edu mx3.mail.rice.edu -m mx4.mail.rice.edu -p 777

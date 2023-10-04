@@ -15,7 +15,6 @@ func getMX(invokedAs []string) error {
 	var states StatesMX = make(StatesMX)
 	var err, result error
 	var duo, ref bool
-	var mx, preference string
 
 	SetStringOpt("view", "V", true, "any", "Specify the the view to which the record belongs")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
@@ -27,18 +26,7 @@ func getMX(invokedAs []string) error {
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
-	} else if mx, err = GetStringOpt("mx"); err != nil {
-		return Error("failure getting MX option: %v", err)
-	} else if preference, err = GetStringOpt("preference"); err != nil {
-		return Error("failure getting preference option: %v", err)
-	}
-
-	if mx != "" {
-		input.fields = append(input.fields, "mail_exchanger="+mx)
-	}
-	if preference != "" {
-		input.fields = append(input.fields, "preference="+preference)
-	}
+	} 
 
 	// The preference field is returned by default, so this is not really needed.
 	if inList, _ := InList(input.rFields, "preference"); !inList {

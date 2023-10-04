@@ -9,6 +9,16 @@ ibapi mx update - update Infoblox MX records
 # DESCRIPTION
 
 The update command is used to update Infoblox MX records.
+To update a single MX record, a single hostname and optionally an MX value may
+be provided as command line arguments.
+Alternatively, a list of records to update can be specified in a file (see --filename).
+
+If an MX value is specified, the MX record to update must contain that MX value, else
+no MX record will be updated.  If no MX value is specified and only one MX record
+is found for the specified name, that MX record is updated regardless of its MX value.
+If multiple MX records are found for the same
+request, the update process is aborted (no records are updated) unless the --multiple
+options is specified to allow mutliple record updates per request.
 
 # OPTIONS
 
@@ -232,4 +242,9 @@ mx:add(1),
 mx:delete(1),
 mx:get(1),
 mx(1),
+txt:add(1),
+txt:delete(1),
+txt:get(1),
+txt:update(1),
+txt(1),
 ibapi.conf(5)

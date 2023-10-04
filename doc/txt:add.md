@@ -1,21 +1,27 @@
 # NAME
 
-ibapi ptr delete - delete Infoblox PTR records
+ibapi txt add - create Infoblox TXT records
 
 # USAGE
 
-- ibapi ptr delete &lt;options/args>
+- ibapi txt add &lt;options/args>
 
 # DESCRIPTION
 
-The delete command is used to delete Infoblox PTR records.
-To delete a single PTR record, a single hostname and optionally an IP address may
-be provided as command line arguments.
-Alternatively, a list of records to delete can be specified in a file (see --filename).
+The add command is used to create Infoblox TXT records.
+To create a single TXT record, a single hostname and TXT value can be provided as
+command line arguments.
+Alternatively, a list of records to add can be specified in a file (see --filename).
 
-If an IP address is specified, the PTR record to delete must contain that IP address, else
-no ptr will be deleted.  If no IP address is specified, the PTR record is deleted
-regardless of its IP address(es).
+A TXT value can contain spaces and other strange characters that are not so URL
+friendly.  ibapi will add double quotes around the TXT data if the data is not
+already quoted.  This seems to work well with infoblox, and DNS clients get the
+correct (non-quoted) value.  ibapi also escapes non-URL friendly characters.
+
+The maximum size of a string in a TXT record is 255 chars, but a record can have
+multiple strings (the client joins the strings back into one).  In the
+Infloblox GUI, this could be done by splitting a long string into sub-strings
+with doule quotes: "bigString1" "bigString2".  ibapi does the same.
 
 # OPTIONS
 
@@ -34,13 +40,33 @@ Use the --ShowConfig to view each option and its value.
 
 - -V &lt;view>, --View=&lt;view>:
 
-    Specify the view of the record to delete.  Default: "default".
+    Specify the view for the new record.  Default: "default".
 
-- -f &lt;filename>, --filename=&lt;filename>:
+- -D, --Disable:
 
-    Specify a filename containing a list of PTR records to delete.
-    Each line should contain a hostname and optionally an IP address, in either order,
-    separated by one or more spaces.
+    Disable the new record.  Default: false.
+
+- -c &lt;comment>, --Comment=&lt;comment>:
+
+    Specify the comment for the new record.
+    Alternatively, you can specify this via the --fields option.
+    Default: "ibapi:host:add".
+
+- --TTL=&lt;ttl>:
+
+    Specify the ttl for the new record.
+    Alternatively, you can specify this via the --fields option.
+
+- -F &lt;fields>, --Fields=&lt;fields>:
+
+    Specify fields and corresponding values for the new record.  For instance:
+    "comment=RT100931",view=default,ttl=900".
+
+- -f &lt;filename>, --Filename=&lt;filename>:
+
+    Specify a filename containing a list of TXT records to create.
+    Each line should contain a hostname and a TXT value, separated
+    by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
 
@@ -143,9 +169,9 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi ptr delete rb4.rice.edu 168.7.56.224
+- ibapi txt add t1.txt.rice.edu "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all"
 
-    Delete the PTR record with hostname "rb4.rice.edu" and IP address "168.7.56.224".
+    Create the "t1.txt.rice.edu" TXT record as specified.
 
 # FILES
 
@@ -174,6 +200,7 @@ host:get(1),
 host:delete(1),
 host:update(1),
 ptr:add(1),
+ptr:delete(1),
 ptr:get(1),
 ptr:update(1),
 cname:add(1),
@@ -205,7 +232,6 @@ mx:delete(1),
 mx:get(1),
 mx:update(1),
 mx(1),
-txt:add(1),
 txt:delete(1),
 txt:get(1),
 txt:update(1),

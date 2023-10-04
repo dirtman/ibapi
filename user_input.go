@@ -210,6 +210,31 @@ func GetFieldOptions(input *UserInput) error {
 		if inList, _ := InList(input.rFields, "disable"); !inList {
 			input.rFields = append(input.rFields, "disable")
 		}
+		// Get MX supports an mx and preference fields.
+		if input.objectType == objectTypeMX {
+			var mx, preference string
+			if mx, err = GetStringOpt("mx"); err != nil {
+				return Error("failure getting MX option: %v", err)
+			} else if preference, err = GetStringOpt("preference"); err != nil {
+				return Error("failure getting preference option: %v", err)
+			}
+			if mx != "" {
+				input.fields = append(input.fields, "mail_exchanger="+mx)
+			}
+			if preference != "" {
+				input.fields = append(input.fields, "preference="+preference)
+			}
+		}
+		// Get TXT supports a txt field.
+		if input.objectType == objectTypeTXT {
+			var txt string
+			if txt, err = GetStringOpt("txt"); err != nil {
+				return Error("failure getting TXT option: %v", err)
+			}
+			if txt != "" {
+				input.fields = append(input.fields, "text="+sanitizeRecordData(txt))
+			}
+		}
 	}
 
 	// Handle the comment option.

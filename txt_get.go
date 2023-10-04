@@ -15,7 +15,6 @@ func getTXT(invokedAs []string) error {
 	var states StatesTXT = make(StatesTXT)
 	var err, result error
 	var duo, ref bool
-	var txt string
 
 	SetStringOpt("view", "V", true, "any", "Specify the the view to which the record belongs")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
@@ -26,13 +25,7 @@ func getTXT(invokedAs []string) error {
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
-	} else if txt, err = GetStringOpt("txt"); err != nil {
-		return Error("failure getting TXT option: %v", err)
-	}
-
-	if txt != "" {
-		input.fields = append(input.fields, "text="+sanitizeRecordData(txt))
-	}
+	} 
 
 	if err = getStates(states, input.ndList, input.fields, input.rFields, false, false); err != nil {
 		return Error("failure getting states: %v", err)

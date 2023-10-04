@@ -1,6 +1,6 @@
 package main
 
-import (
+import(
 	. "github.com/dirtman/sitepkg"
 )
 
@@ -52,7 +52,8 @@ SEE ALSO
     url:update(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -225,7 +226,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -377,7 +379,8 @@ SEE ALSO
     url:update(1), a(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -551,7 +554,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -601,7 +605,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -771,6 +776,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -924,6 +930,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -1098,6 +1105,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -1272,6 +1280,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -1444,7 +1453,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -1494,7 +1504,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -1656,6 +1667,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -1806,6 +1818,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -1976,6 +1989,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -2140,6 +2154,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -2195,7 +2210,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -2383,7 +2399,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -2543,7 +2560,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -2718,7 +2736,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -2913,7 +2932,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -3054,7 +3074,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), mx:add(1), mx:delete(1),
-    mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -3112,7 +3133,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -3317,7 +3339,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -3483,6 +3506,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -3662,7 +3686,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -3886,6 +3911,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -4149,7 +4175,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -4199,7 +4226,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -4364,7 +4392,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:delete(1),
-    mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -4377,9 +4406,17 @@ USAGE
 
 DESCRIPTION
     The delete command is used to delete Infoblox MX records. To delete a
-    single MX record, a single domain and MX value may be provided as
-    command line arguments. Alternatively, a list of records to delete can
-    be specified in a file (see --filename).
+    single MX record, a single hostname and optionally an MX value may be
+    provided as command line arguments. Alternatively, a list of records to
+    delete can be specified in a file (see --filename).
+
+    If an MX value is specified, the MX record to delete must contain that
+    MX value, else no MX record will be deleted. If no MX value is specified
+    and only one MX record is found for the specified name, that MX record
+    is deleted regardless of its MX value. If multiple MX records are found
+    for the same name, the deletion process is aborted (no records are
+    deleted) unless the --multiple options is specified to allow mutliple
+    record deletions per request.
 
 OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
@@ -4515,7 +4552,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -4695,7 +4733,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -4707,7 +4746,18 @@ USAGE
     ibapi mx update <options/args>
 
 DESCRIPTION
-    The update command is used to update Infoblox MX records.
+    The update command is used to update Infoblox MX records. To update a
+    single MX record, a single hostname and optionally an MX value may be
+    provided as command line arguments. Alternatively, a list of records to
+    update can be specified in a file (see --filename).
+
+    If an MX value is specified, the MX record to update must contain that
+    MX value, else no MX record will be updated. If no MX value is specified
+    and only one MX record is found for the specified name, that MX record
+    is updated regardless of its MX value. If multiple MX records are found
+    for the same request, the update process is aborted (no records are
+    updated) unless the --multiple options is specified to allow mutliple
+    record updates per request.
 
 OPTIONS
     Some options can be specified with either a short (i.e., -h) or long
@@ -4867,7 +4917,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -4917,7 +4968,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -5085,7 +5137,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -5237,6 +5290,7 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
 
 
@@ -5405,7 +5459,8 @@ SEE ALSO
     url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
     fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), mx(1), ibapi.conf(5)
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -5579,7 +5634,744 @@ SEE ALSO
     a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
     fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
     grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
     ibapi.conf(5)
+
+
+`
+	PodMap["txt"] = `
+NAME
+    ibapi txt - create, read, update and delete Infoblox TXT records
+
+USAGE
+    ibapi txt <add|get|update|delete> <options/args>
+
+DESCRIPTION
+    "ibapi txt" can be used to add, get, update and delete Infoblox TXT
+    records. The basic format is
+
+    * ibapi txt <operation> <options/args>
+
+    For more details, invoke the specific operation with the --help|-h
+    option. For example:
+
+    * ibapi txt add -h
+
+EXAMPLES
+    ibapi txt add t1.txt.rice.edu "v=spf1 a:mh.rice.edu
+    a:a16.spf.rice.edu/16 -all"
+        Add a TXT record.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), ibapi.conf(5)
+
+
+`
+	PodMap["txt:add"] = `
+NAME
+    ibapi txt add - create Infoblox TXT records
+
+USAGE
+    ibapi txt add <options/args>
+
+DESCRIPTION
+    The add command is used to create Infoblox TXT records. To create a
+    single TXT record, a single hostname and TXT value can be provided as
+    command line arguments. Alternatively, a list of records to add can be
+    specified in a file (see --filename).
+
+    A TXT value can contain spaces and other strange characters that are not
+    so URL friendly. ibapi will add double quotes around the TXT data if the
+    data is not already quoted. This seems to work well with infoblox, and
+    DNS clients get the correct (non-quoted) value. ibapi also escapes
+    non-URL friendly characters.
+
+    The maximum size of a string in a TXT record is 255 chars, but a record
+    can have multiple strings (the client joins the strings back into one).
+    In the Infloblox GUI, this could be done by splitting a long string into
+    sub-strings with doule quotes: "bigString1" "bigString2". ibapi does the
+    same.
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view for the new record. Default: "default".
+
+    -D, --Disable:
+        Disable the new record. Default: false.
+
+    -c <comment>, --Comment=<comment>:
+        Specify the comment for the new record. Alternatively, you can
+        specify this via the --fields option. Default: "ibapi:host:add".
+
+    --TTL=<ttl>:
+        Specify the ttl for the new record. Alternatively, you can specify
+        this via the --fields option.
+
+    -F <fields>, --Fields=<fields>:
+        Specify fields and corresponding values for the new record. For
+        instance: "comment=RT100931",view=default,ttl=900".
+
+    -f <filename>, --Filename=<filename>:
+        Specify a filename containing a list of TXT records to create. Each
+        line should contain a hostname and a TXT value, separated by one or
+        more spaces. Blank lines and lines beginning with "#" are ignored,
+        as is anything on a line following a "#".
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi txt add t1.txt.rice.edu "v=spf1 a:mh.rice.edu
+    a:a16.spf.rice.edu/16 -all"
+        Create the "t1.txt.rice.edu" TXT record as specified.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
+
+
+`
+	PodMap["txt:delete"] = `
+NAME
+    ibapi txt delete - delete Infoblox TXT records
+
+USAGE
+    ibapi txt delete <options/args>
+
+DESCRIPTION
+    The delete command is used to delete Infoblox TXT records. To delete a
+    single TXT record, a single hostname and optionally a TXT value may be
+    provided as command line arguments. Alternatively, a list of records to
+    delete can be specified in a file (see --filename).
+
+    If a TXT value is specified, the TXT record to delete must contain that
+    TXT value, else no TXT record will be deleted. If no TXT value is
+    specified and only one TXT record is found for the specified name, that
+    TXT record is deleted regardless of its TXT value. If multiple TXT
+    records are found for the same request, the deletion process is aborted
+    (no records are deleted) unless the --multiple options is specified to
+    allow mutliple record deletions per request.
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view of the record to delete. Default: "default".
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of TXT records to delete. Each
+        line should contain a hostname and optionally a TXT value, separated
+        by one or more spaces. Blank lines and lines beginning with "#" are
+        ignored, as is anything on a line following a "#".
+
+    -m, --multiple:
+        If only a name is specified (no TXT value is specified), allow
+        deletion of multiple records if multiple records are found for the
+        specified name. This option has no effect if both the name and data
+        value are specified.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi txt delete t1.txt.rice.edu "v=spf1 a:mh.rice.edu
+    a:a16.spf.rice.edu/16 -all"
+        Delete the TXT record with hostname "t1.txt.rice.edu" and TXT value
+        "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all".
+
+    ibapi txt delete t1.txt.rice.edu
+        Delete all TXT records named t1.txt.rice.edu.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
+
+
+`
+	PodMap["txt:get"] = `
+NAME
+    ibapi txt get - get Infoblox TXT records
+
+USAGE
+    ibapi txt get <options/args>
+
+DESCRIPTION
+    The get command is used to read/fetch Infoblox TXT records.
+
+    By default, the hostname and TXT value of each fetched record is shown.
+    The --verbose option can be specified to print out the raw API response,
+    which includes additional fields.
+
+    To fetch a single TXT record, a single hostname and/or TXT value may be
+    provided as command line arguments. Alternatively, a list of records to
+    fetch can be specified in a file (see --filename).
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view of the record to fetch. Specify "any" to search for
+        records in all views. Default: "any".
+
+    -F <fields>, --Fields=<fields>:
+        Specify a comma-separated list of field name/value pairs to restrict
+        the record(s) fetched.
+
+    -R <return_fields>, --rFields=<return_fields>:
+        Specify additional fields to show when in Verbose mode.
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of TXT records to get. Each
+        line should contain a hostname and/or a TXT value, separated by one
+        or more spaces. Blank lines and lines beginning with "#" are
+        ignored, as is anything on a line following a "#".
+
+    -r <obj_ref>, --Ref=<obj_ref>:
+        Instead of showing the name and content of the fetched record(s),
+        show the object reference of each record.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi txt get t1.txt.rice.edu
+        Fetch each TXT record named t1.txt.rice.edu.
+
+    ibapi txt get -F name~=txt.rice.edu -V external
+        Fetch each TXT record (in the external DNS view) whose name matches
+        t1.txt.rice.edu.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:update(1), txt(1), ibapi.conf(5)
+
+
+`
+	PodMap["txt:update"] = `
+NAME
+    ibapi txt update - update Infoblox TXT records
+
+USAGE
+    ibapi txt update <options/args>
+
+DESCRIPTION
+    The update command is used to update Infoblox TXT records. To update a
+    single TXT record, a single hostname and optionally a TXT value may be
+    provided as command line arguments. Alternatively, a list of records to
+    update can be specified in a file (see --filename).
+
+    If a TXT value is specified, the TXT record to update must contain that
+    TXT value, else no TXT record will be updated. If no TXT value is
+    specified and only one TXT record is found for the specified name, that
+    TXT record is updated regardless of its TXT value. If multiple TXT
+    records are found for the same request, the update process is aborted
+    (no records are updated) unless the --multiple options is specified to
+    allow mutliple record updates per request.
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view of the record to update. Default: "default".
+
+    -D <true|false>, --Disable=<true|false>:
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
+
+    -n <new_hostname>, --Name=<new_hostname>:
+        Update the name of the specified record to "new_hostname".
+
+    -c <comment>, --Comment=<comment>:
+        Update the record's comment.
+
+    --TTL=<ttl>:
+        Update the record's TTL.
+
+    -t <TXT>, --txt=<TXT>:
+        Update the record's TXT value.
+
+    -F <fields>, --Fields=<fields>:
+        Specify fields and corresponding values to be updated. For instance:
+        "comment=RT100931",view=default,ttl=900".
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of TXT records to update. Each
+        line must contain a hostname and, depending on the specified
+        options, a TXT value. Blank lines and lines beginning with "#" are
+        ignored, as is anything on a line following a "#".
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi txt update t1.txt.rice.edu "v=spf1 a:mh.rice.edu
+    a:a16.spf.rice.edu/16 -all" -t "v=spf1 a:mh.rice.edu
+    a:a16.spf.rice.edu/16 -all"
+        Update the TXT value of the specified TXT record.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -5632,7 +6424,8 @@ SEE ALSO
     a(1), a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -5768,7 +6561,8 @@ SEE ALSO
     a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -5914,7 +6708,8 @@ SEE ALSO
     a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -6077,7 +6872,8 @@ SEE ALSO
     a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
@@ -6223,9 +7019,10 @@ SEE ALSO
     a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
     fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
-    mx:update(1), mx(1), ibapi.conf(5)
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), ibapi.conf(5)
 
 
 `
-	return nil
+return nil
 }

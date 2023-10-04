@@ -15,10 +15,11 @@ func deleteTXT(invokedAs []string) error {
 	var states StatesTXT = make(StatesTXT)
 	var record *RecordTXT
 	var err error
-	duo := true
+	var duo, multiple bool
 
 	SetStringOpt("view", "V", true, "default", "Specify the view to which the record belongs")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
+	SetBoolOpt("multiple", "", true, false, "Allow multiple records to be deleted")
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
@@ -26,10 +27,23 @@ func deleteTXT(invokedAs []string) error {
 	if err = getStates(states, input.ndList, input.fields, nil, false, false); err != nil {
 		return Error("failure getting states: %v", err)
 	}
+	if multiple, err = GetBoolOpt("multiple"); err != nil {
+		return Error("failure getting multiple option: %v", err)
+	}
 
 	// First check if any errors occurred getting the host records. If so, abort.
 	if errors := checkStateErrors(states, duo, true); len(errors) != 0 {
 		return Error("Aborting process; no records deleted.")
+	}
+
+	// Unless the --multiple option was specified, let's verify that only
+	// a single record was found per input request.
+	if ! multiple {
+		for _, nameData := range input.ndList {
+			if len(states[nameData].records) > 1 {
+				return Error("Multiple records found for \"%s\"; see the --multiple option", nameData)
+			}
+		}
 	}
 
 	// Loop through the user provided input (name/data) list.
@@ -48,23 +62,24 @@ func deleteTXT(invokedAs []string) error {
 			numNotFound++
 			continue
 		}
-		record = records[0]
-		ref := record.Ref
-		_, err := deleteRecord(record.Ref, fields)
-		if err != nil {
-			Print("%-*s FAILED to delete: %v\n", space, "TXT("+request+")", err)
-			numFailed++
-			continue
-		} else if ref != record.Ref {
-			Print("%-*s FAILED to delete: ref mismatch\n", space, "TXT("+request+")")
-			numFailed++
-		} else {
-			Print("%-*s Deleted\n", space, "TXT("+request+")")
+		for _, record = range records {
+			ref := record.Ref
+			_, err := deleteRecord(record.Ref, fields)
+			if err != nil {
+				Print("%-*s FAILED to delete: %v\n", space, "TXT("+request+")", err)
+				numFailed++
+			} else if ref != record.Ref {
+				Print("%-*s FAILED to delete: ref mismatch\n", space, "TXT("+request+")")
+				numFailed++
+			} else {
+				Print("%-*s Deleted %s %s\n", space, "TXT("+request+")",
+					record.Name, record.Text)
+			}
 		}
 	}
 
 	if numFailed != 0 {
-		return Error("One or more updates failed")
+		return Error("One or more deletes failed")
 	} else if numNotFound != 0 {
 		return Error("One or more records not found")
 	} else if input.restartServices {

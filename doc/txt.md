@@ -1,32 +1,28 @@
 # NAME
 
-ibapi mx - create, read, update and delete Infoblox MX records
+ibapi txt - create, read, update and delete Infoblox TXT records
 
 # USAGE
 
-- ibapi mx &lt;add|get|update|delete> &lt;options/args>
+- ibapi txt &lt;add|get|update|delete> &lt;options/args>
 
 # DESCRIPTION
 
-"ibapi mx" can be used to add, get, update and delete Infoblox MX records.
+"ibapi txt" can be used to add, get, update and delete Infoblox TXT records.
 The basic format is
 
-- ibapi mx &lt;operation> &lt;options/args>
+- ibapi txt &lt;operation> &lt;options/args>
 
 For more details, invoke the specific operation
 with the --help|-h option. For example:
 
-- ibapi mx add -h
+- ibapi txt add -h
 
 # EXAMPLES
 
-- ibapi mx add rb4.rice.edu mx1.mail.rice.edu -p 30
+- ibapi txt add t1.txt.rice.edu "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all"
 
-    Add an MX record with a preference of 30
-
-- ibapi mx delete rb4.rice.edu mx1.mail.rice.edu
-
-    Delete an MX record.  
+    Add a TXT record.
 
 # FILES
 
@@ -86,9 +82,9 @@ mx:add(1),
 mx:delete(1),
 mx:get(1),
 mx:update(1),
+mx(1),
 txt:add(1),
 txt:delete(1),
 txt:get(1),
 txt:update(1),
-txt(1),
 ibapi.conf(5)
