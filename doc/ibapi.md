@@ -8,7 +8,7 @@ ibapi - Infoblox WAPI command line tool
 
 where OBJECT is one of
 
-> a alias cname fixedaddress grid host mx ptr url
+> a alias cname fixedaddress grid host mx txt ptr url
 
 and OPERATION, for all but the "grid" object, is one of
 
@@ -19,7 +19,7 @@ and OPERATION, for all but the "grid" object, is one of
 ibapi is a command for adding, reading, updating and deleting basic DNS records
 as well as for managing other Infoblox-specific objects via the Infoblox WAPI.
 Currently supported object types are the DNS records
-A, Alias, CNAME, MX and PTR;
+A, Alias, CNAME, MX, TXT and PTR;
 the Infoblox-specific object types
 fixedaddress, grid and host;
 and the special type "url", which allows you to manipulate any type of Infoblox object.
