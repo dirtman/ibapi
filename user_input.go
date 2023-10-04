@@ -463,11 +463,17 @@ func getND(input *UserInput, args []string) (string, string, error) {
 	// Hmmm, trying to get TXT records workings...
 	if input.objectType == objectTypeTXT {
 		// Save the original raw data provided by the user.
-		input.txtData[name+nameDataSep+data] = data
-		// Sanitize the data provided by the user.
-		data = sanitizeRecordData(data)
+		if data == "" {
+			input.txtData[name+nameDataSep] = data
+		} else {
+			// Sanitize the data provided by the user.
+			sanitizedData := sanitizeRecordData(data)
+			input.txtData[name+nameDataSep+sanitizedData] = data
+			//if input.operation != requestTypeGet {
+			data = sanitizedData
+			//}
+		}
 	}
-
 	return name, data, nil
 }
 

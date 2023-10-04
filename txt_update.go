@@ -34,8 +34,15 @@ func upateTXT(invokedAs []string) error {
 	if name != "" { // Append it to the list of field/values to be updated.
 		input.fields = append(input.fields, "name="+name)
 	}
+
+	var prettyFields []string
+	for _, field := range input.fields {
+		prettyFields = append(prettyFields, field)
+	}
+
 	if txt != "" { // Append it to the list of field/values to be updated.
 		input.fields = append(input.fields, "text="+sanitizeRecordData(txt))
+		prettyFields = append(prettyFields, "text="+txt)
 	}
 
 	// Query the record being updated, and check for errors.
@@ -64,7 +71,7 @@ func upateTXT(invokedAs []string) error {
 			continue
 		}
 		_, err = updateRecord(records[0].Ref, input.fields)
-		message = "(fields: " + strings.Join(input.fields, ",") + ")"
+		message = "(fields: " + strings.Join(prettyFields, ",") + ")"
 
 		if err != nil {
 			Print("%-*s FAILED to update: %v\n", space, "TXT("+request+")", err)

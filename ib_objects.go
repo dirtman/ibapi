@@ -13,7 +13,7 @@ package main
 
 // A single string in a TXT record cannot exceed 255 bytes; longer strings will
 // need to be broken up into sub-strings.
-const maxDataStringSize = 25
+const maxDataStringSize = 250
 
 type EA map[string]interface{}
 type EASearch map[string]interface{}

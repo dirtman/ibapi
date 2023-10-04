@@ -28,3 +28,4 @@ To test individual scripts:
     go test -run Test/url
     go test -run Test/fixedaddress
     go test -run Test/mx
+    go test -run Test/txt

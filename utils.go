@@ -109,57 +109,66 @@ func keys[K comparable, V any](m map[K]V) []K {
   The max size of a string in a TXT record is 255 chars, but a record can have
   multiple strings (the client joins the strings back into one).  In the
   Infloblox GUI, this could be done by splitting a long string into sub-strings
-  with doule quotes: "bigString1" "bigString2".  I can't figure out how to get
-  this working from the command line.
+  with doule quotes: "bigString1" "bigString2".  Here I do the same.
 
-  I did notice by chance that a "+" in the TXT seems to split the TXT in two:
-    ibapi txt add txt.rice.edu onetwo+three
-      Infoblox:  onetwo three
-    ibapi txt add txt.rice.edu 'one two + three'
-      Infoblox:  one two three
-
-  Above, no double quotes appear in Inflox, and this will cause issues with spaces:
-    ibapi txt add --debug  txt.rice.edu "Plus+Plus-Equal=Equal-Semi;Semi-2Space  2Space"
-      Infoblox: Plus+Plus-Equal=Equal-Semi;Semi-2Space 2Space
-	  Dig: "Plus+Plus-Equal=Equal-Semi;Semi-2Space" "2Space"
-  The client will join the two and the space (was actually 2) will be lost.
-  If I manually quote the record in Infoblox, all is well:
-    Infoblox: "Plus+Plus-Equal=Equal-Semi;Semi-2Space 2Space"
-	Dig: "Plus+Plus-Equal=Equal-Semi;Semi-2Space 2Space"
-
-  Update: I am now quoting each "sub-string" with %22, and this seems to work.
+  I noticed via trial and error that if I split a string with `""` like this:
+    "thisistoolong"  ->  "this""isto""olon""g",
+  an add works, and the resultant record is valid.  But I cannot get the txt
+  record with the data ("thisistoolong"). I then noticed that Infoblox shows
+  the data as  "this" "isto" "olon" "g".  So I tried spitting with `" "`, but
+  then the data gets quietly truncated at the first space (so Infoblox has
+  "this".  I then somehow stumbled upon using `"+"`, and this seems to work
+  best.  Go figure.  A `+` seems to get converted to a space.
 
 \*****************************************************************************/
 
 func sanitizeRecordData(dataString string) string {
-	if maxDataStringSize >= len(dataString) {
+
+	if dataString == "" {
+		return dataString
+	}
+
+	var splitString, splitter string
+	var currentLen, currentStart int
+
+	// If the TXT data contains spaces, it must be quoted; else Infoblox will
+	// convert it into individual quoted words, and the spaces will be lost.
+	// It does not seem to hurt if the data does not contain spaces and I quote
+	// it anyway.  So I will always quote the data if it is not already quoted.
+	if dataString[0] != 34 {	// 34 == `"`
+		dataString = `"` + dataString + `"`
+		ShowDebug("Added double quotes to TXT data: \"%v\"", dataString)
+	}
+	if len(dataString) < maxDataStringSize {
 		return escapeURLText(dataString)
 	}
-	quote := "%22"
-	splitter := ""
-	splitString := quote
-	currentLen := 0
-	currentStart := 0
 
 	for i := range dataString {
 		if currentLen == maxDataStringSize {
 			splitString += splitter + escapeURLText(dataString[currentStart:i])
+			splitter = `"+"`
 			currentLen = 0
 			currentStart = i
-			splitter = quote + `+` + quote
 			ShowDebug("sanitizeRecordData: splitString: %s", splitString)
 		}
 		currentLen++
 	}
+
+	// We may have some remaining string (< maxDataStringSize) to append.
 	if len(dataString[currentStart:]) > 0 {
-		splitString += splitter + escapeURLText(dataString[currentStart:])
+		// Corner case: only the trailing double quote is left.  Let's not
+		// append two additional double quotes in this case.
+		if dataString[currentStart:] == `"` {
+			splitString += `"`
+		} else {
+			splitString += splitter + escapeURLText(dataString[currentStart:])
+		}
 	}
-	splitString = splitString + quote
 	ShowDebug("sanitizeRecordData: splitString: %s", splitString)
 
 	if Debug && splitString != dataString {
 		ShowDebug("sanitizeRecordData: %s", dataString)
-		ShowDebug("             %s", splitString)
+		ShowDebug("                    %s", splitString)
 	}
 	return splitString
 }
@@ -172,7 +181,7 @@ func joinDataStrings(dataString string) string {
 	var joinedString string
 	var subStrings []string
 	quote := "%22"
-	splitter := `" "`
+	splitter := `"+"`
 
 	ShowDebug("dataString[0:3]: %s", dataString[0:3])
 	ShowDebug("dataString[len(dataString)-3:]: %s", dataString[len(dataString)-3:])
@@ -195,10 +204,10 @@ func joinDataStrings(dataString string) string {
 	return joinedString
 }
 
-// escapeURLText escapes chars in a TXT record that cause issues in a URL.  This
+// escapeURLText escapes chars in a TXT record that cause issues in a URL.  These
 // seem to get converted back by the WAPI.
 
-func escapeURLText(htmlText string) string {
+func escapeURLText(urlText string) string {
 
 	replacer := strings.NewReplacer(
 		`+`, "%2B",
@@ -206,9 +215,9 @@ func escapeURLText(htmlText string) string {
 		`;`, "%3B",
 		` `, "%20",
 	)
-	escaped := replacer.Replace(htmlText)
-	//	if Debug && htmlText != escaped {
-	//		ShowDebug("escapeURLText: %s", htmlText)
+	escaped := replacer.Replace(urlText)
+	//	if Debug && urlText != escaped {
+	//		ShowDebug("escapeURLText: %s", urlText)
 	//		ShowDebug("               %s", escaped)
 	//	}
 	return escaped

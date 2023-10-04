@@ -1,0 +1,29 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+# Add01: Add a TXT record.
+exec ibapi txt add t1.txt.rice.edu 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all' 
+! stderr .
+stdout 'Added'
+
+# Get01: Get a TXT record.
+exec ibapi txt get t1.txt.rice.edu 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all' 
+! stderr .
+stdout 'TXT'
+
+# Get02: Get a TXT record.
+exec ibapi txt get t1.txt.rice.edu
+! stderr .
+stdout 'TXT'
+
+# Update01: Update a TXT record.
+exec ibapi txt update t1.txt.rice.edu 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all' -t 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all'
+! stderr .
+stdout 'Updated'
+
+# Delete01: Delete a TXT record.
+exec ibapi txt delete t1.txt.rice.edu 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all'
+! stderr .
+stdout 'Deleted'
+
