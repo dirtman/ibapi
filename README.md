@@ -95,6 +95,10 @@ password for WAPI user "sandman":
 
 ## EXAMPLES
 
+- ibapi txt add 20200825031714pm._domainkey.rice.edu 'k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIaPkwhAbWxwjdC2b8bqeFZA8gleAeG07v28Ovi/G/sJdXHjsZTmEJO+BXKzHof6YrIihbjT0lfNs9ETwcRY8RwHKd9/d6/lh5EGCe6RYvlw7EGApS5Lqj4JGO+xgLNFzF/VVtsTU4MPH4QaedDlsGUl6tsjBLbWUQHqI0wY22vwIDAQAB'
+
+    Create the specified TXT record; if the string is greater than the maximum string size for a TXT record, it will be split into sub-strings.
+
 - ibapi host add rb3.rice.edu 168.7.56.225 -d -R -m f4:8e:38:84:89:e6 -N 10.128.95.14 -b "/grub2/grubx64.efi"
 
     Create the specified Host record with IPv4 address 168.7.56.225, configure that address
