@@ -209,7 +209,9 @@ func GetFieldOptions(input *UserInput) error {
 		// While not very helpful, let's return the "use_ttl" field if the
 		// ttl field is specified; this flag indicates that ttl is inherited.
 		if inList, _ := InList(input.rFields, "ttl"); inList {
-			input.rFields = append(input.rFields, "use_ttl")
+			if inList, _ := InList(input.rFields, "use_ttl"); !inList {
+				input.rFields = append(input.rFields, "use_ttl")
+			}
 		}
 		// Let's force the "disable" fields, since we may want to let
 		// the user know if the fetched record is disabled or not.
