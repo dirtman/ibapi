@@ -49,8 +49,8 @@ func commandURL(invokedAs []string) error {
 
 	// Set command specific options:
 	if command == "get" {
-		SetStringOpt("rfieldsplus", "R", true, "", "Specify fields to show in additional to the default")
-		SetStringOpt("rfields", "r", true, "", "Specify the fields to show")
+		SetStringOpt("rFieldsplus", "R", true, "", "Specify fields to show in additional to the default")
+		SetStringOpt("rFields", "r", true, "", "Specify the fields to show")
 	}
 
 	// Now that all our options have been specified, configure them, initialize
@@ -84,10 +84,10 @@ func getURL(invokedAs []string) error {
 	var rfplus, rf, fields string
 	var err error
 
-	if rfplus, err = GetStringOpt("rfieldsplus"); err != nil {
-		return Error("failure getting rfieldsplus option: %v", err)
-	} else if rf, err = GetStringOpt("rfields"); err != nil {
-		return Error("failure getting rfields option: %v", err)
+	if rfplus, err = GetStringOpt("rFieldsplus"); err != nil {
+		return Error("failure getting rFieldsplus option: %v", err)
+	} else if rf, err = GetStringOpt("rFields"); err != nil {
+		return Error("failure getting rFields option: %v", err)
 	} else if rfplus != "" && rf != "" {
 		return Error("rfieldplus and rfield not allowed together")
 	} else if rfplus != "" {

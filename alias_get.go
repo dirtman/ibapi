@@ -18,7 +18,7 @@ func getAlias(invokedAs []string) error {
 
 	SetStringOpt("view", "V", true, "any", "Specify the the record's view")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
-	SetStringOpt("rfields", "R", true, "", "Specify additional fields to show in verbose mode")
+	SetStringOpt("rFields", "R", true, "", "Specify additional fields to show in verbose mode")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
 	SetBoolOpt("ref", "r", true, false, "Show only the object \"reference\" of each fetched object")
 	SetStringOpt("targetType", "T", false, "any", "Specify the target type of the alias")

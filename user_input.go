@@ -56,26 +56,26 @@ const viewAny = "any"
 const targetAny = "any"
 
 type UserInput struct {
-	objectType      int      // Type of object specified by user
-	operation       int      // Operation requested by user, such as get or add
-	ndList          []string // The list of name/data pairs provided by the user
-	maxNameLength   int      // For prettier print-out formatting later.
-	view            string   // --view value
-	comment         string   // --comment value
-	disable         string   // --disable: handled differently for Add vs Update
-	ttl             uint32   // --ttl value
-	fields          []string // --fields
-	rFields         []string // --rFields, for Get requests
-	enableDNS       string   // --enableDNS, for Host
-	enableDHCP      string   // --enableDCHP, for Host
-	mac             string   // --mac, for Host
-	bootfile        string   // --bootfile, for Host
-	nextserver      string   // --nextserver, for Host
-	bootserver      string   // --bootserver, for Host
-	ipFields        []string // --ipFields, for Host
-	restartServices bool     // --restart_if_needed, for Host
-	targetType      string   // --targetType, for Alias and CNAME
-	txtData			map[string]string	// original, pre-sanitized TXT data.
+	objectType      int               // Type of object specified by user
+	operation       int               // Operation requested by user, such as get or add
+	ndList          []string          // The list of name/data pairs provided by the user
+	maxNameLength   int               // For prettier print-out formatting later.
+	view            string            // --view value
+	comment         string            // --comment value
+	disable         string            // --disable: handled differently for Add vs Update
+	ttl             uint32            // --ttl value
+	fields          []string          // --fields
+	rFields         []string          // --rFields, for Get requests
+	enableDNS       string            // --enableDNS, for Host
+	enableDHCP      string            // --enableDCHP, for Host
+	mac             string            // --mac, for Host
+	bootfile        string            // --bootfile, for Host
+	nextserver      string            // --nextserver, for Host
+	bootserver      string            // --bootserver, for Host
+	ipFields        []string          // --ipFields, for Host
+	restartServices bool              // --restart_if_needed, for Host
+	targetType      string            // --targetType, for Alias and CNAME
+	txtData         map[string]string // original, pre-sanitized TXT data.
 }
 
 // Process and store the user arguments that define the objects on which to
@@ -204,6 +204,12 @@ func GetFieldOptions(input *UserInput) error {
 	if input.operation == requestTypeGet {
 		if rFields, _ := GetStringOpt("rFields"); rFields != "" {
 			input.rFields = strings.Split(rFields, ",")
+		}
+		// The API will not return the TTL field if its value is inherited.
+		// While not very helpful, let's return the "use_ttl" field if the
+		// ttl field is specified; this flag indicates that ttl is inherited.
+		if inList, _ := InList(input.rFields, "ttl"); inList {
+			input.rFields = append(input.rFields, "use_ttl")
 		}
 		// Let's force the "disable" fields, since we may want to let
 		// the user know if the fetched record is disabled or not.

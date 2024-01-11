@@ -18,7 +18,7 @@ func getHost(invokedAs []string) error {
 
 	SetStringOpt("view", "V", true, "any", "Specify the the record's view")
 	SetStringOpt("fields", "F", true, "", "specify fields to be used in the search")
-	SetStringOpt("rfields", "R", true, "", "specify additional fields to show in verbose mode")
+	SetStringOpt("rFields", "R", true, "", "specify additional fields to show in verbose mode")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
 	SetBoolOpt("ref", "r", true, false, "show only the object \"reference\" of each fetched object")
 	SetStringOpt("ipFields", "I", false, "", "IP address fields to show in verbose mode.")

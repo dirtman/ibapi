@@ -18,7 +18,7 @@ func getMX(invokedAs []string) error {
 
 	SetStringOpt("view", "V", true, "any", "Specify the the view to which the record belongs")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
-	SetStringOpt("rfields", "R", true, "", "Specify additional fields to show in verbose mode")
+	SetStringOpt("rFields", "R", true, "", "Specify additional fields to show in verbose mode")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
 	SetStringOpt("mx", "m", false, "", "Specify the MX of the record to fetch")
 	SetStringOpt("preference", "p", false, "", "Specify the preference of the record to fetch")
@@ -26,7 +26,7 @@ func getMX(invokedAs []string) error {
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
-	} 
+	}
 
 	// The preference field is returned by default, so this is not really needed.
 	if inList, _ := InList(input.rFields, "preference"); !inList {

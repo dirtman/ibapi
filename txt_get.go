@@ -18,14 +18,14 @@ func getTXT(invokedAs []string) error {
 
 	SetStringOpt("view", "V", true, "any", "Specify the the view to which the record belongs")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
-	SetStringOpt("rfields", "R", true, "", "Specify additional fields to show in verbose mode")
+	SetStringOpt("rFields", "R", true, "", "Specify additional fields to show in verbose mode")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
 	SetStringOpt("txt", "t", false, "", "Specify the TXT of the record to fetch")
 	SetBoolOpt("ref", "r", true, false, "Show only the object \"reference\" of each fetched object")
 
 	if input, err = subCommandInit(invokedAs[1], invokedAs[2], duo); err != nil {
 		return Error("failure initializing program and getting user input: %v", err)
-	} 
+	}
 
 	if err = getStates(states, input.ndList, input.fields, input.rFields, false, false); err != nil {
 		return Error("failure getting states: %v", err)

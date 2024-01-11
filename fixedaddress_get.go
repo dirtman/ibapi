@@ -18,7 +18,7 @@ func getFixedAddress(invokedAs []string) error {
 
 	SetStringOpt("view", "V", true, "default", "Specify the the network view to which the record belongs")
 	SetStringOpt("fields", "F", true, "", "Specify fields to be used in the search")
-	SetStringOpt("rfields", "R", true, "", "Specify additional fields to show in verbose mode")
+	SetStringOpt("rFields", "R", true, "", "Specify additional fields to show in verbose mode")
 	SetStringOpt("filename", "f", true, "", "Specify an input file")
 	SetBoolOpt("ref", "r", true, false, "Show only the object \"reference\" of each fetched object")
 
