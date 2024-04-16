@@ -162,6 +162,15 @@ type RecordMX struct {
 	Disable    bool   `json:"disable"`
 }
 
+type ZoneAuth struct {
+	IBBase  `json:"-"`
+	Ref     string `json:"_ref,omitempty"`
+	Fqdn    string `json:"fqdn,omitempty"`
+	View    string `json:"view,omitempty"`
+	Ea      EA     `json:"extattrs"`
+	Disable bool   `json:"disable"`
+}
+
 // Define a record type for Aliases; such is missing from infoblox-go-client.
 type RecordAlias struct {
 	Ref        string `json:"_ref,omitempty"`

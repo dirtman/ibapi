@@ -172,12 +172,23 @@ func getRecords(object, nKey, dKey, name, data string, sf, rf []string) ([]byte,
 
 func addRecord(object, nKey, dKey, name, data string, f []string) ([]byte, error) {
 
-	// For Adds, require both a name and data value.
-	if name == "" || data == "" {
-		return nil, Error("a name and data value must be provided")
+	// For Adds, a name is always required:
+	if name == "" {
+		return nil, Error("a name value must be provided")
 	}
+	// And unless dKey == "", a data value is also required:
+	if dKey != "" && data == "" {
+		return nil, Error("a data value must be provided for %s", dKey)
+	}
+	url := ""
 	sep := "&"
-	url := "/" + object + "?" + nKey + "=" + name + sep + dKey + "=" + data
+
+	// The ZoneAuth object does not have a "data" field.
+	if dKey == "" {
+		url = "/" + object + "?" + nKey + "=" + name
+	} else {
+		url = "/" + object + "?" + nKey + "=" + name + sep + dKey + "=" + data
+	}
 
 	if len(f) > 0 {
 		for _, field := range f {

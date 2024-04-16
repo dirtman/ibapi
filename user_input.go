@@ -52,6 +52,7 @@ const objectTypeAlias = 5
 const objectTypeFixedAddress = 6
 const objectTypeMX = 7
 const objectTypeTXT = 8
+const objectTypeZoneAuth = 9
 const viewAny = "any"
 const targetAny = "any"
 
@@ -120,6 +121,8 @@ func getUserInput(objectType, operation string, duo bool, args []string) (*UserI
 	} else if objectType == "txt" {
 		input.objectType = objectTypeTXT
 		input.txtData = make(map[string]string, 0)
+	} else if objectType == "authzone" {
+		input.objectType = objectTypeZoneAuth
 	}
 
 	if err = GetFieldOptions(input); err != nil {
@@ -190,7 +193,9 @@ func GetFieldOptions(input *UserInput) error {
 	// delete have the --resetartService option to reflect this.  But note this
 	// field is not searchable; my guess is that it is not saved with the host
 	// record object, but is more of a one-time flag.  We'll see...
-	if (input.objectType == objectTypeHost || input.objectType == objectTypeFixedAddress) &&
+	if (input.objectType == objectTypeHost ||
+		input.objectType == objectTypeFixedAddress ||
+		input.objectType == objectTypeZoneAuth) &&
 		input.operation != requestTypeGet {
 		input.restartServices, _ = GetBoolOpt("restartServices")
 	}

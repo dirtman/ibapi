@@ -36,6 +36,7 @@ func main() {
 		"grid":         commandGrid,
 		"mx":           commandMX,
 		"txt":          commandTXT,
+		"authzone":     commandZoneAuth,
 	}
 
 	// Initialize as a SitePkg.

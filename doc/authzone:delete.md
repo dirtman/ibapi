@@ -1,24 +1,17 @@
 # NAME
 
-ibapi mx update - update Infoblox MX records
+ibapi authzone delete - delete Infoblox authoritative zones
 
 # USAGE
 
-- ibapi mx update &lt;options/args>
+- ibapi authzone delete &lt;options/args>
 
 # DESCRIPTION
 
-The update command is used to update Infoblox MX records.
-To update a single MX record, a single hostname and optionally an MX value may
-be provided as command line arguments.
-Alternatively, a list of records to update can be specified in a file (see --filename).
-
-If an MX value is specified, the MX record to update must contain that MX value, else
-no MX record will be updated.  If no MX value is specified and only one MX record
-is found for the specified name, that MX record is updated regardless of its MX value.
-If multiple MX records are found for the same
-request, the update process is aborted (no records are updated) unless the --multiple
-options is specified to allow mutliple record updates per request.
+The delete command is used to delete Infoblox authoritative zones.
+To delete a single authoritative zone, a single zone name (fqdn) may
+be provided as a command line argument.
+Alternatively, a list of zones to delete can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -35,51 +28,28 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
-- -P &lt;preference>, --preference=&lt;preference>:
-
-    Specify the preference of the record to update; only needed when multiple MX records
-    exist with the same name and MX value.
-
 - -V &lt;view>, --View=&lt;view>:
 
-    Specify the view of the record to update.  Default: "default".
-
-- -n &lt;newName>, --name=&lt;newName>:
-
-    Update the name/domainname value of the specified MX record to "newName"  
-
-- -m &lt;newMX>, --MX=&lt;newMX>:
-
-    Update the MX value of the specified MX record to "newMX"  
-
-- -p &lt;newPreference>, --preference=&lt;newPreference>:
-
-    Update the MX value of the specified MX record to "newPreference"  
-
-- -D &lt;true|false>, --Disable=&lt;true|false>:
-
-    Update the record's disabled status to the specified value.
-    Note this is not a boolean flag - the value "true" or "false"
-    must be specified.
-
-- -c &lt;comment>, --Comment=&lt;comment>:
-
-    Update the record's comment.
-
-- --TTL=&lt;ttl>:
-
-    Update the the record's TTL.
-
-- -F &lt;fields>, --Fields=&lt;fields>:
-
-    Specify fields and corresponding values to be updated.  For instance:
-    "comment=RT100931",view=default,ttl=900".
+    Specify the view of the zone to delete.  Default: "default".
 
 - -f &lt;filename>, --filename=&lt;filename>:
 
-    Specify a filename containing a list of MX records to update.
+    Specify a filename containing a list of authoritative zones to delete.
+    Each line should contain a hostname and optionally a TXT value,
+    separated by one or more spaces.
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
+
+- -R, --restartServices:
+
+    If all zone requests are successfully processed, instruct Infoblox to restart
+    any grid services that need to be restarted, generally due to pending updates
+    that require a particular service, such as DHCP, is be restarted.
+
+- --assumeYes:
+
+    Do not ask for deletion confirmation (assume "yes").
+    Not recommended, except in test environments.
 
 ## OPTIONS - API Options
 
@@ -180,9 +150,9 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi mx update rb4.rice.edu mx1.mail.rice.edu -m mx2.mail.rice.edu
+- ibapi authzone delete t1.authzone.rice.edu
 
-    Update the "rb4.rice.edu/mx1.mail.rice.edu" MX record, changing the MX value to "mx2.mail.rice.edu".
+    Delete the authoritative zone named t1.authzone.rice.edu.
 
 # FILES
 
@@ -242,6 +212,7 @@ mx(1),
 mx:add(1),
 mx:delete(1),
 mx:get(1),
+mx:update(1),
 txt(1),
 txt:add(1),
 txt:delete(1),
@@ -249,7 +220,6 @@ txt:get(1),
 txt:update(1),
 authzone(1),
 authzone:add(1),
-authzone:delete(1),
 authzone:get(1),
 authzone:update(1),
 ibapi.conf(5)

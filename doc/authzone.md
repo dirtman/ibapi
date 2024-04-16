@@ -1,28 +1,28 @@
 # NAME
 
-ibapi txt - create, read, update and delete Infoblox TXT records
+ibapi authzone - create, read, update and delete Infoblox authoritative zones
 
 # USAGE
 
-- ibapi txt &lt;add|get|update|delete> &lt;options/args>
+- ibapi authzone &lt;add|get|update|delete> &lt;options/args>
 
 # DESCRIPTION
 
-"ibapi txt" can be used to add, get, update and delete Infoblox TXT records.
+"ibapi authzone" can be used to add, get, update and delete Infoblox authoritative zones.
 The basic format is
 
-- ibapi txt &lt;operation> &lt;options/args>
+- ibapi authzone &lt;operation> &lt;options/args>
 
 For more details, invoke the specific operation
 with the --help|-h option. For example:
 
-- ibapi txt add -h
+- ibapi authzone add -h
 
 # EXAMPLES
 
-- ibapi txt add t1.txt.rice.edu "v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all"
+- ibapi authzone add t1.zone.rice.edu
 
-    Add a TXT record.
+    Add a authoritative zone.
 
 # FILES
 
@@ -83,11 +83,11 @@ mx:add(1),
 mx:delete(1),
 mx:get(1),
 mx:update(1),
+txt(1),
 txt:add(1),
 txt:delete(1),
 txt:get(1),
 txt:update(1),
-authzone(1),
 authzone:add(1),
 authzone:delete(1),
 authzone:get(1),

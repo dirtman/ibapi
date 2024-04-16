@@ -5,7 +5,7 @@ as well as for managing other Infoblox-specific objects via the Infoblox WAPI.
 Currently supported object types are the DNS records 
 A, Alias, CNAME, MX, TXT and PTR;
 the Infoblox-specific object types
-fixedaddress, grid and host; 
+authzone, fixedaddress, grid and host; 
 and the special type "url", which allows you to manipulate any type of Infoblox object.
 Basic usage is as follows:
 
@@ -13,7 +13,7 @@ Basic usage is as follows:
 
 where OBJECT is one of
 
-* **a alias cname fixedaddress grid host mx txt ptr url**
+* **a alias authzone cname fixedaddress grid host mx txt ptr url**
 
 and OPERATION, for all but the "grid" object, is one of
 

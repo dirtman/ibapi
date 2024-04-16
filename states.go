@@ -62,6 +62,7 @@ type StatesAlias map[string]*StateAlias
 type StatesFixedAddress map[string]*StateFixedAddress
 type StatesTXT map[string]*StateTXT
 type StatesMX map[string]*StateMX
+type StatesZoneAuth map[string]*StateZoneAuth
 
 type StateBase struct {
 	err error
@@ -97,6 +98,10 @@ type StateTXT struct {
 type StateMX struct {
 	StateBase
 	records []*RecordMX
+}
+type StateZoneAuth struct {
+	StateBase
+	records []*ZoneAuth
 }
 
 /*****************************************************************************\

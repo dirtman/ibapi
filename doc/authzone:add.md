@@ -1,24 +1,17 @@
 # NAME
 
-ibapi mx update - update Infoblox MX records
+ibapi authzone add - create Infoblox authoritative zones
 
 # USAGE
 
-- ibapi mx update &lt;options/args>
+- ibapi authzone add &lt;options/args>
 
 # DESCRIPTION
 
-The update command is used to update Infoblox MX records.
-To update a single MX record, a single hostname and optionally an MX value may
-be provided as command line arguments.
-Alternatively, a list of records to update can be specified in a file (see --filename).
-
-If an MX value is specified, the MX record to update must contain that MX value, else
-no MX record will be updated.  If no MX value is specified and only one MX record
-is found for the specified name, that MX record is updated regardless of its MX value.
-If multiple MX records are found for the same
-request, the update process is aborted (no records are updated) unless the --multiple
-options is specified to allow mutliple record updates per request.
+The add command is used to create Infoblox authoritative zones.
+To create a single authoritative zone, a single zone name (fqdn) can be provided as a
+command line argument.
+Alternatively, a list of zones to add can be specified in a file (see --filename).
 
 # OPTIONS
 
@@ -35,51 +28,50 @@ Use the --ShowConfig to view each option and its value.
 
 ## OPTIONS - General
 
-- -P &lt;preference>, --preference=&lt;preference>:
-
-    Specify the preference of the record to update; only needed when multiple MX records
-    exist with the same name and MX value.
-
 - -V &lt;view>, --View=&lt;view>:
 
-    Specify the view of the record to update.  Default: "default".
+    Specify the view for the new zone.  Default: "default".
 
-- -n &lt;newName>, --name=&lt;newName>:
+- -n &lt;ns\_group>, --nsgroup=&lt;ns\_group>:
 
-    Update the name/domainname value of the specified MX record to "newName"  
+    Specify the name server group for the new zone.
+    By default, if the zone is being created in the "external" view, the name server 
+    group is set to "external\_Rice".  Otherwise, by default, it is not specified
+    (and therefore defaults to the Infoblox default).
 
-- -m &lt;newMX>, --MX=&lt;newMX>:
+- -z &lt;zone\_format>, --zoneFormat=&lt;zone\_format>:
 
-    Update the MX value of the specified MX record to "newMX"  
+    Specify the zone format of the zone.  
+    Valid values are: FORWARD, IPV4, and IPV6.
+    Default: FORWARD.
 
-- -p &lt;newPreference>, --preference=&lt;newPreference>:
+- -D, --Disable:
 
-    Update the MX value of the specified MX record to "newPreference"  
-
-- -D &lt;true|false>, --Disable=&lt;true|false>:
-
-    Update the record's disabled status to the specified value.
-    Note this is not a boolean flag - the value "true" or "false"
-    must be specified.
+    Disable the new zone.  Default: false.
 
 - -c &lt;comment>, --Comment=&lt;comment>:
 
-    Update the record's comment.
-
-- --TTL=&lt;ttl>:
-
-    Update the the record's TTL.
+    Specify the comment for the new zone.
+    Alternatively, you can specify this via the --fields option.
+    Default: "ibapi:host:add".
 
 - -F &lt;fields>, --Fields=&lt;fields>:
 
-    Specify fields and corresponding values to be updated.  For instance:
-    "comment=RT100931",view=default,ttl=900".
+    Specify fields and corresponding values for the new zone.  For instance:
+    "comment=RT100931",ns\_group="external\_Rice".
 
-- -f &lt;filename>, --filename=&lt;filename>:
+- -f &lt;filename>, --Filename=&lt;filename>:
 
-    Specify a filename containing a list of MX records to update.
+    Specify a filename containing a list of authoritative zones to create.
+    Each line should contain one zone name (fqdn).
     Blank lines and lines beginning with "#" are ignored, as is anything on a line
     following a "#".
+
+- -R, --restartServices:
+
+    If all zone requests are successfully processed, instruct Infoblox to restart
+    any grid services that need to be restarted, generally due to pending updates
+    that require a particular service, such as DHCP, is be restarted.
 
 ## OPTIONS - API Options
 
@@ -180,9 +172,9 @@ Use the --ShowConfig to view each option and its value.
 
 # EXAMPLES
 
-- ibapi mx update rb4.rice.edu mx1.mail.rice.edu -m mx2.mail.rice.edu
+- ibapi authzone add t1.authzone.rice.edu
 
-    Update the "rb4.rice.edu/mx1.mail.rice.edu" MX record, changing the MX value to "mx2.mail.rice.edu".
+    Create the "t1.authzone.rice.edu" authoritative zone.
 
 # FILES
 
@@ -242,13 +234,13 @@ mx(1),
 mx:add(1),
 mx:delete(1),
 mx:get(1),
+mx:update(1),
 txt(1),
 txt:add(1),
 txt:delete(1),
 txt:get(1),
 txt:update(1),
 authzone(1),
-authzone:add(1),
 authzone:delete(1),
 authzone:get(1),
 authzone:update(1),

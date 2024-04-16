@@ -8,7 +8,7 @@ ibapi - Infoblox WAPI command line tool
 
 where OBJECT is one of
 
-> a alias cname fixedaddress grid host mx txt ptr url
+> a alias authzone cname fixedaddress grid host mx txt ptr url
 
 and OPERATION, for all but the "grid" object, is one of
 
@@ -21,7 +21,7 @@ as well as for managing other Infoblox-specific objects via the Infoblox WAPI.
 Currently supported object types are the DNS records
 A, Alias, CNAME, MX, TXT and PTR;
 the Infoblox-specific object types
-fixedaddress, grid and host;
+zoneauth, fixedaddress, grid and host;
 and the special type "url", which allows you to manipulate any type of Infoblox object.
 
 Use the ibapi -h/--help option for more details.  For instance:
@@ -310,4 +310,9 @@ txt:add(1),
 txt:delete(1),
 txt:get(1),
 txt:update(1),
+authzone(1),
+authzone:add(1),
+authzone:delete(1),
+authzone:get(1),
+authzone:update(1),
 ibapi.conf(5)

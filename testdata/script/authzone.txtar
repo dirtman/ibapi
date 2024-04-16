@@ -1,0 +1,59 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+# Add01: Add an authoritative zone.
+exec ibapi authzone add testzone.seci.rice.edu 
+! stderr .
+stdout 'Added'
+
+# Add02: Add an authoritative zone (conflict - will fail).
+! exec ibapi authzone add testzone.seci.rice.edu
+stderr 'conflict'
+
+# Add03: Add an authoritative zone.
+exec ibapi authzone add testzone.seci.rice.edu -V external
+! stderr .
+stdout 'Added'
+
+# Get01: Get an authoritative zone.
+exec ibapi authzone get testzone.seci.rice.edu
+! stderr .
+stdout 'external'
+stdout 'default'
+
+# Get02: Get an authoritative zone (default) 
+exec ibapi authzone get testzone.seci.rice.edu -V default -v
+stderr '_ref'
+stderr 'default'
+stderr 'internal_Rice'
+stdout 'testzone.seci.rice.edu'
+
+# Get03: Get an authoritative zone (external) 
+exec ibapi authzone get testzone.seci.rice.edu -V external -v
+stderr '_ref'
+stderr 'external'
+stderr 'external_Rice'
+stdout 'testzone.seci.rice.edu'
+
+# Del01: Delete an authoritative zone.
+exec ibapi authzone delete testzone.seci.rice.edu -V external --assumeyes
+! stderr .
+stdout 'Deleted'
+
+# Update an authoritative zone.
+exec ibapi authzone update testzone.seci.rice.edu --nsgroup external_Rice
+! stderr .
+stdout 'Updated'
+
+# Get04: Get an authoritative zone (default) 
+exec ibapi authzone get testzone.seci.rice.edu -v
+stderr '_ref'
+stderr 'default'
+stderr 'external_Rice'
+stdout 'testzone.seci.rice.edu'
+
+# Del02: Delete an authoritative zone.
+exec ibapi authzone delete testzone.seci.rice.edu -V default --assumeyes
+! stderr .
+stdout 'Deleted'

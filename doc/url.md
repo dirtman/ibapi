@@ -18,6 +18,14 @@ with the --help|-h option. For example:
 
 # EXAMPLES
 
+- ibapi url get 'zone\_auth?fqdn\~=mail.rice.edu'
+
+    Retrieve all "authoritative" zones that match "mail.rice.edu".
+
+- ibapi url get 'nsgroup?name\~=.'
+
+    Retrieve all name server groups.
+
 - ibapi url get '/record:host?name\~=cs.rice.edu'
 
     Retrieve all Host records with a name that matches the pattern "cs.rice.edu".
@@ -93,4 +101,9 @@ txt:add(1),
 txt:delete(1),
 txt:get(1),
 txt:update(1),
+authzone(1),
+authzone:add(1),
+authzone:delete(1),
+authzone:get(1),
+authzone:update(1),
 ibapi.conf(5)
