@@ -120,6 +120,14 @@ func keys[K comparable, V any](m map[K]V) []K {
   "this".  I then somehow stumbled upon using `"+"`, and this seems to work
   best.  Go figure.  A `+` seems to get converted to a space.
 
+  11/26/2024: I realized I could not get > 255 TXT records: ibapi txt get
+  did not find them.  I realized that whether via via the UI or ibapi, IB
+  seems to un-quote the second (perhaps last?) string.  For instance, if I
+  enter this in the UI text box:  "t1" "t2":
+    1) if both t1/t2 are small, IB de-quotes both: t1 t2
+    2) if at least t1 is large, IB de-quotes t2 only: "t1" t2
+  dig gives same result for either case: "t1" "t2"
+
 \*****************************************************************************/
 
 func sanitizeRecordData(dataString string) string {
@@ -133,11 +141,21 @@ func sanitizeRecordData(dataString string) string {
 
 	// If the TXT data contains spaces, it must be quoted; else Infoblox will
 	// convert it into individual quoted words, and the spaces will be lost.
-	// It does not seem to hurt if the data does not contain spaces and I quote
-	// it anyway.  So I will always quote the data if it is not already quoted.
-	if dataString[0] != 34 {	// 34 == `"`
-		dataString = `"` + dataString + `"`
-		ShowDebug("Added double quotes to TXT data: \"%v\"", dataString)
+	// However, I found by chance that for GETs, if the data does not have spaces,
+	// it must NOT be quoted!! These GETs work:
+	//   "/record:txt?name=rb3.rice.edu&text=TextRecord&_return_fields%2b=disable"
+	//   "/record:txt?name=rb3.rice.edu&text=\"Text%20record\"&_return_fields%2b=disable"
+	// These do not:
+	//   "/record:txt?name=rb3.rice.edu&text=\"TextRecord\"&_return_fields%2b=disable"
+	//   "/record:txt?name=rb3.rice.edu&text=Text%20record&_return_fields%2b=disable"
+	// It may depend on if the data is in the URL or the body of the request.
+
+	if strings.Contains(dataString, " ") {
+		// Do not add a double quote if it starts with one:
+		if dataString[0] != 34 { // 34 == `"`
+			dataString = `"` + dataString + `"`
+			ShowDebug("Added double quotes to TXT data: \"%v\"", dataString)
+		}
 	}
 	if len(dataString) < maxDataStringSize {
 		return escapeURLText(dataString)
@@ -199,7 +217,7 @@ func joinDataStrings(dataString string) string {
 
 	if Debug && joinedString != dataString {
 		ShowDebug("joinDataStrings: %s", dataString)
-		ShowDebug("                 %s", joinedString)
+		ShowDebug("         Joined: %s", joinedString)
 	}
 	return joinedString
 }
@@ -216,9 +234,9 @@ func escapeURLText(urlText string) string {
 		` `, "%20",
 	)
 	escaped := replacer.Replace(urlText)
-	//	if Debug && urlText != escaped {
-	//		ShowDebug("escapeURLText: %s", urlText)
-	//		ShowDebug("               %s", escaped)
-	//	}
+	if Debug && urlText != escaped {
+		ShowDebug("escapeURLText: %s", urlText)
+		ShowDebug("      Escaped: %s", escaped)
+	}
 	return escaped
 }

@@ -7,12 +7,12 @@ exec ibapi txt add t1.txt.rice.edu 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -
 ! stderr .
 stdout 'Added'
 
-# Get01: Get a TXT record.
+# Get01a: Get a TXT record.
 exec ibapi txt get t1.txt.rice.edu 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all' 
 ! stderr .
 stdout 'TXT'
 
-# Get02: Get a TXT record.
+# Get01b: Get a TXT record.
 exec ibapi txt get t1.txt.rice.edu
 ! stderr .
 stdout 'TXT'
@@ -26,4 +26,52 @@ stdout 'Updated'
 exec ibapi txt delete t1.txt.rice.edu 'v=spf1 a:mh.rice.edu a:a16.spf.rice.edu/16 -all'
 ! stderr .
 stdout 'Deleted'
+
+
+# Add02: Add a TXT record.
+exec ibapi txt add t1.txt.rice.edu 'Code=1234' 
+! stderr .
+stdout 'Added'
+
+# Get02: Get a TXT record.
+exec ibapi txt get t1.txt.rice.edu 'Code=1234' 
+! stderr .
+stdout 'TXT'
+
+# Update02: Update a TXT record.
+exec ibapi txt update t1.txt.rice.edu 'Code=1234' -t 'Code=ABCD'
+! stderr .
+stdout 'Updated'
+
+# Delete02: Delete a TXT record.
+exec ibapi txt delete t1.txt.rice.edu 'Code=ABCD'
+! stderr .
+stdout 'Deleted'
+
+
+# Add03: Add a TXT record.
+exec ibapi txt add t1.txt.rice.edu 'v=DKIM1; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvq0AK7lYnNXspAIyNowjYl96ItpO2IpZ99yD5ec0/GZ/BM8LRXkBdzJMqWmnKO4SaXyVWDDbmxgh402kDz309xCDaJZGChjN5PR+FJ+7PflEw1UGd9YW9iNVOHfzlNTPVTNyVCoPlV8fbnVzVDSOn6PpK83CuS3t91wz+36PcY7u57VpCnSHxsP3T5nlGqsdIjNo4JTVNbLrThre32WBoCWhdukD8PBtz9OatpkelRtQA3yI3i/2rDfH6NK47ITmi0EwJpQ/OnRkpnfq3nO7WFMkJOunb+/SUhDGXfKAfn4w09k1QFUooqgE5rxJk9GKYgO0Zsk8YrYFGMS4y32MkQIDAQAB' 
+! stderr .
+stdout 'Added'
+
+# Get03: Get a TXT record. Currently fails.
+! exec ibapi txt get t1.txt.rice.edu 'v=DKIM1; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvq0AK7lYnNXspAIyNowjYl96ItpO2IpZ99yD5ec0/GZ/BM8LRXkBdzJMqWmnKO4SaXyVWDDbmxgh402kDz309xCDaJZGChjN5PR+FJ+7PflEw1UGd9YW9iNVOHfzlNTPVTNyVCoPlV8fbnVzVDSOn6PpK83CuS3t91wz+36PcY7u57VpCnSHxsP3T5nlGqsdIjNo4JTVNbLrThre32WBoCWhdukD8PBtz9OatpkelRtQA3yI3i/2rDfH6NK47ITmi0EwJpQ/OnRkpnfq3nO7WFMkJOunb+/SUhDGXfKAfn4w09k1QFUooqgE5rxJk9GKYgO0Zsk8YrYFGMS4y32MkQIDAQAB' 
+stderr 'One or more records not found'
+stdout 'NOTFOUND'
+
+# Update03: Update a TXT record. Currently fails
+! exec ibapi txt update t1.txt.rice.edu 'v=DKIM1; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvq0AK7lYnNXspAIyNowjYl96ItpO2IpZ99yD5ec0/GZ/BM8LRXkBdzJMqWmnKO4SaXyVWDDbmxgh402kDz309xCDaJZGChjN5PR+FJ+7PflEw1UGd9YW9iNVOHfzlNTPVTNyVCoPlV8fbnVzVDSOn6PpK83CuS3t91wz+36PcY7u57VpCnSHxsP3T5nlGqsdIjNo4JTVNbLrThre32WBoCWhdukD8PBtz9OatpkelRtQA3yI3i/2rDfH6NK47ITmi0EwJpQ/OnRkpnfq3nO7WFMkJOunb+/SUhDGXfKAfn4w09k1QFUooqgE5rxJk9GKYgO0Zsk8YrYFGMS4y32MkQIDAQAB' -t 'v=DKIM2; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvq0AK7lYnNXspAIyNowjYl96ItpO2IpZ99yD5ec0/GZ/BM8LRXkBdzJMqWmnKO4SaXyVWDDbmxgh402kDz309xCDaJZGChjN5PR+FJ+7PflEw1UGd9YW9iNVOHfzlNTPVTNyVCoPlV8fbnVzVDSOn6PpK83CuS3t91wz+36PcY7u57VpCnSHxsP3T5nlGqsdIjNo4JTVNbLrThre32WBoCWhdukD8PBtz9OatpkelRtQA3yI3i/2rDfH6NK47ITmi0EwJpQ/OnRkpnfq3nO7WFMkJOunb+/SUhDGXfKAfn4w09k1QFUooqgE5rxJk9GKYgO0Zsk8YrYFGMS4y32MkQIDAQAB'
+stderr 'One or more records not found'
+stdout 'NOTFOUND'
+
+# Delete03a: Delete a TXT record. Currently fails
+! exec ibapi txt delete t1.txt.rice.edu 'v=DKIM2; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvq0AK7lYnNXspAIyNowjYl96ItpO2IpZ99yD5ec0/GZ/BM8LRXkBdzJMqWmnKO4SaXyVWDDbmxgh402kDz309xCDaJZGChjN5PR+FJ+7PflEw1UGd9YW9iNVOHfzlNTPVTNyVCoPlV8fbnVzVDSOn6PpK83CuS3t91wz+36PcY7u57VpCnSHxsP3T5nlGqsdIjNo4JTVNbLrThre32WBoCWhdukD8PBtz9OatpkelRtQA3yI3i/2rDfH6NK47ITmi0EwJpQ/OnRkpnfq3nO7WFMkJOunb+/SUhDGXfKAfn4w09k1QFUooqgE5rxJk9GKYgO0Zsk8YrYFGMS4y32MkQIDAQAB'
+stderr 'One or more records not found'
+stdout 'NOTFOUND'
+
+# Delete03b: Delete a TXT record.
+exec ibapi txt delete t1.txt.rice.edu 
+! stderr .
+stdout 'Deleted'
+
 

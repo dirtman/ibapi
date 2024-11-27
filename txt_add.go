@@ -60,16 +60,30 @@ func addTXT(invokedAs []string) error {
 
 		// rawData is the original data entered by the user.
 		rawData := input.txtData[nameData]
-		ShowDebug("Add: rawData: %s", rawData)
-		ShowDebug("Add: data:    %s", data)
+		ShowDebug("Checking for existing conflicts for request <%s>...", nameData)
+		ShowDebug("  User input <name>:          <%s>", name)
+		ShowDebug("  User input <rawData>:       <%s>", rawData)
+		ShowDebug("  User input <sanitizedData>: <%s>", data)
 
 		// Check if any existing records conflict with the one being added.
 		for _, record := range states[nameData].records {
 			if record.Name == name {
+				ShowDebug("    Found TXT record with same name (data = <%s>)", record.Text)
 				if record.Text == rawData {
+					ShowDebug("      Found rawData match:      <%s>", record.Text)
 					conflict += sep + "TXT record with same name and data"
-				} else if joinDataStrings(record.Text) == rawData {
-					conflict += sep + "TXT record with same name and data"
+				} else {
+					joinedData := joinDataStrings(record.Text)
+					if joinedData == rawData {
+						ShowDebug("      Found joinedData match:   <%s>", joinedData)
+						conflict += sep + "TXT record with same name and joinedData"
+					} else {
+						sanitizedData := sanitizeRecordData(record.Text)
+						if sanitizedData == data {
+							ShowDebug("      Found sanitizedData match <%s>", sanitizedData)
+							conflict += sep + "TXT record with same name and sanitizedData"
+						}
+					}
 				}
 			}
 			sep = ", "
