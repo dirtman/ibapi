@@ -64,7 +64,7 @@ func (s StatesCNAME) NewState(nameData string) {
 func (s StatesCNAME) GetObjectType() string {
 	return "record:cname"
 }
-func (s StatesCNAME) GetNDKeys() (string, string) {
+func (s StatesCNAME) GetNDKeys(ndValues ...string) (string, string) {
 	return "name", "canonical"
 }
 func (s StatesCNAME) GetNDPairs() (nds []string) {

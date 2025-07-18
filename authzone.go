@@ -64,7 +64,7 @@ func (s StatesZoneAuth) NewState(nameData string) {
 func (s StatesZoneAuth) GetObjectType() string {
 	return "zone_auth"
 }
-func (s StatesZoneAuth) GetNDKeys() (string, string) {
+func (s StatesZoneAuth) GetNDKeys(ndValues ...string) (string, string) {
 	return "fqdn", ""
 }
 func (s StatesZoneAuth) GetNDPairs() (nds []string) {

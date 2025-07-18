@@ -176,9 +176,16 @@ func upateHost(invokedAs []string) error {
 	// And if check is true, ditto if we are adding/updating an IP.
 	if check && ip != "" && !strings.HasPrefix(ip, "-") && conflict == "" {
 		strippedIP := strings.TrimPrefix(ip, "+")
-		f := []string{"view=" + input.view, "ipv4addr=" + strippedIP}
-		if conflict, err = checkConflict(f, true, true, false, false, false, ""); err != nil {
-			return Error("failure checking host conflicts: %v", err)
+		if isIPv4(strippedIP) {
+			f := []string{"view=" + input.view, "ipv4addr=" + strippedIP}
+			if conflict, err = checkConflict(f, true, true, false, false, false, ""); err != nil {
+				return Error("failure checking host conflicts: %v", err)
+			}
+		} else {
+			f := []string{"view=" + input.view, "ipv6addr=" + strippedIP}
+			if conflict, err = checkConflict(f, true, false, true, false, false, ""); err != nil {
+				return Error("failure checking host conflicts: %v", err)
+			}
 		}
 	}
 	if conflict != "" {
@@ -283,6 +290,24 @@ func updateHostFields(input *UserInput, states StatesHost, space int) error {
 func updateHostIP(record *RecordHost, currentIP, ip string) error {
 
 	var ipUpdateType string
+
+	if strings.HasPrefix(ip, "-") { // Delete the IP
+		ipUpdateType = "delete"
+		ip = strings.TrimPrefix(ip, "-")
+	} else if strings.HasPrefix(ip, "+") { // Add the IP
+		ip = strings.TrimPrefix(ip, "+")
+		ipUpdateType = "add"
+	} else { // Update/replace the IP address
+		ipUpdateType = "update"
+	}
+	if isIPv4(ip) {
+		return updateHostIPv4(record, currentIP, ip, ipUpdateType)
+	}
+	return updateHostIPv6(record, currentIP, ip, ipUpdateType)
+}
+
+func updateHostIPv4(record *RecordHost, currentIP, ip, ipUpdateType string) error {
+
 	var hostRef = record.Ref
 	var recordIpv4Addr HostRecordIpv4Addr
 	var newHRIP HostRecordIpv4Addr
@@ -291,9 +316,8 @@ func updateHostIP(record *RecordHost, currentIP, ip string) error {
 	}
 	newHR.Ipv4Addrs = make([]HostRecordIpv4Addr, 0)
 
-	if strings.HasPrefix(ip, "-") { // Delete the IP
+	if  ipUpdateType == "delete" {	// Delete the IP
 		var found bool
-		ipUpdateType = "deletion"
 		ip = strings.TrimPrefix(ip, "-")
 		for _, recordIpv4Addr = range record.Ipv4Addrs {
 			if recordIpv4Addr.Ipv4Addr == ip {
@@ -305,9 +329,8 @@ func updateHostIP(record *RecordHost, currentIP, ip string) error {
 		if !found {
 			return Error("Host does not have IP %s", ip)
 		}
-	} else if strings.HasPrefix(ip, "+") { // Add the IP
+	} else if ipUpdateType == "add" { // Add the IP
 		ip = strings.TrimPrefix(ip, "+")
-		ipUpdateType = "addition"
 		for _, recordIpv4Addr = range record.Ipv4Addrs {
 			if recordIpv4Addr.Ipv4Addr == ip {
 				return Error("Host already has IP %s", ip)
@@ -320,7 +343,52 @@ func updateHostIP(record *RecordHost, currentIP, ip string) error {
 		return updateHostIPFields(record, currentIP, ipFields)
 	}
 
-	_ = ipUpdateType // We may want this later...
+	url := "/" + hostRef
+	body, ibapiErr := IBAPIPut(url, newHR)
+	if ibapiErr != nil {
+		return Error("%s", ibapiErr)
+	}
+	ShowDebug("body: %s", body)
+	return nil
+}
+
+func updateHostIPv6(record *RecordHost, currentIP, ip, ipUpdateType string) error {
+
+	var hostRef = record.Ref
+	var recordIpv6Addr HostRecordIpv6Addr
+	var newHRIP HostRecordIpv6Addr
+	var newHR struct {
+		Ipv6Addrs []HostRecordIpv6Addr `json:"ipv6addrs"`
+	}
+	newHR.Ipv6Addrs = make([]HostRecordIpv6Addr, 0)
+
+	if  ipUpdateType == "delete" {	// Delete the IP
+		var found bool
+		ip = strings.TrimPrefix(ip, "-")
+		for _, recordIpv6Addr = range record.Ipv6Addrs {
+			if recordIpv6Addr.Ipv6Addr == ip {
+				found = true
+			} else {
+				newHR.Ipv6Addrs = append(newHR.Ipv6Addrs, recordIpv6Addr)
+			}
+		}
+		if !found {
+			return Error("Host does not have IP %s", ip)
+		}
+	} else if ipUpdateType == "add" { // Add the IP
+		ip = strings.TrimPrefix(ip, "+")
+		for _, recordIpv6Addr = range record.Ipv6Addrs {
+			if recordIpv6Addr.Ipv6Addr == ip {
+				return Error("Host already has IP %s", ip)
+			}
+		}
+		newHRIP.Ipv6Addr = ip
+		newHR.Ipv6Addrs = append(record.Ipv6Addrs, newHRIP)
+	} else { // Update the IP address
+		ipFields := []string{"ipv6addr=" + ip}
+		return updateHostIPFields(record, currentIP, ipFields)
+	}
+
 	url := "/" + hostRef
 	body, ibapiErr := IBAPIPut(url, newHR)
 	if ibapiErr != nil {
@@ -338,12 +406,22 @@ func updateHostIPFields(record *RecordHost, ip string, ipFields []string) error 
 	var hripRef string
 
 	// Find the IP address we want to update, and get its object ref.
-	for _, recordIpv4Addr := range record.Ipv4Addrs {
-		if recordIpv4Addr.Ipv4Addr == ip {
-			hripRef = recordIpv4Addr.Ref
-			break
+	if isIPv4(ip) {
+		for _, recordIpv4Addr := range record.Ipv4Addrs {
+			if recordIpv4Addr.Ipv4Addr == ip {
+				hripRef = recordIpv4Addr.Ref
+				break
+			}
+		}
+	} else {
+		for _, recordIpv6Addr := range record.Ipv6Addrs {
+			if recordIpv6Addr.Ipv6Addr == ip {
+				hripRef = recordIpv6Addr.Ref
+				break
+			}
 		}
 	}
+
 	if hripRef == "" {
 		return Error("Host does not have IP %s", ip)
 	}

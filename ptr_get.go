@@ -33,6 +33,9 @@ func getPTR(invokedAs []string) error {
 	if inList, _ = InList(input.rFields, "ipv4addr"); !inList {
 		input.rFields = append(input.rFields, "ipv4addr")
 	}
+	if inList, _ = InList(input.rFields, "ipv6addr"); !inList {
+		input.rFields = append(input.rFields, "ipv6addr")
+	}
 	if inList, _ = InList(input.rFields, "ptrdname"); !inList {
 		input.rFields = append(input.rFields, "ptrdname")
 	}
@@ -81,7 +84,12 @@ func getPTR(invokedAs []string) error {
 			} else if ref {
 				Print("%-*s %s\n", space, "PTR("+request+"): ", record.Ref)
 			} else {
-				data := record.Ipv4Addr
+				var data string
+				if record.Ipv4Addr == "" {
+					data = record.Ipv6Addr
+				} else {
+					data = record.Ipv4Addr
+				}
 				sep := " ("
 				end := ""
 				if input.view == "any" {

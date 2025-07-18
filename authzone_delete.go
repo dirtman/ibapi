@@ -258,7 +258,6 @@ func CheckProtectedZoneAuth(name string) (inList bool, err error) {
 		"ruee.rice.edu",
 		"ruf.rice.edu",
 		"scholar.rice.edu",
-		"seci.rice.edu",
 		"sheelab.rice.edu",
 		"sid.rice.edu",
 		"spatialstudieslab.rice.edu",

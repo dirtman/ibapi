@@ -1,0 +1,164 @@
+## https://bitfieldconsulting.com/golang/test-scripts
+## Need to read auth and other settings from ~/.ibapi/ibapi.conf
+env HOME=/home/sandmant
+
+
+# Add AAAA record aaaa1.seci.rice.edu in default view.
+exec ibapi aaaa add aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -c 'Default View' --ttl 111
+! stderr .
+stdout 'Added'
+
+# Attempt to add AAAA record with same name and IP, same view.
+! exec ibapi aaaa add aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -c 'Default View' --ttl 222
+stderr conflict
+stdout 'NOT added'
+
+# Attempt to add AAAA record with same name and IP, disabled.
+! exec ibapi aaaa add aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -D
+stderr conflict
+stdout 'NOT added'
+
+# Add AAAA record with same name and IP, external view.
+exec ibapi aaaa add aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -V external -c 'External View'
+! stderr .
+stdout 'Added'
+
+# Get AAAA record aaaa1.seci.rice.edu.
+exec ibapi aaaa get aaaa1.seci.rice.edu 
+! stderr .
+stdout 'default view'
+stdout 'external view'
+
+# Get AAAA record aaaa1.seci.rice.edu, external view
+exec ibapi aaaa get aaaa1.seci.rice.edu -V external
+! stderr .
+! stdout 'default view'
+! stdout 'external view'
+stdout 'aaaa1.seci.rice.edu'
+
+# Get AAAA record aaaa1.seci.rice.edu, external view, verbose mode.
+exec ibapi aaaa get aaaa1.seci.rice.edu -V external -v
+! stderr '"default"'
+stderr '"view": "external"'
+stdout 'aaaa1.seci.rice.edu'
+
+# Get AAAA record aaaa1.seci.rice.edu again.
+exec ibapi aaaa get aaaa1.seci.rice.edu 
+! stderr .
+stdout 'default view'
+stdout 'external view'
+
+# Disable AAAA record aaaa1.seci.rice.edu.
+exec ibapi aaaa update aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -D true
+! stderr .
+stdout 'Updated.*disable=true'
+
+# Get disabled AAAA record aaaa1.seci.rice.edu, verbose mode.
+exec ibapi aaaa get aaaa1.seci.rice.edu -v
+stderr '"disable": true,'
+stdout 'DISABLED'
+
+#### Died here:
+# Attempt to add AAAA record with same IP, with --Check.
+! exec ibapi aaaa add aaaa2.seci.rice.edu c00:1234:5678:9abc::21 -C 
+stderr conflict
+stdout 'NOT added'
+  
+# Add AAAA record aaaa2.seci.rice.edu with same IP, no --Check.
+exec ibapi aaaa add aaaa2.seci.rice.edu c00:1234:5678:9abc::21
+! stderr .
+stdout ': Added'
+  
+# Attempt to add AAAA record with same name, with --Check.
+! exec ibapi aaaa add aaaa2.seci.rice.edu c00:1234:5678:9abc::22 -C
+stderr conflict
+stdout 'NOT added'
+
+# Add 07: Add AAAA record aaaa2.seci.rice.edu/c00:1234:5678:9abc::22, disabled.
+exec ibapi aaaa add aaaa2.seci.rice.edu c00:1234:5678:9abc::22 -D
+! stderr .
+stdout ': Added'
+
+# Attempt to get non-existant AAAA record.
+! exec ibapi aaaa get aaaa2.seci.rice.edu c00:1234:5678:9abc::22 -V external
+stderr 'not found'
+stdout 'NOTFOUND'
+
+# Get AAAA record aaaa2.seci.rice.edu/c00:1234:5678:9abc::22, verbose mode.
+exec ibapi aaaa get aaaa2.seci.rice.edu c00:1234:5678:9abc::22 -V default -v
+stderr '"disable": true'
+stdout 'aaaa2.seci.rice.edu c00:1234:5678:9abc::22.*DISABLED'
+
+# Get AAAA record c00:1234:5678:9abc::21 (any)
+exec ibapi aaaa get c00:1234:5678:9abc::21 -V any -v -Rcomment,ttl,zone,disable
+stderr 'view.* "default"'
+stderr 'view.* "external"'
+stderr '"disable": false,'
+stderr '"disable": true,'
+stderr '"zone": "seci.rice.edu"'
+stderr '"comment": "ibapi:aaaa:add",'
+stderr '"ttl": 111,'
+stdout 'aaaa1.seci.rice.edu c00:1234:5678:9abc::21.*default.*DISABLED'
+stdout 'aaaa1.seci.rice.edu c00:1234:5678:9abc::21.*external'
+stdout 'aaaa2.seci.rice.edu c00:1234:5678:9abc::21.*default'
+
+# Get AAAA record via fields (-Fipv6addr~=c00:1234:5678:9abc::2,name~=a -V any).
+exec ibapi aaaa get -Fipv6addr~=c00:1234:5678:9abc::2,name~=a -V any
+! stderr .
+stdout 'aaaa1.seci.rice.edu c00:1234:5678:9abc::21.*default.*DISABLED'
+stdout 'aaaa1.seci.rice.edu c00:1234:5678:9abc::21.*external'
+stdout 'aaaa2.seci.rice.edu c00:1234:5678:9abc::21.*default'
+stdout 'aaaa2.seci.rice.edu c00:1234:5678:9abc::22.*default.*DISABLED'
+
+# Attempt to update AAAA record without provided its IP
+! exec ibapi aaaa update aaaa1.seci.rice.edu -i c00:1234:5678:9abc::22 -C
+stderr 'both a name and a data value must be specified'
+
+# Attempt to change IP of an AAAA record to an existing IP, with -Check.
+! exec ibapi aaaa update aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -i c00:1234:5678:9abc::22 -C
+stderr 'NOT updated: Address record with same name or value already exists'
+
+# Change IP of an AAAA record to an existing IP, without -Check.
+exec ibapi aaaa update aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -i c00:1234:5678:9abc::22 -V external
+! stderr .
+stdout 'Updated \(fields: ipv6addr=c00:1234:5678:9abc::22\)'
+
+# Attempt an AAAA record update with an unsupported option value.
+! exec ibapi aaaa update aaaa1.seci.rice.edu c00:1234:5678:9abc::21 -V external -D what
+stderr 'invalid value "what" for disable option'
+
+# Delete AAAA record aaaa1.seci.rice.edu c00:1234:5678:9abc::21, default view.
+exec ibapi aaaa delete aaaa1.seci.rice.edu  c00:1234:5678:9abc::21
+! stderr .
+stdout 'aaaa1.seci.rice.edu.* Deleted'
+
+# Delete 02: Delete AAAA record aaaa1.seci.rice.edu c00:1234:5678:9abc::22 (external)
+exec ibapi aaaa delete aaaa1.seci.rice.edu c00:1234:5678:9abc::22 -V external
+! stderr .
+stdout 'aaaa1.seci.rice.edu.* Deleted'
+
+# Add 2 records, input from file, in external view.
+exec ibapi aaaa add -f input1.txt -V external
+! stderr .
+! stdout 'NOT added'
+stdout 'Added'
+
+# Delete 2 records, input from file, external view.
+exec ibapi aaaa delete -f input1.txt -V external
+! stderr .
+! stdout 'NOT FOUND'
+stdout 'Deleted'
+
+# Delete 2 records, input from file.
+exec ibapi aaaa delete -f input2.txt
+! stderr .
+! stdout 'NOT FOUND'
+stdout 'Deleted'
+
+-- input1.txt --
+aaaa1.seci.rice.edu  c00:1234:5678:9abc::21
+aaaa1.seci.rice.edu  c00:1234:5678:9abc::22
+
+-- input2.txt --
+aaaa2.seci.rice.edu  c00:1234:5678:9abc::21
+aaaa2.seci.rice.edu  c00:1234:5678:9abc::22

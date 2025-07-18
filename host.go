@@ -64,9 +64,19 @@ func (s StatesHost) NewState(nameData string) {
 func (s StatesHost) GetObjectType() string {
 	return "record:host"
 }
-func (s StatesHost) GetNDKeys() (string, string) {
-	return "name", "ipv4addr"
+
+func (s StatesHost) GetNDKeys(ndValues ...string) (string, string) {
+	var data string
+	dataKey := "ipv4addr"
+	if len(ndValues) > 1 {
+		data = ndValues[1]
+		if !isIPv4(data) {
+			dataKey = "ipv6addr"
+		}
+	}
+	return "name", dataKey
 }
+
 func (s StatesHost) GetNDPairs() (nds []string) {
 	return keys(s)
 }

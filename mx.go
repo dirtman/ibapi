@@ -64,7 +64,7 @@ func (s StatesMX) NewState(nameData string) {
 func (s StatesMX) GetObjectType() string {
 	return "record:mx"
 }
-func (s StatesMX) GetNDKeys() (string, string) {
+func (s StatesMX) GetNDKeys(ndValues ...string) (string, string) {
 	return "name", "mail_exchanger"
 }
 func (s StatesMX) GetNDPairs() (nds []string) {

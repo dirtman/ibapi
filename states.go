@@ -42,7 +42,7 @@ import (
 
 type IBObject interface {
 	GetObjectType() string
-	GetNDKeys() (string, string)
+	GetNDKeys(ndValues ...string) (string, string)
 }
 type Fetcher interface {
 	IBObject
@@ -55,6 +55,7 @@ type Fetcher interface {
 }
 
 type StatesA map[string]*StateA
+type StatesAAAA map[string]*StateAAAA
 type StatesHost map[string]*StateHost
 type StatesPTR map[string]*StatePTR
 type StatesCNAME map[string]*StateCNAME
@@ -70,6 +71,10 @@ type StateBase struct {
 type StateA struct {
 	StateBase
 	records []*RecordA
+}
+type StateAAAA struct {
+	StateBase
+	records []*RecordAAAA
 }
 type StateHost struct {
 	StateBase
@@ -176,14 +181,35 @@ func getState(F Fetcher, nameData string, sf, rf []string, checkN, checkD bool) 
 
 func getStateRecords(F Fetcher, nameData, name, data string, sf, rf []string) error {
 
-	nKey, dKey := F.GetNDKeys()
+	nKey, dKey := F.GetNDKeys(name, data)
 	object := F.GetObjectType()
+	var dataValueSuppressed bool
+
+	ShowDebug("getStateRecords(%s); nd: %s; name: %s;  data: %s;  sf: %v",
+		object, nameData, name, data, sf)
+
+	if dKey != "" && data != "" {
+		if dKey == "ipv6addr" && isIPv4(data) {
+			dataValueSuppressed = true
+		}
+		if dKey == "ipv4addr" && ! isIPv4(data) {
+			dataValueSuppressed = true
+		}
+
+		if dataValueSuppressed {
+			ShowDebug("Suppressing %s data value \"%s\" for %s lookup", dKey, data, object)
+			if name == "" {
+				ShowDebug("Suppressing nameless %s lookup after suppressing data value", object)
+				F.AddRecords(nameData, []uint8{'[', ']'})
+				return nil
+			}
+			data = ""
+		}
+	}
 	rawRecords, err := getRecords(object, nKey, dKey, name, data, sf, rf)
 
-	ShowDebug("getStateRecords(%s); name: %s;  data: %s;  sf: %v; err: %v",
-		nameData, name, data, sf, err)
-
 	if err != nil {
+		ShowDebug("getStateRecords(%s) failed: %v", object, err)
 		F.SetError(nameData, err)
 	} else {
 		F.AddRecords(nameData, rawRecords)

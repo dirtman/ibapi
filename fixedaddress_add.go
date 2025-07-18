@@ -34,7 +34,7 @@ func addFixedAddress(invokedAs []string) error {
 	} else if name, err = GetStringOpt("name"); err != nil {
 		return Error("failure getting name option: %v", err)
 	} else if name != "" { // Append it to the list of field/values
-		input.fields = append(input.fields, "ptrdname="+name)
+		input.fields = append(input.fields, "name="+name)
 	}
 
 	// Check if any of the requested records already exist or conflict with existing

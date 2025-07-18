@@ -12,6 +12,7 @@ func addA(invokedAs []string) error {
 
 	var input *UserInput
 	var states = make(StatesA)
+	var statesAAAA = make(StatesAAAA)
 	var statesPTR = make(StatesPTR)
 	var statesHost = make(StatesHost)
 	var statesCNAME = make(StatesCNAME)
@@ -72,6 +73,11 @@ func addA(invokedAs []string) error {
 	// If check, check for other existing "related" records.
 	if check {
 		f := []string{"view=" + input.view}
+		if err = getStates(statesAAAA, ndList, f, nil, true, false); err != nil {
+			return Error("failure getting statesAAAA: %v", err)
+		} else if errors := checkStateErrors(statesAAAA, false, true); len(errors) != 0 {
+			return Error("Aborting process; no records added.")
+		}
 		if err = getStates(statesHost, ndList, f, nil, true, true); err != nil {
 			return Error("failure getting statesHost: %v", err)
 		} else if errors := checkStateErrors(statesHost, false, true); len(errors) != 0 {
@@ -120,6 +126,10 @@ func addA(invokedAs []string) error {
 		}
 		if check && len(statesPTR[nameData].records) != 0 {
 			conflict += sep + "related PTR record"
+			sep = ", "
+		}
+		if check && len(statesAAAA[nameData].records) != 0 {
+			conflict += sep + "related AAAA record"
 			sep = ", "
 		}
 

@@ -53,6 +53,7 @@ const objectTypeFixedAddress = 6
 const objectTypeMX = 7
 const objectTypeTXT = 8
 const objectTypeZoneAuth = 9
+const objectTypeAAAA = 10
 const viewAny = "any"
 const targetAny = "any"
 
@@ -123,6 +124,8 @@ func getUserInput(objectType, operation string, duo bool, args []string) (*UserI
 		input.txtData = make(map[string]string, 0)
 	} else if objectType == "authzone" {
 		input.objectType = objectTypeZoneAuth
+	} else if objectType == "aaaa" {
+		input.objectType = objectTypeAAAA
 	}
 
 	if err = GetFieldOptions(input); err != nil {
@@ -490,8 +493,11 @@ func getND(input *UserInput, args []string) (string, string, error) {
 		data = args[1]
 	}
 	if input.objectType == objectTypeHost || input.objectType == objectTypeA ||
-		input.objectType == objectTypePTR {
+		input.objectType == objectTypeAAAA {
 		return getNameIP(args)
+	}
+	if input.objectType == objectTypePTR {
+		return getPtrNameIP(args)
 	}
 	if input.objectType == objectTypeFixedAddress {
 		return getIPMac(args)
@@ -549,6 +555,80 @@ func getNameIP(args []string) (string, string, error) {
 	return name, data, nil
 }
 
+// getPtrNameIP converts user input to name/data pairs for PTR records.
+//
+// For PTR records, map the "name" value not to the record:ptr "name" field as 
+// sense would dictate, but rather to the Infoblox "ptrdname" field, which is
+// the hostname to which an IP points.  And map the "data" value to the IP
+// address.  This is awkward, not mapping "name to name", but for the sole purpose
+// of related records checking (--Check option), the name to ptrdname mapping
+// benefit outways the awkwardness.
+//
+// For the IP address ("data" value), allow the user to specify either an
+// IP address (ipv4 or ipv6), or a reverse IP string (in-addr.arpa or .ip6.arpa).
+// If the user enters an .arpa domain name, map it to either an ipv4 or ipv6.
+// Example PTR record fields and values:
+//   Name: "236.182.42.128.in-addr.arpa"  (OR ....4.0.6.2.ip6.arpa)
+//   PtrdName: "help.rice.edu"
+//   Ipv4Addr: "128.42.182.236"
+//   Ipv6Addr: "c00:1234:5678:9abc::21"
+// For our "name/data" scenerio:
+//   name = ptrdname
+//   data = ipv4addr or ipv6addr (possibly converted from a .arpa domain name)
+
+func getPtrNameIP(args []string) (string, string, error) {
+
+	ShowDebug("getPtrNameIP: args: %#v", args)
+	var name, data, arpaName string
+	numArgs := len(args)
+	var err error
+
+	arg := args[0]
+	if net.ParseIP(arg) != nil {
+		data = arg
+	} else if validPtrHost(arg) {
+		data = arg
+		arpaName = arg
+	} else if validHost(arg) {
+		name = arg
+	} else {
+		return "", "", Error("argument \"%s\" is neither a valid IP or name", arg)
+	}
+
+	if numArgs == 2 {
+		arg = args[1]
+		if data == "" {
+			if net.ParseIP(arg) != nil {
+				data = arg
+			} else if validPtrHost(arg) {
+				data = arg
+				arpaName = arg
+			} else {
+				return "", "", Error("neither argument is a valid IP address")
+			}
+		} else if validHost(arg) {
+			if name == "" {
+				name = arg
+			} else {
+				return "", "", Error("both arguments are hostnames")
+			}
+		} else {
+			return "", "", Error("neither argument is a valid data")
+		}
+	}
+
+	// Check if we need to convert an IP address to a PTR data:
+	if arpaName != "" {
+		if data, err = arpaToIP(arpaName); err != nil {
+			return "", "", err
+		}
+	} else if data == "168.7.56.2222" {
+		// Shut up lint warning for now (func not used).
+		_, _ = ipToPtrHost(data)
+	}
+	return name, data, nil
+}
+
 func getIPMac(args []string) (string, string, error) {
 
 	ShowDebug("getIPMac: args: %#v", args)
@@ -593,19 +673,28 @@ func splitND(nameData string) (string, string, error) {
 	return s[0], s[1], nil
 }
 
-// https://www.socketloop.com/tutorials/golang-validate-hostname
-// I doubt if this is totally correct, but good enough for now - sandmant
+// When checking for conficting PTR records, the name/data pair may need to be
+// reversed.  For instance, when adding an A record with the --check options, 
+// a PTR record with the same "data" as the A record "name" must be checked for.
 
-func validHost(host string) bool {
-	host = strings.Trim(host, " ")
+func reverseNDList(ndList []string) ([]string, error) {
 
-	re, _ := regexp.Compile(`^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$`)
-	return re.MatchString(host)
+	var ptrNDList []string
+	for _, nameData := range ndList {
+		s := strings.Split(nameData, nameDataSep)
+		if len(s) != 2 {
+			return nil, Error("failure getting name/data from \"%s\"", nameData)
+		}
+		ptrNDList = append(ptrNDList, s[1] + nameDataSep + s[0])
+	}
+	return ptrNDList, nil
 }
 
-func validMac(mac string) bool {
-	mac = strings.Trim(mac, " ")
+func reverseND(nameData string) (string, error) {
 
-	re, _ := regexp.Compile(`^([a-zA-Z0-9]{2}:){5}[a-zA-Z0-9]`)
-	return re.MatchString(mac)
+	s := strings.Split(nameData, nameDataSep)
+	if len(s) != 2 {
+		return "", Error("failure getting name/data from \"%s\"", nameData)
+	}
+	return s[1] + nameDataSep + s[0], nil
 }

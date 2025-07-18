@@ -2,6 +2,9 @@
 ## Need to read auth and other settings from ~/.ibapi/ibapi.conf
 env HOME=/home/sandmant
 
+# For record names, use a -letter suffix to avoid name conflicts with the
+# other scripts (since these may be executed in parallel).  For instance,
+# use ptr-a.seci.rice.edu instead of ptr1.seci.rice.edu.
 
 # Host 01: Add Host record.
 exec ibapi host add host-a.seci.rice.edu 10.10.10.231
@@ -37,6 +40,9 @@ exec ibapi host get 10.10.10.231
 ! stderr .
 stdout 'host-a.seci.rice.edu 10.10.10.231'
 stdout 'host-b.seci.rice.edu 10.10.10.231'
+
+# Host 08: Add ipv6 address to Host record.
+exec ibapi host update host-a.seci.rice.edu 10.10.10.231 -i +c00:1234:5678:9abc::21
 
 
 # Address 01: Fail: Add A record with same name as existing host (-C).
@@ -190,6 +196,56 @@ stderr 'NOT updated: Host with same name or value already exists'
 exec ibapi alias update alias-a.seci.rice.edu -t amazon.com
 ! stderr .
 stdout 'Update.*target_name=amazon.com'
+
+
+# AAAA 01: Fail: Add AAAA record with same name as existing host (-C).
+! exec ibapi aaaa add host-a.seci.rice.edu c00:1234:5678:9abc::22 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found: related Host record'
+
+# AAAA 02: Fail: Add AAAA record with same IP as existing host (-C)
+! exec ibapi aaaa add host-c.seci.rice.edu c00:1234:5678:9abc::21 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found: related Host record'
+
+# AAAA 03: Add AAAA record with same name as existing host.
+exec ibapi aaaa add host-a.seci.rice.edu c00:1234:5678:9abc::22
+! stderr .
+stdout 'Added'
+
+# AAAA 04: Add AAAA record with same IP as existing host.
+exec ibapi aaaa add host-a.seci.rice.edu c00:1234:5678:9abc::21
+! stderr .
+stdout 'Added'
+
+# AAAA 05: Fail: Add AAAA record with same IP as existing AAAA and Host (-C)
+! exec ibapi aaaa add host-a.seci.rice.edu c00:1234:5678:9abc::22 -C
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found'
+
+# AAAA 06: Fail: Add AAAA record with same IP as existing AAAA and Host
+! exec ibapi aaaa add host-a.seci.rice.edu c00:1234:5678:9abc::21
+stderr 'Record not added due to conflict'
+stdout 'NOT added: Conflicts found'
+
+# AAAA 07: Fail: update AAAA record.
+! exec ibapi aaaa update host-a.seci.rice.edu c00:1234:5678:9abc::21 -n host-b.seci.rice.edu -C
+stderr 'Host with same name or value already exists'
+
+# AAAA 08: Update AAAA record name:
+exec ibapi aaaa update host-a.seci.rice.edu c00:1234:5678:9abc::21 -n a-a.seci.rice.edu
+! stderr .
+stdout 'Updated \(fields: name=a-a.seci.rice.edu\)'
+
+# AAAA 09: Delete AAAA record:
+exec ibapi aaaa delete host-a.seci.rice.edu c00:1234:5678:9abc::22
+! stderr .
+stdout 'Deleted'
+
+# AAAA 10: Delete AAAA record:
+exec ibapi aaaa delete a-a.seci.rice.edu c00:1234:5678:9abc::21
+! stderr .
+stdout 'Deleted'
 
 
 # Mix 01: Fail: Add Host

@@ -13,6 +13,7 @@ func addPTR(invokedAs []string) error {
 	var input *UserInput
 	var states = make(StatesPTR)
 	var statesA = make(StatesA)
+	var statesAAAA = make(StatesAAAA)
 	var statesHost = make(StatesHost)
 	var statesCNAME = make(StatesCNAME)
 	var statesAlias = make(StatesAlias)
@@ -82,12 +83,16 @@ func addPTR(invokedAs []string) error {
 		} else if errors := checkStateErrors(statesA, true, true); len(errors) != 0 {
 			return Error("Aborting process; no records added.")
 		}
+		if err = getStates(statesAAAA, ndList, f, nil, true, true); err != nil {
+			return Error("failure getting statesAAAA: %v", err)
+		} else if errors := checkStateErrors(statesAAAA, true, true); len(errors) != 0 {
+			return Error("Aborting process; no records added.")
+		}
 	}
 
 	// Loop through the user provided input (name/data) list.
 
 	space := input.maxNameLength + 8
-	nKey, dKey := states.GetNDKeys()
 	object := states.GetObjectType()
 	var numConflicts uint
 
@@ -96,6 +101,7 @@ func addPTR(invokedAs []string) error {
 		var name, data, conflict string
 		sep := "Conflicts found: "
 		name, data, _ = splitND(nameData)
+		nKey, dKey := states.GetNDKeys(name, data)
 
 		if len(states[nameData].records) != 0 {
 			if state.records[0].PtrdName == name {
@@ -129,6 +135,17 @@ func addPTR(invokedAs []string) error {
 				}
 			}
 		}
+		if check && len(statesAAAA[nameData].records) != 0 {
+			for _, record := range statesAAAA[nameData].records {
+				if record.Ipv6Addr != data {
+					conflict += sep + "related AAAA record with different IP"
+					break
+				} else if record.Name != name {
+					conflict += sep + "related AAAA record with different name"
+					break
+				}
+			}
+		}
 
 		if conflict != "" {
 			Print("%-*s NOT added: %s\n", space, "PTR("+nameData+")", conflict)
@@ -137,7 +154,7 @@ func addPTR(invokedAs []string) error {
 		}
 
 		if _, err := addRecord(object, nKey, dKey, name, data, input.fields); err != nil {
-			return Error("aborting! failure adding host record %s: %v", nameData, err)
+			return Error("aborting! failure adding PTR record %s: %v", nameData, err)
 		} else {
 			Print("%-*s: Added\n", space, "PTR("+nameData+")")
 		}

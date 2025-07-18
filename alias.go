@@ -64,7 +64,7 @@ func (s StatesAlias) NewState(nameData string) {
 func (s StatesAlias) GetObjectType() string {
 	return "record:alias"
 }
-func (s StatesAlias) GetNDKeys() (string, string) {
+func (s StatesAlias) GetNDKeys(ndValues ...string) (string, string) {
 	return "name", "target_name"
 }
 func (s StatesAlias) GetNDPairs() (nds []string) {

@@ -71,6 +71,21 @@ stderr '"bootfile": "/grub2/grubx64.efi"'
 stderr '"nextserver": "10.128.81.10"'
 stdout 'host4.seci.rice.edu 10.10.10.215'
 
+# Add 08: Add Host record host6.seci.rice.edu/c00:1234:5678:9abd:20 in external view.
+exec ibapi host add host6.seci.rice.edu c00:1234:5678:9abd::20 -V external -c 'External View'
+! stderr .
+stdout ': Added'
+
+# Add 08b: Add duplicate Host record host6.seci.rice.edu: should fail.
+! exec ibapi host add host6.seci.rice.edu c00:1234:5678:9abd::21 -V external -c 'External View'
+stderr 'conflict'
+stdout 'NOT added'
+
+# Add 08c: Add duplicate Host record in external view; should fail.
+! exec ibapi host add host6.seci.rice.edu 10.10.10.230 -V external -c 'External View'
+stderr 'conflict'
+stdout 'NOT added'
+
 
 # Update 01: Update should fail: need name and data value.
 ! exec ibapi host update host1.seci.rice.edu -i 10.10.10.219 -C
@@ -282,11 +297,15 @@ stdout 'Host\(host3.seci.rice.edu\)\s+Deleted'
 stderr 'wrong field count'
 ! stdout .
 
-
-# Delete 06: Delete host4.seci.rice.edu and restart grid services
+# Delete 06: Delete host4.seci.rice.edu and restart grid services.
 exec ibapi host delete host4.seci.rice.edu -R
 ! stderr .
 stdout 'Host\(host4.seci.rice.edu\) Deleted'
+
+# Delete 07: Delete AAAA host record host6.seci.rice.edu.
+exec ibapi host delete host6.seci.rice.edu c00:1234:5678:9abd::20 -V external
+! stderr .
+stdout 'host6.seci.rice.edu.* Deleted'
 
 
 -- input1.txt --

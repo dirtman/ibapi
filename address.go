@@ -64,7 +64,7 @@ func (s StatesA) NewState(nameData string) {
 func (s StatesA) GetObjectType() string {
 	return "record:a"
 }
-func (s StatesA) GetNDKeys() (string, string) {
+func (s StatesA) GetNDKeys(ndValues ...string) (string, string) {
 	return "name", "ipv4addr"
 }
 func (s StatesA) GetNDPairs() (nds []string) {

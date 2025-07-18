@@ -1,15 +1,15 @@
 module github.com/dirtman/ibapi
 
-go 1.18
+go 1.23.10
 
 require (
-	github.com/dirtman/sitepkg v0.0.0-20230322143235-2ccb9d703151
-	github.com/rogpeppe/go-internal v1.9.0
-	golang.org/x/term v0.6.0
+	github.com/dirtman/sitepkg v0.0.0-20231203163547-f42f45f14450
+	github.com/rogpeppe/go-internal v1.14.1
+	golang.org/x/term v0.32.0
 )
 
 require (
-	github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/tools v0.26.0 // indirect
 )

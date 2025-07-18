@@ -64,7 +64,7 @@ func (s StatesFixedAddress) NewState(nameData string) {
 func (s StatesFixedAddress) GetObjectType() string {
 	return "fixedaddress"
 }
-func (s StatesFixedAddress) GetNDKeys() (string, string) {
+func (s StatesFixedAddress) GetNDKeys(ndValues ...string) (string, string) {
 	return "ipv4addr", "mac"
 }
 func (s StatesFixedAddress) GetNDPairs() (nds []string) {

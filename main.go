@@ -37,6 +37,7 @@ func main() {
 		"mx":           commandMX,
 		"txt":          commandTXT,
 		"authzone":     commandZoneAuth,
+		"aaaa":         commandAAAA,
 	}
 
 	// Initialize as a SitePkg.
@@ -137,5 +138,7 @@ func subCommandInit(objectType, operator string, duo bool) (*UserInput, error) {
 	} else if input, err = getUserInput(objectType, operator, duo, args); err != nil {
 		return nil, Error("failure getting user input: %v", err)
 	}
+	ShowDebug("Command Invoked: %s", strings.Join(os.Args, " "))
+
 	return input, nil
 }

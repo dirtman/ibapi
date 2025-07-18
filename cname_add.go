@@ -14,6 +14,7 @@ func addCNAME(invokedAs []string) error {
 	var states = make(StatesCNAME)
 	var statesHost = make(StatesHost)
 	var statesA = make(StatesA)
+	var statesAAAA = make(StatesAAAA)
 	var statesAlias = make(StatesAlias)
 	var err error
 	duo := true
@@ -47,6 +48,13 @@ func addCNAME(invokedAs []string) error {
 	if err = getStates(statesA, ndList, f, nil, true, false); err != nil {
 		return Error("failure getting statesA: %v", err)
 	} else if errors := checkStateErrors(statesA, true, true); len(errors) != 0 {
+		return Error("Aborting process; no records added.")
+	}
+
+	// Check for any existing AAAA records with the same name.
+	if err = getStates(statesAAAA, ndList, f, nil, true, false); err != nil {
+		return Error("failure getting statesAAAA: %v", err)
+	} else if errors := checkStateErrors(statesAAAA, true, true); len(errors) != 0 {
 		return Error("Aborting process; no records added.")
 	}
 
@@ -90,6 +98,10 @@ func addCNAME(invokedAs []string) error {
 
 		if len(statesA[nameData].records) != 0 {
 			conflict += sep + "A record with same name"
+			sep = ", "
+		}
+		if len(statesAAAA[nameData].records) != 0 {
+			conflict += sep + "AAAA record with same name"
 			sep = ", "
 		}
 		if len(statesAlias[nameData].records) != 0 {

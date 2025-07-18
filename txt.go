@@ -64,7 +64,7 @@ func (s StatesTXT) NewState(nameData string) {
 func (s StatesTXT) GetObjectType() string {
 	return "record:txt"
 }
-func (s StatesTXT) GetNDKeys() (string, string) {
+func (s StatesTXT) GetNDKeys(ndValues ...string) (string, string) {
 	return "name", "text"
 }
 func (s StatesTXT) GetNDPairs() (nds []string) {

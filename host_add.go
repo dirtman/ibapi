@@ -13,8 +13,10 @@ func addHost(invokedAs []string) error {
 	var input *UserInput
 	var states = make(StatesHost)
 	var statesA = make(StatesA)
+	var statesAAAA = make(StatesAAAA)
 	var statesCNAME = make(StatesCNAME)
 	var statesAliasA = make(StatesAlias)
+	var statesAliasAAAA = make(StatesAlias)
 	var check bool
 	var err error
 	duo := true
@@ -71,11 +73,18 @@ func addHost(invokedAs []string) error {
 	}
 
 	// Check for any existing Alias records with the same name and target_type A.
-	// To add support for AAAA records, will need to add a "target_type=AAAA" section.
 	f = []string{"view=" + input.view, "target_type=A"}
 	if err = getStates(statesAliasA, ndList, f, nil, true, false); err != nil {
 		return Error("failure getting statesAliasA: %v", err)
 	} else if errors := checkStateErrors(statesAliasA, true, true); len(errors) != 0 {
+		return Error("Aborting process; no records added.")
+	}
+
+	// Check for any existing Alias records with the same name and target_type AAAA.
+	f = []string{"view=" + input.view, "target_type=AAAA"}
+	if err = getStates(statesAliasAAAA, ndList, f, nil, true, false); err != nil {
+		return Error("failure getting statesAliasAAAA: %v", err)
+	} else if errors := checkStateErrors(statesAliasAAAA, true, true); len(errors) != 0 {
 		return Error("Aborting process; no records added.")
 	}
 
@@ -85,6 +94,11 @@ func addHost(invokedAs []string) error {
 		if err = getStates(statesA, ndList, f, nil, true, true); err != nil {
 			return Error("failure getting statesA: %v", err)
 		} else if errors := checkStateErrors(statesA, false, true); len(errors) != 0 {
+			return Error("Aborting process; no records added.")
+		}
+		if err = getStates(statesAAAA, ndList, f, nil, true, true); err != nil {
+			return Error("failure getting statesAAAA: %v", err)
+		} else if errors := checkStateErrors(statesAAAA, false, true); len(errors) != 0 {
 			return Error("Aborting process; no records added.")
 		}
 	}

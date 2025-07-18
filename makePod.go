@@ -44,17 +44,759 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a:add(1), a:delete(1), a:get(1), a:update(1), alias(1), alias:add(1),
-    alias:delete(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
+
+
+`
+	PodMap["aaaa"] = `
+NAME
+    ibapi aaaa - create, read, update and delete Infoblox AAAA records
+
+USAGE
+    ibapi aaaa <add|get|update|delete> <options/args>
+
+DESCRIPTION
+    "ibapi aaaa" can be used to add, get, update and delete Infoblox AAAA
+    records. The basic format is
+
+    * ibapi aaaa <operation> <options/args>
+
+    For more details, invoke the specific operation with the --help|-h
+    option. For example:
+
+    * ibapi aaaa add -h
+
+EXAMPLES
+    ibapi aaaa add -t 600 rb4.rice.edu c00:1234:5678:9abc::21
+        Add an AAAA record.
+
+    ibapi aaaa delete rb4.rice.edu c00:1234:5678:9abc::21
+        Delete an AAAA record.
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
+
+
+`
+	PodMap["aaaa:add"] = `
+NAME
+    ibapi aaaa add - create Infoblox AAAA records
+
+USAGE
+    ibapi aaaa add <options/args>
+
+DESCRIPTION
+    The add command is used to create Infoblox AAAA records. To create a
+    single AAAA record, a single hostname and IP address can be provided as
+    command line arguments, in either order. Alternatively, a list of
+    records to add can be specified in a file (see --filename).
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view for the new record. Default: "default".
+
+    -D, --Disable:
+        Disable the new record. Default: false.
+
+    -c <comment>, --Comment=<comment>:
+        Specify the comment for the new record. Alternatively, you can
+        specify this via the --fields option. Default: "ibapi:address:add".
+
+    --TTL=<ttl>:
+        Specify the ttl for the new record. Alternatively, you can specify
+        this via the --fields option.
+
+    -F <fields>, --Fields=<fields>:
+        Specify fields and corresponding values for the new record. For
+        instance: "comment=RT100931",view=default,ttl=900".
+
+    -f <filename>, --Filename=<filename>:
+        Specify a filename containing a list of AAAA records to create. Each
+        line should contain a hostname and an IP address, in either order,
+        separated by one or more spaces. Blank lines and lines beginning
+        with "#" are ignored, as is anything on a line following a "#".
+
+    -C, --Check:
+        Before creating a new record, check if any "related" records already
+        exist, and if so do not create the new record. Related records are
+        those that share the same name and/or content, such as an Host
+        record and AAAA record with the same name and/or IP address.
+        Default: false.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi aaaa add rb4.rice.edu c00:1234:5678:9abc::21
+        Create a new AAAA record with hostname "rb4.rice.edu" and IP address
+        "c00:1234:5678:9abc::21".
+
+    ibapi aaaa add -V external -f /tmp/hosts
+        Create an AAAA record in the "external" view for each hostname/IP
+        pair specified in the file "/tmp/hosts".
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
+
+
+`
+	PodMap["aaaa:delete"] = `
+NAME
+    ibapi aaaa delete - delete Infoblox AAAA records
+
+USAGE
+    ibapi aaaa delete <options/args>
+
+DESCRIPTION
+    The delete command is used to delete Infoblox AAAA records. To delete a
+    single AAAA record, a single hostname and optionally an IP address may
+    be provided as command line arguments. Alternatively, a list of records
+    to delete can be specified in a file (see --filename).
+
+    If an IP address is specified, the AAAA record to delete must contain
+    that IP address, else no address will be deleted. If no IP address is
+    specified, the AAAA record is deleted regardless of its IP address(es).
+    =head1 OPTIONS
+
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view of the record to delete. Default: "default".
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of AAAA records to delete. Each
+        line should contain a hostname and optionally an IP address, in
+        either order, separated by one or more spaces. Blank lines and lines
+        beginning with "#" are ignored, as is anything on a line following a
+        "#".
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi aaaa delete rb4.rice.edu c00:1234:5678:9abc::21
+        Delete the AAAA record with hostname "rb4.rice.edu" and IP address
+        "c00:1234:5678:9abc::21".
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
+
+
+`
+	PodMap["aaaa:get"] = `
+NAME
+    ibapi aaaa get - get Infoblox AAAA records
+
+USAGE
+    ibapi aaaa get <options/args>
+
+DESCRIPTION
+    The get command is used to read/fetch Infoblox AAAA records.
+
+    By default, the hostname and IP address of each fetched record is shown.
+    The --verbose option can be specified to print out the raw response from
+    the API.
+
+    To fetch a single AAAA record, a single hostname and/or IP address may
+    be provided as command line arguments. Alternatively, a list of records
+    to fetch can be specified in a file (see --filename).
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view of the record to fetch. Specify "any" to search for
+        records in all views. Default: "any".
+
+    -F <fields>, --Fields=<fields>:
+        Specify a comma-separated list of field name/value pairs to restrict
+        the record(s) fetched.
+
+    -R <return_fields>, --rFields=<return_fields>:
+        Specify additional fields to show when in Verbose mode.
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of records to get. Each line
+        should contain a hostname and/or an IP address, in either order,
+        separated by one or more spaces. Blank lines and lines beginning
+        with "#" are ignored, as is anything on a line following a "#".
+
+    -r <obj_ref>, --Ref=<obj_ref>:
+        Instead of showing the name and content of the fetched record(s),
+        show the object reference of each record.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi aaaa get -F name~=mx -V external
+        Fetch each AAAA record (in the external DNS view) whose name matches
+        "mx".
+
+    ibapi aaaa get -F ipv6addr~=c00:1234:5678:9abc.
+        Fetch each AAAA record (in any DNS view) whose IP address matches
+        "c00:1234:5678:9abc.".
+
+    ibapi aaaa get rb4.rice.edu
+        Fetch each AAAA record with hostname "rb4.rice.edu".
+
+    ibapi aaaa get c00:1234:5678:9abc::21
+        Fetch each AAAA record with IP address "c00:1234:5678:9abc::21".
+
+    ibapi aaaa get rb4.rice.edu c00:1234:5678:9abc::21
+        Fetch each AAAA record with hostname "rb4.rice.edu" and IP address
+        "c00:1234:5678:9abc::21".
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:update(1), ibapi.conf(5)
+
+
+`
+	PodMap["aaaa:update"] = `
+NAME
+    ibapi aaaa update - update Infoblox AAAA records
+
+USAGE
+    ibapi aaaa update <options/args>
+
+DESCRIPTION
+    The update command is used to update Infoblox AAAA records.
+
+OPTIONS
+    Some options can be specified with either a short (i.e., -h) or long
+    (i.e., --help) form. In the latter case, case is non-sensitive.
+
+    Boolean options (flags) do not require a value. "-v" is equivalent to
+    "-v=true". To disable, set to "false" ("-v=false" or "--verbose=false").
+
+    Most options have a corresponding configuration file setting that is
+    equal to the long option name without the "--" prefix. Command line
+    options always override configuration file settings. Use the
+    --ShowConfig to view each option and its value.
+
+  OPTIONS - General
+    -V <view>, --View=<view>:
+        Specify the view of the record to update. Default: "default".
+
+    -D <true|false>, --Disable=<true|false>:
+        Update the record's disabled status to the specified value. Note
+        this is not a boolean flag - the value "true" or "false" must be
+        specified.
+
+    -n <new_hostname>, --Name=<new_hostname>:
+        Update the name of the specified record to "new_hostname".
+
+    -c <comment>, --Comment=<comment>:
+        Update the record's comment.
+
+    --TTL=<ttl>:
+        Update the record's TTL.
+
+    -i <new_IP>, --ip=<new_ip>:
+        Update the IP of the specified record to "new_IP".
+
+    -F <fields>, --Fields=<fields>:
+        Specify fields and corresponding values to be updated. For instance:
+        "comment=RT100931",view=default,ttl=900".
+
+    -f <filename>, --filename=<filename>:
+        Specify a filename containing a list of records to update. Each line
+        must contain a hostname and, depending on the specified options, an
+        IP address. Blank lines and lines beginning with "#" are ignored, as
+        is anything on a line following a "#".
+
+    -C, --Check:
+        Before updating a record's hostname or IP address, check if any
+        "related" records already exist, and if so do not update the new
+        record. Related records are those that share the same hostname
+        and/or IP address, such as an AAAA record and Host record with the
+        same hostname and/or IP address. Default: false.
+
+  OPTIONS - API Options
+    --APIBaseURL=<url>:
+        API base URL. Default: "https://infoblox.rice.edu/wapi/v2.11"
+
+    --HTTPTimeout=<seconds>:
+        Timeout in seconds for the HTTP connection. Default: 10.
+
+    --APIAuthMethod=<method>:
+        WAPI authentication method for accessing the Infoblox API.
+        Currently, only "Basic" authentication (username and password) is
+        supported.
+
+    --username=<username>:
+        Specify the username used for basic auth.
+
+    --password=<password>:
+        Specify the password used for basic auth. If this option is
+        specified and is non-empty, either the --username option can be used
+        to specify the corresponding username, or the current user will be
+        assumed for username.
+
+    --PromptForPassword:
+        Prompt the user for the password used for basic authentication. This
+        is done automatically unless one of these options is specified:
+        --password, --APIAuthToken, --APIAuthTokenID.
+
+    --APIAuthToken=<token>:
+        As an alternative to specifing a username and password separately,
+        an "authentication token" containing both the username and password,
+        separated by a ':', can be specified.
+
+    --APIAuthTokenID=<tokenID>:
+        As an alternative to specifying a username/password or an
+        APIAuthToken directly, the name of an authentication token ID which
+        maps to an authentication token can be specified. See also
+        --SecretsDir. Default: "owlapi_basic".
+
+    --SecretsDir=<pathname>:
+        Specify a directory where optional "secret files" are kept. These
+        files can be used as a slightly safer alternative to storing
+        authentication credentials in the standard configuration files. The
+        name of a secret file corresponds to a "tokenID" configured via
+        --APIAuthTokenID, and the file contains an authentication token.
+        Obviously, these files should be safely guarded or avoided
+        altogether. Default: "/etc/opt/ibapi/private".
+
+    --GridReference=<grid_reference>:
+        Specify the Infoblox grid reference ID. This can be used to save a
+        fetch when the --restartServices option is specified. While this
+        option is only relevant to a few commands, it is allowed (ignored)
+        by the other commands.
+
+  OPTIONS - Common To All IBAPI Commands
+    -h, --help:
+        Help; show usage information and exit.
+
+    --showConfig:
+        Read in and show all configuration settings and exit.
+
+    -q, --Quiet:
+        Be quieter than normal.
+
+    --Quieter:
+        Quieter mode. Suppress all messages except warning and error
+        messages.
+
+    -v, --Verbose:
+        Be louder than normal. Over-rides the "--Quiet" and "-Quieter"
+        options. Note such extra details are printed to Stderr so that the
+        normal output remains the same regardless of verbosity.
+
+    --page:
+        Page help/usage information via the command specified by the --Pager
+        option or the environment variable "PAGER". If neither of these is
+        set, this option is ignored. Default: true.
+
+    --Pager=<pager>:
+        Specify a pager command for paging the usage information (shown with
+        --help). By default, the environment variable PAGER is used. If a
+        full path is not specified, the command is searched for using the
+        PATH environment variable.
+
+EXAMPLES
+    ibapi aaaa update rb4.rice.edu c00:1234:5678:9abc::21 -i
+    c00:1234:5678:9abc::22
+        Update the "rb4.rice.edu/c00:1234:5678:9abc::21" AAAA record,
+        changing the IP address to "c00:1234:5678:9abc::22".
+
+FILES
+    /usr/site/ibapi-1.0/etc/ibapi.conf
+    /etc/opt/ibapi/ibapi.conf
+    /etc/opt/ibapi-1.0//ibapi.conf
+    ~/.ibapi/ibapi.conf
+    ~/.ibapi-1.0/ibapi.conf
+        The IBAPI configuration files which can be used to set defaults for
+        nearly all of the options described above. Any combination of these
+        may be used. Each file found is read in turn, with settings in later
+        files overriding those in previous files. Note that command line
+        options override all config file settings.
+
+SEE ALSO
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), ibapi.conf(5)
 
 
 `
@@ -219,17 +961,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:delete(1), a:get(1), a:update(1), alias(1), alias:add(1),
-    alias:delete(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -373,17 +1116,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:get(1), a:update(1), alias(1), alias:add(1),
-    alias:delete(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -553,17 +1297,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:update(1), alias(1), alias:add(1),
-    alias:delete(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -605,17 +1350,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias:add(1),
-    alias:delete(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
+    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -777,17 +1523,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:delete(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -932,17 +1679,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -1085,6 +1833,9 @@ OPTIONS
         PATH environment variable.
 
 EXAMPLES
+    ibapi alias get -F name~=rice.edu -V external
+        Fetch each Alias in the external view that matches .rice.edu.
+
     ibapi alias get rb4.rice.edu
         Fetch each Alias record with hostname "rb4.rice.edu".
 
@@ -1108,17 +1859,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -1284,17 +2036,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -1458,17 +2211,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), alias(1), alias:add(1),
-    alias:delete(1), alias:get(1), alias:update(1), cname(1), cname:add(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:add(1), fixedaddress(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -1508,17 +2262,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -1683,17 +2438,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -1842,17 +2598,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2007,17 +2764,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2180,17 +2938,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2232,17 +2991,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2396,17 +3156,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:delete(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:delete(1), cname:get(1), cname:update(1),
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2548,17 +3309,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:get(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:get(1), cname:update(1),
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2720,17 +3482,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:update(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:update(1),
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2886,17 +3649,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), fixedaddress(1),
-    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -2943,17 +3707,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -3133,17 +3898,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:delete(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -3295,17 +4061,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:get(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -3472,17 +4239,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:update(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -3669,17 +4437,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), grid(1), host(1), host:add(1), host:delete(1),
-    host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -3812,17 +4581,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), host(1), host:add(1),
-    host:delete(1), host:get(1), host:update(1), ibapi(1), ptr(1),
-    ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), mx:add(1), mx:delete(1),
+    mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -3872,17 +4642,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host:add(1),
-    host:delete(1), host:get(1), host:update(1), ibapi(1), ptr(1),
-    ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -4079,17 +4850,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:delete(1), host:get(1), host:update(1), ibapi(1), ptr(1),
-    ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -4247,17 +5019,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1),
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:get(1), host:update(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -4428,17 +5201,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:update(1), ibapi(1), ptr(1),
-    ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -4654,17 +5428,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1),
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), ibapi(1), ptr(1), ptr:add(1),
-    ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -4677,7 +5452,7 @@ USAGE
 
     where OBJECT is one of
 
-      a alias authzone cname fixedaddress grid host mx txt ptr url
+      a aaaa alias authzone cname fixedaddress grid host mx txt ptr url
 
     and OPERATION, for all but the "grid" object, is one of
 
@@ -4828,6 +5603,9 @@ EXAMPLES
         Create a new Alias record with hostname "rb4.rice.edu" and A record
         target "somewhere.com".
 
+    ibapi alias get -F name~=rice.edu -V external
+        Fetch each Alias in the external view that matches .rice.edu.
+
     ibapi cname get rb4.rice.edu
         Fetch the CNAME record with hostname "rb4.rice.edu".
 
@@ -4919,17 +5697,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ptr(1),
-    ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -4971,17 +5750,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -5138,17 +5918,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:delete(1),
+    mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -5299,17 +6080,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:get(1), mx:update(1), txt(1), txt:add(1), txt:delete(1), txt:get(1),
-    txt:update(1), authzone(1), authzone:add(1), authzone:delete(1),
-    authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -5481,17 +6263,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:update(1), txt(1), txt:add(1), txt:delete(1),
-    txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -5666,17 +6449,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), txt(1), txt:add(1), txt:delete(1), txt:get(1),
-    txt:update(1), authzone(1), authzone:add(1), authzone:delete(1),
-    authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -5718,17 +6502,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -5888,17 +6673,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -6042,17 +6828,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:get(1), ptr:update(1),
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:get(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -6212,17 +6999,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:update(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt:update(1), txt(1), authzone(1), authzone:add(1),
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -6388,17 +7176,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
     cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), url(1), url:add(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), url(1),
+    url:add(1), url:delete(1), url:get(1), url:update(1), a(1), a:delete(1),
+    a:get(1), a:update(1), a:add(1), fixedaddress(1), fixedaddress:add(1),
+    fixedaddress:delete(1), fixedaddress:get(1), fixedaddress:update(1),
+    grid(1), mx:add(1), mx:delete(1), mx:get(1), mx:update(1), mx(1),
+    txt:add(1), txt:delete(1), txt:get(1), txt:update(1), txt(1),
+    authzone(1), authzone:add(1), authzone:delete(1), authzone:get(1),
+    authzone:update(1), aaaa(1), aaaa:add(1), aaaa:delete(1), aaaa:get(1),
+    aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -6438,17 +7227,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt:add(1), txt:delete(1),
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
     txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    authzone:delete(1), authzone:get(1), authzone:update(1), aaaa(1),
+    aaaa:add(1), aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -6614,17 +7404,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:delete(1),
-    txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -6781,17 +7572,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1), txt:get(1),
-    txt:update(1), authzone(1), authzone:add(1), authzone:delete(1),
-    authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -6950,17 +7742,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -7129,17 +7922,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1),
+    url:update(1), a(1), a:delete(1), a:get(1), a:update(1), a:add(1),
     fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    fixedaddress:get(1), fixedaddress:update(1), grid(1), mx:add(1),
+    mx:delete(1), mx:get(1), mx:update(1), mx(1), txt:add(1), txt:delete(1),
+    txt:get(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -7190,17 +7984,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1),
-    url:add(1), url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url:add(1), url:delete(1), url:get(1), url:update(1),
+    a(1), a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -7328,17 +8123,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:delete(1), url:get(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:delete(1), url:get(1), url:update(1), a(1),
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -7476,17 +8272,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:get(1), url:update(1), mx(1), mx:add(1), mx:delete(1),
-    mx:get(1), mx:update(1), txt(1), txt:add(1), txt:delete(1), txt:get(1),
-    txt:update(1), authzone(1), authzone:add(1), authzone:delete(1),
-    authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:get(1), url:update(1), a(1),
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -7641,17 +8438,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:update(1), mx(1), mx:add(1),
-    mx:delete(1), mx:get(1), mx:update(1), txt(1), txt:add(1),
-    txt:delete(1), txt:get(1), txt:update(1), authzone(1), authzone:add(1),
-    authzone:delete(1), authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:update(1), a(1),
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `
@@ -7789,17 +8587,18 @@ FILES
         options override all config file settings.
 
 SEE ALSO
-    a(1), a:add(1), a:delete(1), a:get(1), a:update(1), alias(1),
-    alias:add(1), alias:delete(1), alias:get(1), alias:update(1), cname(1),
-    cname:add(1), cname:delete(1), cname:get(1), cname:update(1),
-    fixedaddress(1), fixedaddress:add(1), fixedaddress:delete(1),
-    fixedaddress:get(1), fixedaddress:update(1), grid(1), host(1),
-    host:add(1), host:delete(1), host:get(1), host:update(1), ibapi(1),
-    ptr(1), ptr:add(1), ptr:delete(1), ptr:get(1), ptr:update(1), url(1),
-    url:add(1), url:delete(1), url:get(1), mx(1), mx:add(1), mx:delete(1),
-    mx:get(1), mx:update(1), txt(1), txt:add(1), txt:delete(1), txt:get(1),
-    txt:update(1), authzone(1), authzone:add(1), authzone:delete(1),
-    authzone:get(1), authzone:update(1), ibapi.conf(5)
+    ibapi(1), host(1), host:add(1), ptr(1), cname(1), alias(1), host:get(1),
+    host:delete(1), host:update(1), ptr:add(1), ptr:delete(1), ptr:get(1),
+    ptr:update(1), cname:add(1), cname:delete(1), cname:get(1),
+    cname:update(1), alias:add(1), alias:delete(1), alias:get(1),
+    alias:update(1), url(1), url:add(1), url:delete(1), url:get(1), a(1),
+    a:delete(1), a:get(1), a:update(1), a:add(1), fixedaddress(1),
+    fixedaddress:add(1), fixedaddress:delete(1), fixedaddress:get(1),
+    fixedaddress:update(1), grid(1), mx:add(1), mx:delete(1), mx:get(1),
+    mx:update(1), mx(1), txt:add(1), txt:delete(1), txt:get(1),
+    txt:update(1), txt(1), authzone(1), authzone:add(1), authzone:delete(1),
+    authzone:get(1), authzone:update(1), aaaa(1), aaaa:add(1),
+    aaaa:delete(1), aaaa:get(1), aaaa:update(1), ibapi.conf(5)
 
 
 `

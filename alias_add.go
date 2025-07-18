@@ -15,6 +15,7 @@ func addAlias(invokedAs []string) error {
 	var statesHost = make(StatesHost)
 	var statesCNAME = make(StatesCNAME)
 	var statesA = make(StatesA)
+	var statesAAAA = make(StatesAAAA)
 	var check bool
 	var err error
 	duo := true
@@ -75,6 +76,14 @@ func addAlias(invokedAs []string) error {
 			return Error("Aborting process; no records added.")
 		}
 	}
+	if targetType == "AAAA" {
+		// Check for any existing AAAA records with the same name.
+		if err = getStates(statesAAAA, ndList, f, nil, true, false); err != nil {
+			return Error("failure getting statesAAAA: %v", err)
+		} else if errors := checkStateErrors(statesAAAA, true, true); len(errors) != 0 {
+			return Error("Aborting process; no records added.")
+		}
+	}
 
 	// Loop through the user provided input (name/data) list.
 
@@ -108,6 +117,10 @@ func addAlias(invokedAs []string) error {
 		}
 		if len(statesHost) != 0 && len(statesHost[nameData].records) != 0 {
 			conflict += sep + "Host record with same name"
+			sep = ", "
+		}
+		if len(statesAAAA) != 0 && len(statesAAAA[nameData].records) != 0 {
+			conflict += sep + "AAAA record with same name"
 			sep = ", "
 		}
 

@@ -1,8 +1,9 @@
 package main
 
 import (
-	. "github.com/dirtman/sitepkg"
 	"strings"
+
+	. "github.com/dirtman/sitepkg"
 )
 
 // Implement the "update" command.
@@ -10,13 +11,13 @@ import (
 func upatePTR(invokedAs []string) error {
 
 	var input *UserInput
-	var name, ip, message string
+	var ptrdname, ip, message string
 	var check bool
 	var err error
 	duo := true
 
 	SetStringOpt("view", "V", true, "default", "Specify the view of the record to update")
-	SetStringOpt("name", "n", false, "", "Update the record's name")
+	SetStringOpt("ptrdname", "n", false, "", "Update the record's ptrdname")
 	SetStringOpt("comment", "c", true, "", "Update the record's comment")
 	SetUintOpt("ttl", "", true, 0, "Update the the record's TTL")
 	SetStringOpt("disable", "D", true, "", "Disable the specified record")
@@ -29,17 +30,21 @@ func upatePTR(invokedAs []string) error {
 		return Error("failure initializing program and getting user input: %v", err)
 	} else if ip, err = GetStringOpt("ip"); err != nil {
 		return Error("failure getting IP option: %v", err)
-	} else if name, err = GetStringOpt("name"); err != nil {
-		return Error("failure getting name option: %v", err)
+	} else if ptrdname, err = GetStringOpt("ptrdname"); err != nil {
+		return Error("failure getting ptrdname option: %v", err)
 	} else if check, err = GetBoolOpt("checkRecords"); err != nil {
 		return Error("failure getting checkcheckRecords option: %v", err)
 	}
 
-	if name != "" { // Append it to the list of field/values to be updated.
-		input.fields = append(input.fields, "ptrdname="+name)
+	if ptrdname != "" { // Append it to the list of field/values to be updated.
+		input.fields = append(input.fields, "ptrdname="+ptrdname)
 	}
 	if ip != "" { // Append it to the list of field/values to be updated.
-		input.fields = append(input.fields, "ipv4addr="+ip)
+		if isIPv4(ip) {
+			input.fields = append(input.fields, "ipv4addr="+ip)
+		} else {
+			input.fields = append(input.fields, "ipv6addr="+ip)
+		}
 	}
 
 	// Query the record being updated, and check for errors.
@@ -59,16 +64,23 @@ func upatePTR(invokedAs []string) error {
 	request := strings.TrimLeft(input.ndList[0], nameDataSep)
 	request = strings.TrimRight(request, nameDataSep)
 	var conflict string
-	if name != "" {
-		f := []string{"view=" + input.view, "name=" + name}
+	if ptrdname != "" {
+		f := []string{"view=" + input.view, "name=" + ptrdname}
 		if conflict, err = checkConflict(f, true, check, check, true, true, "A"); err != nil {
 			return Error("failure checking host conflicts: %v", err)
 		}
 	}
 	if check && ip != "" && conflict == "" {
-		f := []string{"view=" + input.view, "ipv4addr=" + ip}
-		if conflict, err = checkConflict(f, true, true, false, false, false, ""); err != nil {
-			return Error("failure checking host conflicts: %v", err)
+		if isIPv4(ip) {
+			f := []string{"view=" + input.view, "ipv4addr=" + ip}
+			if conflict, err = checkConflict(f, true, true, false, false, false, ""); err != nil {
+				return Error("failure checking host conflicts: %v", err)
+			}
+		} else {
+			f := []string{"view=" + input.view, "ipv6addr=" + ip}
+			if conflict, err = checkConflict(f, true, false, true, false, false, ""); err != nil {
+				return Error("failure checking host conflicts: %v", err)
+			}
 		}
 	}
 	if conflict != "" {

@@ -75,6 +75,27 @@ exec ibapi alias add alias2.seci.rice.edu target1.seci.rice.edu -T TXT -V extern
 stdout ': Added'
 
 
+# Add 01: Add an AAAA Alias
+exec ibapi alias add alias3.seci.rice.edu target1.seci.rice.edu -TAAAA
+! stderr .
+stdout ': Added'
+
+# Add 01a: Get Alias record alias3.
+exec ibapi alias get alias3.seci.rice.edu
+! stderr .
+stdout 'alias3.seci.rice.edu target1.seci.rice.edu \(AAAA, default view'
+
+# Add 01b: Get Alias record alias1 and show target_type.
+exec ibapi alias get alias3.seci.rice.edu -v -T AAAA
+stderr '"target_type": "AAAA",'
+stdout 'alias3.seci.rice.edu target1.seci.rice.edu'
+
+# Add 01c: Should fail due to conflict.
+! exec ibapi alias add alias3.seci.rice.edu target2.seci.rice.edu -TAAAA
+stderr conflict
+stdout 'NOT added'
+
+
 # Update 01: Update Alias alias2 targetType: TXT -> MX.
 exec ibapi alias update alias2.seci.rice.edu -TTXT -Ftarget_type=MX -V external
 ! stderr .
@@ -130,6 +151,17 @@ stdout 'Deleted'
 ! exec ibapi alias delete -f input.txt 
 stderr 'not found'
 stdout 'NOTFOUND'
+
+# Delete 05: Should fail.
+! exec ibapi alias delete alias3.seci.rice.edu
+stderr 'not found'
+stdout 'NOTFOUND'
+
+# Delete 05a.
+ exec ibapi alias delete alias3.seci.rice.edu -T AAAA
+! stderr .
+stdout 'Deleted'
+
 
 -- input.txt --
 alias1.seci.rice.edu

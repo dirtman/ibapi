@@ -30,3 +30,4 @@ To test individual scripts:
     go test -run Test/mx
     go test -run Test/txt
     go test -run Test/authzone
+    go test -run Test/aaaa

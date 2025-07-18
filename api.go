@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"golang.org/x/term"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -12,6 +11,8 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	"golang.org/x/term"
 
 	. "github.com/dirtman/sitepkg"
 )
@@ -89,7 +90,7 @@ func APIRequest(method string, url string, data interface{}, headers ...http.Hea
 				Show("Payload: \"%s\".", data.(string))
 			}
 		case interface{}:
-			if data != nil {
+			if !isNil(data) {
 				if dataJson, err = json.Marshal(data); err != nil {
 					return body, err
 				}
@@ -144,8 +145,12 @@ func APIRequest(method string, url string, data interface{}, headers ...http.Hea
 		Show("HTTP Response Status: %d %s", resp.StatusCode, http.StatusText(resp.StatusCode))
 		if body != nil {
 			// Show("%s:\n%s", "Response body", body)
-			Show("Response body:")
-			ShowBody(body)
+			if isEmptyBody(body) {
+				Show("Response body: EMPTY")
+			} else {
+				Show("Response body:")
+				ShowBody(body)
+			}
 		}
 	}
 
@@ -423,4 +428,24 @@ func ShowBody(body []byte, indentOpts ...string) error {
 	}
 	Print("%s\n", body)
 	return nil
+}
+
+func isEmptyBody(body []byte) bool {
+
+	if len(body) == 0 {
+		return true
+	} else if len(body) > 2 {
+		return false
+	} else if len(body) == 1 {
+		return false
+	}
+	// Check for [].
+	if body[0] == 91 && body[1] == 93 {
+		return true
+	}
+	// Check for {}.
+	if body[0] == 123 && body[1] == 125 {
+		return true
+	}
+	return false
 }

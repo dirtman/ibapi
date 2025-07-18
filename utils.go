@@ -1,6 +1,9 @@
 package main
 
 import (
+	"net"
+	"reflect"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -49,6 +52,14 @@ func checkConflict(f []string, host, a, aaaa, cname, alias bool, tt string) (str
 		ShowDebug("  checkConflict: checking A record")
 		if records, err := getRecords("record:a", "", "", "", "", f, nil); err != nil {
 			return conflict, Error("A record query failed: %v", err)
+		} else if !(records == nil || len(records) <= 2) {
+			return "Address record with same name or value already exists", nil
+		}
+	}
+	if aaaa {
+		ShowDebug("  checkConflict: checking AAAA record")
+		if records, err := getRecords("record:aaaa", "", "", "", "", f, nil); err != nil {
+			return conflict, Error("AAAA record query failed: %v", err)
 		} else if !(records == nil || len(records) <= 2) {
 			return "Address record with same name or value already exists", nil
 		}
@@ -239,4 +250,132 @@ func escapeURLText(urlText string) string {
 		ShowDebug("      Escaped: %s", escaped)
 	}
 	return escaped
+}
+
+// isNil checks if the provided interface is nil.
+// It handles various types like pointers, slices, maps, functions, and interfaces.
+// For other types (like structs, ints, etc.), it returns false since they cannot be nil in this context.
+// Created by ChatGPT-4 on 2023-10-30
+
+func isNil(i interface{}) bool {
+	if i == nil { // Handles the case where the interface itself is nil
+		return true
+	}
+
+	v := reflect.ValueOf(i)
+	switch v.Kind() {
+	case reflect.Ptr, reflect.Slice, reflect.Map, reflect.Func, reflect.Interface:
+		return v.IsNil() // Checks if the underlying value is nil for these types
+	default:
+		return false // Other types (like structs, ints, etc.) cannot be nil in this context
+	}
+}
+
+// https://www.socketloop.com/tutorials/golang-validate-hostname
+// I doubt if this is totally correct, but good enough for now - sandmant
+
+func validHost(host string) bool {
+	host = strings.Trim(host, " ")
+	re, _ := regexp.Compile(`^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$`)
+	return re.MatchString(host)
+}
+
+func validMac(mac string) bool {
+	mac = strings.Trim(mac, " ")
+	re, _ := regexp.Compile(`^([a-zA-Z0-9]{2}:){5}[a-zA-Z0-9]`)
+	return re.MatchString(mac)
+}
+
+func validPtrHost(host string) bool {
+	host = strings.Trim(host, " ")
+	if !validHost(host) {
+		return false
+	}
+	if strings.HasSuffix(host, ".in-addr.arpa") ||
+		strings.HasSuffix(host, ".ip6.arpa") {
+		return true
+	}
+	return false
+}
+
+// ipToPtrHost converts an IP address to a PTR host name.
+func ipToPtrHost(ip string) (string, error) {
+
+	var ptrHost string
+
+	if net.ParseIP(ip) == nil {
+		return "", Error("invalid IP address \"%s\"", ip)
+	}
+
+	if strings.Contains(ip, ":") {
+		ptrHost = net.ParseIP(ip).To16().String()
+		ptrHost = strings.ToLower(ptrHost)
+		ptrHost = strings.ReplaceAll(ptrHost, ":", "")
+		ptrHost = ptrHost + ".ip6.arpa"
+	} else {
+		ptrHost = net.ParseIP(ip).To4().String()
+		ptrHost = strings.ReplaceAll(ptrHost, ".", "")
+		ptrHost = ptrHost + ".in-addr.arpa"
+	}
+	return ptrHost, nil
+}
+
+// arpaToIP converts an ARPA address to an IP address.
+// It supports both IPv4 (in-addr.arpa) and IPv6 (ip6.arpa) formats.
+// The IPv4 address is expected to be in the format "x.x.x.x.in-addr.arpa" and
+// the IPv6 address in the format "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx.ip6.arpa".
+// It returns an error if the ARPA address is invalid or if the length does not match
+// the expected lengths for IPv4 (12 characters) or IPv6 (32 characters).
+func arpaToIP(arpa string) (string, error) {
+
+	var ip string
+	var err error
+
+	if strings.HasSuffix(arpa, ".in-addr.arpa") {
+		arpa = strings.TrimSuffix(arpa, ".in-addr.arpa")
+		if len(arpa) != 12 {
+			return "", Error("invalid in-addr.arpa address \"%s\"", arpa)
+		}
+		ip = arpa[8:10] + "." + arpa[6:8] + "." + arpa[4:6] + "." + arpa[0:2]
+	} else if strings.HasSuffix(arpa, ".ip6.arpa") {
+		ip, err = ip6ArpaToIP(arpa)
+		if err != nil {
+			return "", Error("invalid arpa string \"%s\"", arpa)
+		}
+	} else {
+		return "", Error("invalid arpa address \"%s\"", arpa)
+	}
+
+	return ip, nil
+}
+
+
+func ip6ArpaToIP(arpaName string) (string, error) {
+	// Remove the ".ip6.arpa" suffix
+	if !strings.HasSuffix(arpaName, ".ip6.arpa") {
+		return "", Error("\"arpaName\" is not a valid ip6.arpa name")
+	}
+	trimmedName := strings.TrimSuffix(arpaName, ".ip6.arpa")
+
+	// Split by dots and reverse the order of nibbles
+	nibbles := strings.Split(trimmedName, ".")
+	for i, j := 0, len(nibbles)-1; i < j; i, j = i+1, j-1 {
+		nibbles[i], nibbles[j] = nibbles[j], nibbles[i]
+	}
+
+	// Reconstruct the IPv6 address string
+	var ipv6Builder strings.Builder
+	for i, nibble := range nibbles {
+		ipv6Builder.WriteString(nibble)
+		if (i+1)%4 == 0 && i != len(nibbles)-1 {
+			ipv6Builder.WriteString(":")
+		}
+	}
+	return ipv6Builder.String(), nil
+}
+
+
+// Check if the provides VALID IP address is an ipv4 address.
+func isIPv4(validIP string) bool {
+	return !strings.Contains(validIP, ":")
 }

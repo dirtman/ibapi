@@ -61,6 +61,20 @@ type RecordA struct {
 	Disable  bool   `json:"disable"`
 }
 
+type RecordAAAA struct {
+    IBBase   `json:"-"`
+    Ref      string `json:"_ref,omitempty"`
+    Ipv6Addr string `json:"ipv6addr,omitempty"`
+    Name     string `json:"name,omitempty"`
+    View     string `json:"view,omitempty"`
+    Zone     string `json:"zone,omitempty"`
+    UseTtl   bool   `json:"use_ttl"`
+    Ttl      uint32 `json:"ttl"`
+    Comment  string `json:"comment"`
+    Ea       EA     `json:"extattrs"`
+	Disable  bool   `json:"disable"`
+}
+
 type RecordPTR struct {
 	IBBase   `json:"-"`
 	Ref      string `json:"_ref,omitempty"`

@@ -111,11 +111,13 @@ func IBAPIRequest(method string, url string, data interface{}) ([]byte, *IBAPIEr
   for A records, "target_name" for Alias records, "canonical" for CNAME records,
   and so on.
 
-  "name" is most often the "name" field specified by Infoblox, but for PTR
-  records, for example, the ibapi "name" refers to the Infoblox record:ptr
-  "ptrdname", such as "rb4.rice.edu".  I believe a user prefers to do a PTR
-  lookup via "rb4.rice.edu" (name), or "168.7.56.224" (data), as opposed to
-  "224.56.7.168.in-addr.arpa".
+  "name" is most often the "name" field specified by Infoblox, but for
+  fixedaddresses, for instance, the ibapi "name" refers to the Infoblox
+  FixedAddress "ipv4addr" field.  And for authzone "name" refers to the
+  ZoneAuth "fqdn" field.  And, more confusingly, for PTR records, "name"
+  refers to the Infoblox record:ptr "ptrdname" field, such as "rb4.rice.edu",
+  and "data" refers to either the Infoblox record:ptr "name", ipv4addr or
+  ipv6addr field, such as 236.182.42.128.in-addr.arpa or 128.42.182.236.
 
   Separating out a data field and the name field from the rest of the fields
   improves the user experience, especially when operationg on multiple records.
@@ -125,6 +127,7 @@ func IBAPIRequest(method string, url string, data interface{}) ([]byte, *IBAPIEr
 
 func getRecords(object, nKey, dKey, name, data string, sf, rf []string) ([]byte, error) {
 
+	ShowDebug("getRecords: object \"%s\".", object)
 	ShowDebug("getRecords: name \"%s\".", name)
 	ShowDebug("getRecords: data \"%s\".", data)
 	ShowDebug("getRecords: sf \"%#v\".", sf)
