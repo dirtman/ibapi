@@ -13,7 +13,7 @@ Basic usage is as follows:
 
 where OBJECT is one of
 
-* **a alias authzone cname fixedaddress grid host mx txt ptr url**
+* **a aaaa alias authzone cname fixedaddress grid host mx txt ptr url**
 
 and OPERATION, for all but the "grid" object, is one of
 
