@@ -5462,7 +5462,7 @@ DESCRIPTION
     ibapi is a command for adding, reading, updating and deleting basic DNS
     records as well as for managing other Infoblox-specific objects via the
     Infoblox WAPI. Currently supported object types are the DNS records A,
-    Alias, CNAME, MX, TXT and PTR; the Infoblox-specific object types
+    AAAA, Alias, CNAME, MX, TXT and PTR; the Infoblox-specific object types
     zoneauth, fixedaddress, grid and host; and the special type "url", which
     allows you to manipulate any type of Infoblox object.
 
